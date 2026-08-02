@@ -330,7 +330,7 @@ python tests/benchmark/benchmark.py \
 
 ### 本地历史实测快照
 
-条件：16 个唯一 QA 问题按固定种子调度，预热 1 次，正式请求 50 次，并发度 5，nearest-rank 分位数。完整原始报告见 [tests/results/performance_final_20260722.json](tests/results/performance_final_20260722.json)。该报告生成于最终 `RERANKER_NOT_FOUND_THRESHOLD=0.30` OOD 拒答补丁之前，50 次均记为 `answerable`；因此它是保守的历史性能回归基线，不代表最终拒答策略的最新质量结果。
+条件：16 个唯一 QA 问题按固定种子调度，预热 1 次，正式请求 50 次，并发度 5，nearest-rank 分位数。完整原始报告仅保存在本地 `tests/results/`，避免在公开仓库中暴露逐请求 Trace 和完整证据文本。该次报告生成于最终 `RERANKER_NOT_FOUND_THRESHOLD=0.30` OOD 拒答补丁之前，50 次均记为 `answerable`；因此它是保守的历史性能回归基线，不代表最终拒答策略的最新质量结果。
 
 | 指标 | 优化前 | 优化后实测（最终 OOD 补丁前） | 变化 |
 |---|---:|---:|---:|
