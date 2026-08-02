@@ -1,0 +1,30 @@
+[
+  {
+    "query": "累计工作12年的员工有多少天年休假？",
+    "context": "累计工作满10年不满20年的，年休假10天。",
+    "answer": "10天。",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy"
+  },
+  {
+    "query": "一天以内的普通请假由谁审批？",
+    "context": "一天以内由直属负责人审批。",
+    "answer": "由直属负责人审批。",
+    "dimension": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "query": "员工对纪律处理有异议，可以绕过存在利益冲突的直属负责人吗？",
+    "context": "涉及直属负责人利益冲突的，可直接向人力资源负责人或合规邮箱提交。",
+    "answer": "可以，直接向人力资源负责人或合规邮箱提交。",
+    "dimension": "exception",
+    "difficulty": "medium"
+  },
+  {
+    "query": "试用期转正仅凭直属负责人口头承诺就生效吗？",
+    "context": "转正必须由人力资源部依合同和适用规定书面确认，直属负责人的口头承诺不代表最终结果。",
+    "answer": "不能，必须由人力资源部书面确认。",
+    "dimension": "hallucination_resistance",
+    "difficulty": "medium"
+  }
+]

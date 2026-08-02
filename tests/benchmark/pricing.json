@@ -1,0 +1,14 @@
+{
+  "currency": "CNY",
+  "note": "请按当前供应商账单填写每百万 Token 单价；null 会在报告中显示 N/A，避免伪造成本。",
+  "per_million_tokens": {
+    "embedding_input": null,
+    "query_rewrite_input": null,
+    "query_rewrite_output": null,
+    "generation_input": null,
+    "generation_output": null,
+    "verification_input": null,
+    "verification_output": null,
+    "reranker_input": null
+  }
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "id": "direct-rag",
+    "type": "普通知识库问答",
+    "question": "员工年假有多少天？",
+    "expected": {
+      "answer_status_in": ["answerable", "low_confidence"],
+      "agent": false,
+      "query_strategy": "direct",
+      "multiquery_triggered": false
+    }
+  },
+  {
+    "id": "citation",
+    "type": "文件引用",
+    "question": "远程办公有哪些安全要求？",
+    "expected": {
+      "answer_status_in": ["answerable", "low_confidence"],
+      "minimum_citations": 1,
+      "citation_source_any": ["远程办公管理办法.txt"],
+      "verification_status": "verified"
+    }
+  },
+  {
+    "id": "calculator",
+    "type": "工具调用",
+    "question": "1250 × 0.8 等于多少？",
+    "expected": {
+      "agent": true,
+      "agent_reason": "explicit_tool_request",
+      "tool_name": "calculator",
+      "tool_success": true,
+      "tool_output": 1000.0
+    }
+  },
+  {
+    "id": "ood",
+    "type": "明显 OOD",
+    "question": "火星员工食堂今天吃什么？",
+    "expected": {
+      "answer_status_in": ["not_found"],
+      "agent": false,
+      "agent_reason": "terminal_not_found",
+      "empty_sources": true,
+      "empty_citations": true
+    }
+  },
+  {
+    "id": "recoverable-low-recall",
+    "type": "可恢复低召回",
+    "question": "在家工作需要遵守哪些设备规范？",
+    "expected": {
+      "answer_status_in": ["answerable", "low_confidence"],
+      "agent": true,
+      "agent_reason": "recoverable_low_retrieval",
+      "query_strategy": "adaptive_fallback",
+      "multiquery_triggered": true,
+      "retrieval_quality": "recoverable_low",
+      "minimum_citations": 1,
+      "citation_source_any": [
+        "远程办公管理办法.txt",
+        "信息安全与数据分级制度.txt",
+        "办公设备与软件资产管理制度.txt"
+      ],
+      "verification_status": "verified"
+    }
+  }
+]

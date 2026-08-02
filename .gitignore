@@ -1,0 +1,66 @@
+# === 敏感配置 ===
+.env
+.env.local
+.env.*.local
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+ENV/
+env/
+.venv
+
+# === IDE ===
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# === 数据与向量库 ===
+chroma_db/
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# === 日志与临时文件 ===
+*.log
+*.tmp
+tmp/
+temp/
+
+# === 评测结果 ===
+tests/results/
+tests/benchmark/results/*
+!tests/benchmark/results/.gitkeep
+tests/smoke/results/*
+!tests/smoke/results/.gitkeep
+
+# === 操作系统 ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === 本地学习与工作备忘 ===
+10天学习计划书.md
+PROJECT_CONTEXT.md

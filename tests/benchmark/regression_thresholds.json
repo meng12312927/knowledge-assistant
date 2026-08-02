@@ -1,0 +1,57 @@
+{
+  "latency.client_done_ms.p95": {
+    "direction": "lower",
+    "mode": "relative",
+    "tolerance": 0.1
+  },
+  "latency.user_visible_ttft_ms.avg": {
+    "direction": "lower",
+    "mode": "relative",
+    "tolerance": 0.1
+  },
+  "retrieval.recall_at_5": {
+    "direction": "higher",
+    "mode": "absolute",
+    "tolerance": 0.01
+  },
+  "retrieval.recall_at_10": {
+    "direction": "higher",
+    "mode": "absolute",
+    "tolerance": 0.01
+  },
+  "retrieval.mrr": {
+    "direction": "higher",
+    "mode": "absolute",
+    "tolerance": 0.01
+  },
+  "retrieval.ndcg_at_10": {
+    "direction": "higher",
+    "mode": "absolute",
+    "tolerance": 0.01
+  },
+  "generation.verification_pass_rate": {
+    "direction": "higher",
+    "mode": "absolute",
+    "tolerance": 0.02
+  },
+  "generation.answer_status_accuracy": {
+    "direction": "higher",
+    "mode": "absolute",
+    "tolerance": 0.01
+  },
+  "generation.hallucination_rate": {
+    "direction": "lower",
+    "mode": "absolute",
+    "tolerance": 0.01
+  },
+  "error_rate": {
+    "direction": "lower",
+    "mode": "absolute",
+    "tolerance": 0.005
+  },
+  "cost.total.avg": {
+    "direction": "lower",
+    "mode": "relative",
+    "tolerance": 0.1
+  }
+}

@@ -1,0 +1,1 @@
+"""Pre-regression smoke gate."""
