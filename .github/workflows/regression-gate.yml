@@ -1,0 +1,43 @@
+name: regression-gate
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/benchmark-online.yml"
+      - ".github/workflows/ci.yml"
+      - ".github/workflows/regression-gate.yml"
+      - "app/**"
+      - "agent/**"
+      - "embeddings/**"
+      - "ingestion/**"
+      - "models/**"
+      - "rag/**"
+      - "vectorstore/**"
+      - "tests/benchmark/**"
+  workflow_dispatch:
+
+concurrency:
+  group: regression-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  blind-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: python -m pip install requests pydantic pydantic-settings pytest numpy langchain-core
+      - run: python tests/benchmark/validate_golden.py --all-splits
+      - name: Verify signed benchmark attestation and regression baseline
+        if: ${{ hashFiles('tests/benchmark/attestations/current.json') != '' }}
+        run: python tests/benchmark/attestation.py verify
+      - name: Report that the quality gate is not armed yet
+        if: ${{ hashFiles('tests/benchmark/attestations/current.json') == '' }}
+        run: echo "::warning::No signed attestation yet; keep blind-regression optional until bootstrap quality floors pass."

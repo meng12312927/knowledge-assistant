@@ -1,0 +1,53 @@
+name: benchmark-online
+
+on:
+  workflow_dispatch:
+
+jobs:
+  blind-benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+      CHROMA_PERSIST_DIR: /tmp/knowledge-assistant-chroma
+      PYTHONPATH: .
+      RAG_BENCHMARK_ENDPOINT: http://127.0.0.1:8000
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Require model credentials
+        run: |
+          test -n "$DEEPSEEK_API_KEY" || (echo "Missing DEEPSEEK_API_KEY Actions secret" && exit 1)
+          test -n "$DASHSCOPE_API_KEY" || (echo "Missing DASHSCOPE_API_KEY Actions secret" && exit 1)
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python tests/benchmark/validate_golden.py --all-splits
+      - name: Start API and wait until ready
+        run: |
+          python -m uvicorn app.api.main:app --host 127.0.0.1 --port 8000 > "$RUNNER_TEMP/rag-api.log" 2>&1 &
+          for attempt in $(seq 1 90); do
+            if python -c 'import requests; response=requests.get("http://127.0.0.1:8000/health", timeout=2); raise SystemExit(0 if response.ok and response.json().get("ready") else 1)'; then
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
+      - name: Ingest public synthetic corpus
+        run: |
+          python scripts/ingest_demo_corpus.py --api "$RAG_BENCHMARK_ENDPOINT"
+          python scripts/ingest_v2_corpus.py --api "$RAG_BENCHMARK_ENDPOINT"
+      - name: Run full online blind benchmark
+        run: |
+          python tests/benchmark/benchmark.py \
+            --endpoint "$RAG_BENCHMARK_ENDPOINT" \
+            --split blind_test \
+            --version "manual-${GITHUB_SHA}" \
+            --concurrency 5 \
+            --timeout 180
+      - run: python tests/benchmark/regression_gate.py
