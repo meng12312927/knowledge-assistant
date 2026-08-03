@@ -23,3 +23,7 @@ git commit -m "test: attest blind regression benchmark"
 
 本机私钥默认位于 `.benchmark/attestation_private_key.pem`，已被 `.gitignore`
 排除。`tests/benchmark/attestation_public_key.pem` 只用于 CI 验签，可以公开。
+
+首次签名证明不存在时，PR workflow 会明确报告 Gate 尚未启用但不会阻止基础设施
+PR。只有完整盲测达到绝对质量下限并提交 `current.json` 后，才应把
+`blind-regression` 配置为 `main` 的必需检查。
