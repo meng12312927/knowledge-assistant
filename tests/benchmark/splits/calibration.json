@@ -1,0 +1,1002 @@
+[
+  {
+    "id": "calib-rrf-high-001",
+    "question": "员工手册的生效日期是什么？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "rrf-high",
+      "should-not-trigger-multiquery"
+    ]
+  },
+  {
+    "id": "calib-rrf-high-002",
+    "question": "一类城市住宿含税上限是多少？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "rrf-high",
+      "should-not-trigger-multiquery"
+    ]
+  },
+  {
+    "id": "calib-rrf-high-003",
+    "question": "临时借用设备最长多少天？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "rrf-high",
+      "should-not-trigger-multiquery"
+    ]
+  },
+  {
+    "id": "calib-rrf-high-004",
+    "question": "《信息安全与数据分级制度》定义了哪些数据级别？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "rrf-high",
+      "should-not-trigger-multiquery"
+    ]
+  },
+  {
+    "id": "calib-rrf-high-005",
+    "question": "每周最多可以申请几个远程办公日？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "rrf-high",
+      "should-not-trigger-multiquery"
+    ]
+  },
+  {
+    "id": "calib-rrf-mid-001",
+    "question": "远程办公期间需要遵守哪些协作要求？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "rrf-mid",
+      "boundary-test"
+    ]
+  },
+  {
+    "id": "calib-rrf-mid-002",
+    "question": "员工入职后需要完成什么培训？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "rrf-mid",
+      "boundary-test"
+    ]
+  },
+  {
+    "id": "calib-rrf-mid-003",
+    "question": "项目变更的审批流程是怎样的？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "rrf-mid",
+      "boundary-test"
+    ]
+  },
+  {
+    "id": "calib-rrf-mid-004",
+    "question": "供应商准入需要核查哪些材料？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "rrf-mid",
+      "boundary-test"
+    ]
+  },
+  {
+    "id": "calib-rrf-mid-005",
+    "question": "审计整改的流程是什么？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "rrf-mid",
+      "boundary-test"
+    ]
+  },
+  {
+    "id": "calib-rrf-mid-006",
+    "question": "合同签署后需要做什么归档工作？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "rrf-mid",
+      "boundary-test"
+    ]
+  },
+  {
+    "id": "calib-rrf-mid-007",
+    "question": "绩效评估的申诉流程是怎样的？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "rrf-mid",
+      "boundary-test"
+    ]
+  },
+  {
+    "id": "calib-rrf-mid-008",
+    "question": "信息安全事件应该怎么报告？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "rrf-mid",
+      "boundary-test"
+    ]
+  },
+  {
+    "id": "calib-rrf-low-001",
+    "question": "公司对员工有什么要求？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "hard",
+    "tags": [
+      "calibration",
+      "rrf-low",
+      "should-trigger-multiquery"
+    ]
+  },
+  {
+    "id": "calib-rrf-low-002",
+    "question": "工作中需要注意哪些安全事项？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "hard",
+    "tags": [
+      "calibration",
+      "rrf-low",
+      "should-trigger-multiquery"
+    ]
+  },
+  {
+    "id": "calib-rrf-low-003",
+    "question": "公司有哪些审批流程？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "hard",
+    "tags": [
+      "calibration",
+      "rrf-low",
+      "should-trigger-multiquery"
+    ]
+  },
+  {
+    "id": "calib-rrf-low-004",
+    "question": "员工享有什么权益？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "hard",
+    "tags": [
+      "calibration",
+      "rrf-low",
+      "should-trigger-multiquery"
+    ]
+  },
+  {
+    "id": "calib-rrf-low-005",
+    "question": "什么情况下需要领导审批？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "hard",
+    "tags": [
+      "calibration",
+      "rrf-low",
+      "should-trigger-multiquery"
+    ]
+  },
+  {
+    "id": "calib-rrf-low-006",
+    "question": "公司有哪些制度规定？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "hard",
+    "tags": [
+      "calibration",
+      "rrf-low",
+      "should-trigger-multiquery"
+    ]
+  },
+  {
+    "id": "calib-rrf-low-007",
+    "question": "遇到问题应该找谁？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "rrf_calibration",
+    "difficulty": "hard",
+    "tags": [
+      "calibration",
+      "rrf-low",
+      "should-trigger-multiquery"
+    ]
+  },
+  {
+    "id": "calib-rerank-answerable-001",
+    "question": "员工年假有几天？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "answerable"
+    ]
+  },
+  {
+    "id": "calib-rerank-answerable-002",
+    "question": "远程办公怎么申请？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "answerable"
+    ]
+  },
+  {
+    "id": "calib-rerank-answerable-003",
+    "question": "差旅住宿标准是多少？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "answerable"
+    ]
+  },
+  {
+    "id": "calib-rerank-answerable-004",
+    "question": "信息安全事件多久内报告？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "answerable"
+    ]
+  },
+  {
+    "id": "calib-rerank-answerable-005",
+    "question": "合同哪些情况必须法务评审？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "answerable"
+    ]
+  },
+  {
+    "id": "calib-rerank-answerable-006",
+    "question": "入职需要提交哪些材料？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "answerable"
+    ]
+  },
+  {
+    "id": "calib-rerank-answerable-007",
+    "question": "采购超过多少钱需要多家报价？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "answerable"
+    ]
+  },
+  {
+    "id": "calib-rerank-answerable-008",
+    "question": "学习预算一年有多少？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "answerable"
+    ]
+  },
+  {
+    "id": "calib-rerank-answerable-009",
+    "question": "绩效多久评估一次？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "answerable"
+    ]
+  },
+  {
+    "id": "calib-rerank-answerable-010",
+    "question": "利益冲突几个工作日内申报？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "answerable"
+    ]
+  },
+  {
+    "id": "calib-rerank-lexical-ood-001",
+    "question": "公司提供补充养老保险吗？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "reranker_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "reranker",
+      "lexical-trap",
+      "ood"
+    ]
+  },
+  {
+    "id": "calib-rerank-lexical-ood-002",
+    "question": "员工的子女教育补贴怎么申请？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "reranker_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "reranker",
+      "lexical-trap",
+      "ood"
+    ]
+  },
+  {
+    "id": "calib-rerank-lexical-ood-003",
+    "question": "公司对员工家属有什么医疗福利？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "reranker_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "reranker",
+      "lexical-trap",
+      "ood"
+    ]
+  },
+  {
+    "id": "calib-rerank-lexical-ood-004",
+    "question": "公司有没有企业年金计划？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "reranker_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "reranker",
+      "lexical-trap",
+      "ood"
+    ]
+  },
+  {
+    "id": "calib-rerank-lexical-ood-005",
+    "question": "员工可以申请无息贷款吗？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "reranker_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "reranker",
+      "lexical-trap",
+      "ood"
+    ]
+  },
+  {
+    "id": "calib-rerank-lexical-ood-006",
+    "question": "公司有没有员工持股计划？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "reranker_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "reranker",
+      "lexical-trap",
+      "ood"
+    ]
+  },
+  {
+    "id": "calib-rerank-lexical-ood-007",
+    "question": "出差期间如何报销个人用餐以外的费用？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "reranker_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "reranker",
+      "lexical-trap",
+      "ood"
+    ]
+  },
+  {
+    "id": "calib-rerank-lexical-ood-008",
+    "question": "公司对孕期员工有什么特殊保护政策？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "reranker_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "reranker",
+      "lexical-trap",
+      "ood"
+    ]
+  },
+  {
+    "id": "calib-rerank-clear-ood-001",
+    "question": "公司有员工子女夏令营吗？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "clear-ood"
+    ]
+  },
+  {
+    "id": "calib-rerank-clear-ood-002",
+    "question": "员工的宠物可以带来公司吗？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "clear-ood"
+    ]
+  },
+  {
+    "id": "calib-rerank-clear-ood-003",
+    "question": "公司组织员工旅游吗？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "clear-ood"
+    ]
+  },
+  {
+    "id": "calib-rerank-clear-ood-004",
+    "question": "公司有员工生日会吗？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "clear-ood"
+    ]
+  },
+  {
+    "id": "calib-rerank-clear-ood-005",
+    "question": "工厂生产线的安全操作规程是什么？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "clear-ood"
+    ]
+  },
+  {
+    "id": "calib-rerank-clear-ood-006",
+    "question": "公司在美国的办公室地址是什么？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "reranker_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "reranker",
+      "clear-ood"
+    ]
+  },
+  {
+    "id": "calib-status-strong-001",
+    "question": "考勤漏卡应该在几个工作日内提交补卡说明？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "answer_status_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "strong-answerable"
+    ]
+  },
+  {
+    "id": "calib-status-strong-002",
+    "question": "信息安全中，访问权限多久复核一次？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "answer_status_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "strong-answerable"
+    ]
+  },
+  {
+    "id": "calib-status-strong-003",
+    "question": "绩效改进计划的周期是多长？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "answer_status_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "strong-answerable"
+    ]
+  },
+  {
+    "id": "calib-status-strong-004",
+    "question": "合同签署后的归档期限是多久？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "answer_status_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "strong-answerable"
+    ]
+  },
+  {
+    "id": "calib-status-strong-005",
+    "question": "供应商多久进行一次绩效评估？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "answer_status_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "strong-answerable"
+    ]
+  },
+  {
+    "id": "calib-status-weak-001",
+    "question": "公司有哪些需要审批的事项？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "answer_status_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "weak-answerable"
+    ]
+  },
+  {
+    "id": "calib-status-weak-002",
+    "question": "员工应该遵守哪些行为规范？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "answer_status_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "weak-answerable"
+    ]
+  },
+  {
+    "id": "calib-status-weak-003",
+    "question": "合同管理涉及哪些方面？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "answer_status_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "weak-answerable"
+    ]
+  },
+  {
+    "id": "calib-status-weak-004",
+    "question": "数据保护有哪些要求？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "answer_status_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "weak-answerable"
+    ]
+  },
+  {
+    "id": "calib-status-weak-005",
+    "question": "项目管理中需要注意什么？",
+    "answer": "",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "answerable",
+    "dimension": "answer_status_calibration",
+    "difficulty": "medium",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "weak-answerable"
+    ]
+  },
+  {
+    "id": "calib-status-notfound-001",
+    "question": "公司有员工食堂吗？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "answer_status_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "not-found"
+    ]
+  },
+  {
+    "id": "calib-status-notfound-002",
+    "question": "公司有没有托儿所？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "answer_status_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "not-found"
+    ]
+  },
+  {
+    "id": "calib-status-notfound-003",
+    "question": "公司提供员工住宿吗？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "answer_status_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "not-found"
+    ]
+  },
+  {
+    "id": "calib-status-notfound-004",
+    "question": "公司的班车路线是什么？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "answer_status_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "not-found"
+    ]
+  },
+  {
+    "id": "calib-status-notfound-005",
+    "question": "公司有没有员工俱乐部？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "answer_status_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "not-found"
+    ]
+  },
+  {
+    "id": "calib-status-notfound-006",
+    "question": "公司对员工志愿者活动有什么政策？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "answer_status_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "not-found"
+    ]
+  },
+  {
+    "id": "calib-status-notfound-007",
+    "question": "公司有没有员工折扣计划？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "answer_status_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "not-found"
+    ]
+  },
+  {
+    "id": "calib-status-notfound-008",
+    "question": "公司对员工继续教育有什么资助？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "answer_status_calibration",
+    "difficulty": "easy",
+    "tags": [
+      "calibration",
+      "answer-status",
+      "not-found"
+    ]
+  }
+]

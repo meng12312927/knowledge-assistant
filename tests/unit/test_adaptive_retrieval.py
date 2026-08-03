@@ -3,7 +3,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 
 from models.document import QueryRequest, RAGTrace, RetrievedChunk
-from rag.chains.rag_chain import RAGChain
+from rag.chains.rag_chain import RAGChain, _SubquestionResult
 from rag.post_processors.reranker import NoOpReranker
 
 
@@ -156,6 +156,209 @@ def test_classifier_keeps_cross_policy_question_out_of_direct_route():
         "complex_or_multi_intent",
     )
     assert RAGChain._classify_simple_query("《差旅制度》第五条是什么？")[0] is True
+    assert RAGChain._classify_simple_query("员工年假有多少天？") == (
+        True,
+        "quantitative_question",
+    )
+    assert RAGChain._classify_simple_query("试用期多久？") == (
+        True,
+        "quantitative_question",
+    )
+
+
+def test_only_explicit_compound_queries_trigger_subquestion_planning():
+    assert RAGChain._needs_subquestion_planning(
+        "远程办公和加班申请分别有什么要求？"
+    ) is True
+    assert RAGChain._needs_subquestion_planning("员工年假有多少天？") is False
+    assert RAGChain._needs_subquestion_planning("远程办公有哪些要求？") is False
+
+
+def test_rule_fallback_decomposes_enumerated_attributes():
+    chain, _, _, _ = make_chain()
+    assert chain._rule_decompose_query(
+        "供应商绩效评估的频率、评分标准和淘汰机制是什么？"
+    ) == [
+        "供应商绩效评估的频率是什么",
+        "供应商绩效评估的评分标准是什么",
+        "供应商绩效评估的淘汰机制是什么",
+    ]
+
+
+def test_broad_policy_branch_is_enriched_with_chapter_facets():
+    questions = RAGChain._enrich_policy_coverage_queries(
+        "请列举周三需要遵守的所有制度要求",
+        ["员工在一类城市出差时需遵守的制度要求", "远程办公协作要求"],
+    )
+
+    assert "交通、住宿、餐补和票据" in questions[0]
+    assert questions[1] == "远程办公协作要求"
+
+
+def test_procurement_flow_branch_is_enriched_for_inquiry_coverage():
+    questions = RAGChain._enrich_policy_coverage_queries(
+        "采购新系统的审批流程是怎样的",
+        ["采购新系统时的审批流程"],
+    )
+
+    assert "申请审批、询价比选和供应商准入" in questions[0]
+
+
+def test_subquestion_fusion_restores_explicit_policy_facets():
+    chunks = [
+        RetrievedChunk(
+            content=content,
+            metadata={"chunk_id": str(index), "source_file": "采购制度.txt"},
+            score=1.0 / index,
+        )
+        for index, content in enumerate(
+            [
+                "第三章 供应商准入：签约前完成核验",
+                "相关合同要求",
+                "第一章 采购申请：按金额执行审批",
+                "第二章 询价与比选：超过阈值取得三家报价",
+            ],
+            1,
+        )
+    ]
+
+    fused = RAGChain._fuse_subquestion_anchors(
+        "采购流程，包括申请审批、询价比选和供应商准入",
+        chunks[:2],
+        chunks,
+        4,
+    )
+
+    contents = "\n".join(item.content for item in fused)
+    assert "采购申请" in contents
+    assert "询价与比选" in contents
+    assert "供应商准入" in contents
+
+
+def test_evidence_selector_preserves_each_covered_subquestion():
+    chain, _, _, _ = make_chain()
+    first = RetrievedChunk(
+        content="远程办公必须使用公司设备",
+        metadata={"chunk_id": "a", "source_file": "远程办公.txt"},
+        score=0.91,
+    )
+    second = RetrievedChunk(
+        content="加班需要提前申请",
+        metadata={"chunk_id": "b", "source_file": "考勤制度.txt"},
+        score=0.72,
+    )
+    results = [
+        _SubquestionResult("SQ1", "远程办公要求", [first], [first], "answerable"),
+        _SubquestionResult("SQ2", "加班申请要求", [second], [second], "answerable"),
+    ]
+
+    selected = chain._select_evidence_coverage(results)
+    trace = RAGTrace()
+    chain._populate_subquestion_trace(trace, results, selected)
+
+    assert [item.metadata["chunk_id"] for item in selected] == ["a", "b"]
+    assert trace.evidence_coverage == 1.0
+    assert [item.covered for item in trace.subquestions] == [True, True]
+
+
+def test_evidence_selector_fills_remaining_slots_round_robin():
+    chain, _, _, _ = make_chain()
+    chain.rerank_top_n = 5
+    chunks = [
+        RetrievedChunk(
+            content=f"独立制度证据 {index}",
+            metadata={"chunk_id": f"c{index}", "source_file": f"制度{index}.txt"},
+            score=score,
+        )
+        for index, score in enumerate([0.99, 0.98, 0.97, 0.96, 0.70, 0.60], 1)
+    ]
+    results = [
+        _SubquestionResult("SQ1", "问题1", chunks[:3], chunks[:3], "answerable"),
+        _SubquestionResult("SQ2", "问题2", chunks[3:5], chunks[3:5], "answerable"),
+        _SubquestionResult("SQ3", "问题3", chunks[5:], chunks[5:], "answerable"),
+    ]
+
+    selected = chain._select_evidence_coverage(results)
+
+    assert [item.metadata["chunk_id"] for item in selected[:3]] == ["c1", "c4", "c6"]
+    assert "c5" in [item.metadata["chunk_id"] for item in selected]
+
+
+def test_subquestion_status_is_partial_when_only_some_branches_are_found():
+    found = _SubquestionResult("SQ1", "已知", [], [], "answerable")
+    missing = _SubquestionResult("SQ2", "未知", [], [], "not_found")
+    assert RAGChain._aggregate_subquestion_status([found, missing]) == (
+        "partially_answerable"
+    )
+
+
+def test_semantic_evidence_judgment_rejects_related_but_incomplete_evidence():
+    chain, _, _, llm = make_chain()
+    evidence = chunk("acceptance", 0.88)
+    results = [
+        _SubquestionResult(
+            "SQ1", "项目验收标准是什么?", [evidence], [evidence], "answerable"
+        ),
+        _SubquestionResult(
+            "SQ2", "二次验收有时间限制吗?", [evidence], [evidence], "answerable"
+        ),
+    ]
+
+    def judge(**kwargs):
+        llm.calls += 1
+        assert kwargs["stage"] == "subquestion_evidence_judgment"
+        return (
+            '{"results":['
+            '{"id":"SQ1","status":"answerable","reason":"明确给出标准"},'
+            '{"id":"SQ2","status":"not_found","reason":"未给出时间"}'
+            ']}'
+        )
+
+    llm.generate = judge
+    trace = RAGTrace()
+    judged = chain._judge_subquestion_evidence(
+        results, trace, time.perf_counter()
+    )
+
+    assert [item.status for item in judged] == ["answerable", "not_found"]
+    assert RAGChain._aggregate_subquestion_status(judged) == (
+        "partially_answerable"
+    )
+    assert next(
+        span for span in trace.spans
+        if span.name == "subquestion_evidence_judgment"
+    ).attributes["not_found_count"] == 1
+
+
+def test_prepare_runs_compound_query_through_subquestion_coverage_route():
+    chain, embedder, retriever, llm = make_chain(first_score=0.032)
+
+    def plan(**kwargs):
+        llm.calls += 1
+        assert kwargs["stage"] == "subquestion_planning"
+        return (
+            '{"subquestions":["远程办公有哪些设备要求？",'
+            '"加班需要如何申请？"]}'
+        )
+
+    llm.generate = plan
+    prepared = chain.prepare(
+        QueryRequest(query="远程办公和加班申请分别有什么要求？")
+    )
+
+    assert prepared.trace.query_strategy == "subquestion_coverage"
+    assert prepared.trace.subquestion_planning_triggered is True
+    assert [item.subquestion_id for item in prepared.trace.subquestions] == [
+        "SQ1", "SQ2"
+    ]
+    assert prepared.trace.evidence_coverage == 1.0
+    assert retriever.calls[0] == ["远程办公和加班申请分别有什么要求？"]
+    assert retriever.calls[1] == [
+        "远程办公有哪些设备要求?", "加班需要如何申请?"
+    ]
+    assert embedder.calls[-1] == [
+        "远程办公有哪些设备要求?", "加班需要如何申请?"
+    ]
 
 
 def test_prepared_retrieval_is_reused_by_generation_without_second_search():

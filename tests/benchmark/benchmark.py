@@ -4,8 +4,9 @@ Default usage:
 
     python tests/benchmark/benchmark.py --version v1.4
 
-The command runs all 100 fixed questions, writes JSON + Markdown reports, and
-compares them with ``tests/benchmark/baselines/latest.json`` when present.
+The command runs the blind-test split by default, writes JSON + Markdown
+reports, and compares them with ``tests/benchmark/baselines/latest.json`` when
+present.
 """
 
 from __future__ import annotations
@@ -15,13 +16,13 @@ import json
 import math
 import os
 import platform
-import shutil
 import statistics
+import subprocess
 import sys
 import threading
 import time
 import uuid
-from collections import Counter
+from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
@@ -34,6 +35,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from rag.chunk_identity import stable_chunk_id
+from tests.benchmark.splits import SPLIT_PATHS, load_split
 from tests.smoke.smoke_test import (
     DEFAULT_CASES as DEFAULT_SMOKE_CASES,
     DEFAULT_OUTPUT_DIR as DEFAULT_SMOKE_OUTPUT_DIR,
@@ -42,12 +44,15 @@ from tests.smoke.smoke_test import (
 )
 
 
-DEFAULT_QUESTIONS = PROJECT_ROOT / "tests/benchmark/questions.json"
+DEFAULT_SPLIT = "blind_test"
+DEFAULT_QUESTIONS = SPLIT_PATHS[DEFAULT_SPLIT]
 DEFAULT_BASELINE = PROJECT_ROOT / "tests/benchmark/baselines/latest.json"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "tests/benchmark/results"
 DEFAULT_THRESHOLDS = PROJECT_ROOT / "tests/benchmark/regression_thresholds.json"
 DEFAULT_PRICING = PROJECT_ROOT / "tests/benchmark/pricing.json"
-SCHEMA_VERSION = 1
+LEGACY_QUESTIONS = PROJECT_ROOT / "tests/benchmark/questions.json"
+SCHEMA_VERSION = 3
+BASELINE_SCHEMA_VERSION = 2
 
 
 def utc_now() -> str:
@@ -124,6 +129,51 @@ def ndcg_at(ranking: list[str], relevant: set[str], k: int) -> float | None:
     return dcg / ideal if ideal else 0.0
 
 
+def evaluate_subquestions(
+    expected: list[Mapping[str, Any]],
+    actual: list[Mapping[str, Any]],
+) -> dict[str, Any]:
+    """Evaluate branch-level status and evidence coverage when labels exist."""
+    if not expected:
+        return {
+            "evaluated": 0,
+            "status_accuracy": None,
+            "evidence_recall": None,
+            "complete_evidence": None,
+        }
+    actual_by_id = {
+        str(item.get("subquestion_id")): item for item in actual
+    }
+    status_correct = 0
+    evidence_scores: list[float] = []
+    complete = True
+    for item in expected:
+        subquestion_id = str(item.get("id") or item.get("subquestion_id") or "")
+        actual_item = actual_by_id.get(subquestion_id, {})
+        expected_status = str(item.get("status") or "answerable")
+        if actual_item.get("status") == expected_status:
+            status_correct += 1
+        relevant = {str(value) for value in item.get("expected_chunks") or []}
+        if relevant:
+            selected = {
+                str(value)
+                for value in actual_item.get("selected_stable_chunk_ids") or []
+            }
+            score = len(selected & relevant) / len(relevant)
+            evidence_scores.append(score)
+            complete = complete and score == 1.0
+        elif expected_status != "not_found":
+            complete = False
+    return {
+        "evaluated": len(expected),
+        "status_accuracy": status_correct / len(expected),
+        "evidence_recall": (
+            statistics.fmean(evidence_scores) if evidence_scores else None
+        ),
+        "complete_evidence": complete,
+    }
+
+
 def mean_metric(records: list[dict[str, Any]], key: str) -> float | None:
     values = [
         finite_number(record.get("retrieval_metrics", {}).get(key))
@@ -155,6 +205,115 @@ def load_pricing(path: Path) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {"currency": "CNY", "per_million_tokens": {}}
     return payload
+
+
+def canonical_sha256(value: Any) -> str:
+    """Return a stable fingerprint for JSON-compatible benchmark metadata."""
+    import hashlib
+
+    encoded = json.dumps(
+        value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def git_provenance(root: Path = PROJECT_ROOT) -> dict[str, Any]:
+    """Capture source identity without making a dirty tree unbenchmarkable."""
+    def run(*args: str) -> str | None:
+        try:
+            return subprocess.check_output(
+                ["git", *args], cwd=root, text=True, stderr=subprocess.DEVNULL
+            ).strip() or None
+        except (OSError, subprocess.CalledProcessError):
+            return None
+
+    commit = run("rev-parse", "HEAD")
+    branch = run("rev-parse", "--abbrev-ref", "HEAD")
+    status = run("status", "--porcelain")
+    return {
+        "commit": commit,
+        "branch": branch,
+        "dirty": bool(status),
+    }
+
+
+def service_binding(metadata: Mapping[str, Any]) -> dict[str, Any]:
+    """Extract model, KB and calibrated threshold identity from service status."""
+    models = metadata.get("models") or {}
+    stats_payload = metadata.get("stats") or {}
+    binding = {
+        "knowledge_base_version": stats_payload.get("knowledge_base_version"),
+        "models": {
+            "primary": models.get("primary"),
+            "fast": models.get("fast"),
+            "verifier": models.get("verifier"),
+            "fallback": models.get("fallback"),
+            "embedding": models.get("embedding"),
+            "reranker": {
+                key: (models.get("reranker") or {}).get(key)
+                for key in ("provider", "model", "candidate_k", "top_n")
+            },
+        },
+        "thresholds": {
+            "simple_query_min_rrf_score": (
+                models.get("retrieval") or {}
+            ).get("simple_query_min_rrf_score"),
+            "reranker_not_found_threshold": (
+                models.get("reranker") or {}
+            ).get("not_found_threshold"),
+            "answer_status_threshold_low": (
+                models.get("retrieval") or {}
+            ).get("answer_status_threshold_low"),
+            "answer_status_threshold_high": (
+                models.get("retrieval") or {}
+            ).get("answer_status_threshold_high"),
+        },
+    }
+    binding["model_fingerprint"] = canonical_sha256(binding["models"])
+    binding["threshold_fingerprint"] = canonical_sha256(binding["thresholds"])
+    return binding
+
+
+def build_provenance(
+    dataset: Mapping[str, Any], metadata: Mapping[str, Any]
+) -> dict[str, Any]:
+    binding = service_binding(metadata)
+    return {
+        "git": git_provenance(),
+        "dataset_sha256": dataset.get("effective_sha256"),
+        **binding,
+    }
+
+
+def baseline_snapshot(
+    report: Mapping[str, Any], *, tier: str = "combined"
+) -> dict[str, Any]:
+    """只保留回归比较所需信息，避免把逐题 Trace 提交到 Git。"""
+    return {
+        "baseline_schema_version": BASELINE_SCHEMA_VERSION,
+        "report_schema_version": report.get("schema_version"),
+        "generated_at": report.get("generated_at"),
+        "version": report.get("version"),
+        "tier": tier,
+        "dataset": report.get("dataset"),
+        "provenance": report.get("provenance"),
+        "config": report.get("config"),
+        "environment": report.get("environment"),
+        "summary": report.get("summary"),
+    }
+
+
+def write_baseline(
+    report: Mapping[str, Any], path: Path, *, tier: str = "combined"
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(
+            baseline_snapshot(report, tier=tier), ensure_ascii=False, indent=2
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 def component_cost(
@@ -287,8 +446,10 @@ class RegressionRunner:
             "expected_answer_status": item.get(
                 "expected_answer_status", "answerable"
             ),
+            "expected_subquestions": item.get("expected_subquestions", []),
             "dimension": item.get("dimension"),
             "difficulty": item.get("difficulty"),
+            "tags": item.get("tags", []),
             "warmup": warmup,
             "request_id": request_id,
             "success": False,
@@ -411,6 +572,8 @@ class RegressionRunner:
         )
         record["knowledge_base_version"] = trace.get("knowledge_base_version")
         record["query_strategy"] = trace.get("query_strategy")
+        record["subquestions"] = trace.get("subquestions") or []
+        record["evidence_coverage"] = trace.get("evidence_coverage")
         record["cache_hits"] = trace.get("cache_hits") or {}
         record["token_usage"] = trace.get("token_usage") or {}
         stage_usage = trace.get("stage_token_usage") or {}
@@ -446,13 +609,16 @@ class RegressionRunner:
             "rerank_recall_at_5": recall_at(rerank_ranking, relevant, 5),
             "rerank_mrr": reciprocal_rank(rerank_ranking, relevant),
         }
+        record["subquestion_metrics"] = evaluate_subquestions(
+            record["expected_subquestions"], record["subquestions"]
+        )
         expected_status = record["expected_answer_status"]
         actual_status = record.get("answer_status")
         record["answer_status_correct"] = actual_status == expected_status
         record["hallucination"] = bool(
             record["unsupported_claims"]
             or (
-                expected_status == "answerable"
+                expected_status in {"answerable", "partially_answerable"}
                 and record["verification_status"] == "failed"
             )
             or (expected_status == "not_found" and actual_status != "not_found")
@@ -530,6 +696,94 @@ def run_benchmark(
     return records, time.perf_counter() - started
 
 
+def _dimension_breakdown(
+    records: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Per-dimension metrics breakdown."""
+    by_dim: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for record in records:
+        dim = record.get("dimension") or "unknown"
+        by_dim[dim].append(record)
+
+    breakdown: dict[str, Any] = {}
+    for dim, dim_records in sorted(by_dim.items()):
+        answerable = [
+            r for r in dim_records
+            if r.get("expected_answer_status") in {"answerable", "partially_answerable"}
+        ]
+        verified = [
+            r for r in answerable
+            if r.get("verification_status") in {"verified", "partially_verified"}
+        ]
+        correct_status = sum(bool(r.get("answer_status_correct")) for r in dim_records)
+        hallucinations = sum(bool(r.get("hallucination")) for r in dim_records)
+        latency_values = [
+            r["client_done_latency_ms"]
+            for r in dim_records
+            if r.get("success")
+            and r.get("client_done_latency_ms") is not None
+        ]
+        breakdown[dim] = {
+            "count": len(dim_records),
+            "success_rate": round(
+                sum(bool(r.get("success")) for r in dim_records) / len(dim_records), 6
+            ) if dim_records else 0,
+            "answer_status_accuracy": round(
+                correct_status / len(dim_records), 6
+            ) if dim_records else None,
+            "verification_pass_rate": round(
+                len(verified) / len(answerable), 6
+            ) if answerable else None,
+            "hallucination_rate": round(
+                hallucinations / len(dim_records), 6
+            ) if dim_records else None,
+            "avg_latency_ms": (
+                round(statistics.fmean(latency_values), 2)
+                if latency_values else None
+            ),
+            "recall_at_10": mean_metric(answerable, "recall_at_10"),
+        }
+    return breakdown
+
+
+def _difficulty_breakdown(
+    records: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Per-difficulty metrics breakdown."""
+    by_diff: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for record in records:
+        diff = record.get("difficulty") or "unknown"
+        by_diff[diff].append(record)
+
+    breakdown: dict[str, Any] = {}
+    for diff, diff_records in sorted(by_diff.items()):
+        correct_status = sum(bool(r.get("answer_status_correct")) for r in diff_records)
+        hallucinations = sum(bool(r.get("hallucination")) for r in diff_records)
+        latency_values = [
+            r["client_done_latency_ms"]
+            for r in diff_records
+            if r.get("success")
+            and r.get("client_done_latency_ms") is not None
+        ]
+        breakdown[diff] = {
+            "count": len(diff_records),
+            "success_rate": round(
+                sum(bool(r.get("success")) for r in diff_records) / len(diff_records), 6
+            ) if diff_records else 0,
+            "answer_status_accuracy": round(
+                correct_status / len(diff_records), 6
+            ) if diff_records else None,
+            "hallucination_rate": round(
+                hallucinations / len(diff_records), 6
+            ) if diff_records else None,
+            "avg_latency_ms": (
+                round(statistics.fmean(latency_values), 2)
+                if latency_values else None
+            ),
+        }
+    return breakdown
+
+
 def summarize(
     records: list[dict[str, Any]],
     wall_seconds: float,
@@ -539,12 +793,21 @@ def summarize(
     answerable = [
         record
         for record in successful
-        if record.get("expected_answer_status") == "answerable"
+        if record.get("expected_answer_status") in {
+            "answerable", "partially_answerable"
+        }
     ]
     verified = [
         record
         for record in answerable
-        if record.get("verification_status") == "verified"
+        if record.get("verification_status") in {
+            "verified", "partially_verified"
+        }
+    ]
+    subquestion_records = [
+        record
+        for record in successful
+        if (record.get("subquestion_metrics") or {}).get("evaluated")
     ]
     cost_components = [
         "embedding", "query_rewrite", "generation", "verification", "reranker", "total"
@@ -575,6 +838,14 @@ def summarize(
             )
         cost_summary[component] = component_stats
 
+    claim_total = sum(
+        int((record.get("citation_verification") or {}).get("total_claims", 0) or 0)
+        for record in successful
+    )
+    claim_supported = sum(
+        int((record.get("citation_verification") or {}).get("supported_claims", 0) or 0)
+        for record in successful
+    )
     return {
         "samples": len(records),
         "successful": len(successful),
@@ -609,6 +880,28 @@ def summarize(
                 answerable, "rerank_recall_at_5"
             ),
             "rerank_mrr": mean_metric(answerable, "rerank_mrr"),
+            "evidence_coverage": stats(
+                record.get("evidence_coverage") for record in successful
+            ).get("avg"),
+            "subquestion_evidence_recall": (
+                statistics.fmean(
+                    record["subquestion_metrics"]["evidence_recall"]
+                    for record in subquestion_records
+                    if record["subquestion_metrics"].get("evidence_recall") is not None
+                )
+                if any(
+                    record["subquestion_metrics"].get("evidence_recall") is not None
+                    for record in subquestion_records
+                )
+                else None
+            ),
+            "complete_evidence_rate": (
+                sum(
+                    bool(record["subquestion_metrics"].get("complete_evidence"))
+                    for record in subquestion_records
+                ) / len(subquestion_records)
+                if subquestion_records else None
+            ),
         },
         "generation": {
             "verification_pass_rate": round(
@@ -622,6 +915,12 @@ def summarize(
                     for record in successful
                 )
             ),
+            "total_claims": claim_total,
+            "supported_claims": claim_supported,
+            "claim_supported_rate": (
+                round(claim_supported / claim_total, 6)
+                if claim_total else None
+            ),
             "answer_status_accuracy": round(
                 sum(bool(record.get("answer_status_correct")) for record in successful)
                 / len(successful),
@@ -629,6 +928,18 @@ def summarize(
             )
             if successful
             else None,
+            "subquestion_status_accuracy": (
+                statistics.fmean(
+                    record["subquestion_metrics"]["status_accuracy"]
+                    for record in subquestion_records
+                    if record["subquestion_metrics"].get("status_accuracy") is not None
+                )
+                if any(
+                    record["subquestion_metrics"].get("status_accuracy") is not None
+                    for record in subquestion_records
+                )
+                else None
+            ),
             "unsupported_claims": sum(
                 int(record.get("unsupported_claims", 0)) for record in successful
             ),
@@ -665,6 +976,8 @@ def summarize(
                 for record in successful
             )
         ),
+        "by_dimension": _dimension_breakdown(successful),
+        "by_difficulty": _difficulty_breakdown(successful),
     }
 
 
@@ -679,8 +992,17 @@ COMPARISON_FIELDS = {
     "MRR": ("retrieval.mrr", "higher"),
     "nDCG@10": ("retrieval.ndcg_at_10", "higher"),
     "Rerank Recall@5": ("retrieval.rerank_recall_at_5", "higher"),
+    "Evidence Coverage": ("retrieval.evidence_coverage", "higher"),
+    "Subquestion Evidence Recall": (
+        "retrieval.subquestion_evidence_recall", "higher"
+    ),
+    "Complete Evidence Rate": ("retrieval.complete_evidence_rate", "higher"),
     "Verification Pass": ("generation.verification_pass_rate", "higher"),
+    "Claim Supported Rate": ("generation.claim_supported_rate", "higher"),
     "Answer Status Accuracy": ("generation.answer_status_accuracy", "higher"),
+    "Subquestion Status Accuracy": (
+        "generation.subquestion_status_accuracy", "higher"
+    ),
     "Unsupported Claims": ("generation.unsupported_claims", "lower"),
     "Hallucination Rate": ("generation.hallucination_rate", "lower"),
     "Error Rate": ("error_rate", "lower"),
@@ -719,10 +1041,34 @@ def evaluate_thresholds(
     failures = []
     for path, rule in thresholds.items():
         metric = by_path.get(path)
-        if not metric or metric.get("baseline") is None or metric.get("current") is None:
+        if not metric or metric.get("current") is None:
+            continue
+        new = float(metric["current"])
+        minimum = finite_number(rule.get("minimum"))
+        maximum = finite_number(rule.get("maximum"))
+        if minimum is not None and new < minimum:
+            failures.append({
+                "path": path,
+                "baseline": metric.get("baseline"),
+                "current": new,
+                "regression": new - minimum,
+                "reason": "below_minimum",
+                "rule": dict(rule),
+            })
+            continue
+        if maximum is not None and new > maximum:
+            failures.append({
+                "path": path,
+                "baseline": metric.get("baseline"),
+                "current": new,
+                "regression": new - maximum,
+                "reason": "above_maximum",
+                "rule": dict(rule),
+            })
+            continue
+        if metric.get("baseline") is None:
             continue
         old = float(metric["baseline"])
-        new = float(metric["current"])
         direction = rule.get("direction")
         mode = rule.get("mode", "absolute")
         tolerance = float(rule.get("tolerance", 0))
@@ -749,6 +1095,7 @@ def evaluate_thresholds(
                     "baseline": old,
                     "current": new,
                     "regression": regression,
+                    "reason": "baseline_regression",
                     "rule": dict(rule),
                 }
             )
@@ -806,7 +1153,9 @@ def markdown_report(report: Mapping[str, Any]) -> str:
         "",
         f"- Baseline: `{report.get('baseline_version') or 'N/A'}`",
         f"- Current: `{report['version']}`",
-        f"- Dataset: `{report['dataset']['sha256'][:12]}` ({report['dataset']['questions']} questions)",
+        f"- Dataset: `{report['dataset'].get('split') or 'custom'}` / "
+        f"`{report['dataset']['sha256'][:12]}` "
+        f"({report['dataset']['questions']} questions)",
         f"- Decision: **{decision}**",
         "",
         "## Pre-regression Smoke Gate",
@@ -842,13 +1191,18 @@ def markdown_report(report: Mapping[str, Any]) -> str:
         f"| MRR | {pair(baseline, current, 'retrieval.mrr')} |",
         f"| nDCG@10 | {pair(baseline, current, 'retrieval.ndcg_at_10')} |",
         f"| Rerank Recall@5 | {pair(baseline, current, 'retrieval.rerank_recall_at_5')} |",
+        f"| Evidence Coverage | {pair(baseline, current, 'retrieval.evidence_coverage')} |",
+        f"| Subquestion Evidence Recall | {pair(baseline, current, 'retrieval.subquestion_evidence_recall')} |",
+        f"| Complete Evidence Rate | {pair(baseline, current, 'retrieval.complete_evidence_rate')} |",
         "",
         "## Generation",
         "",
         "| Metric | Baseline → Current |",
         "|---|---:|",
         f"| Verification Pass | {pair(baseline, current, 'generation.verification_pass_rate', 4)} |",
+        f"| Claim Supported Rate | {pair(baseline, current, 'generation.claim_supported_rate', 4)} |",
         f"| Answer Status Accuracy | {pair(baseline, current, 'generation.answer_status_accuracy', 4)} |",
+        f"| Subquestion Status Accuracy | {pair(baseline, current, 'generation.subquestion_status_accuracy', 4)} |",
         f"| Unsupported Claims | {pair(baseline, current, 'generation.unsupported_claims', 0)} |",
         f"| Hallucination Requests | {pair(baseline, current, 'generation.hallucination_requests', 0)} |",
         f"| Error Rate | {pair(baseline, current, 'error_rate', 4)} |",
@@ -884,6 +1238,46 @@ def markdown_report(report: Mapping[str, Any]) -> str:
             f"{currency_symbol + fmt(total, 6) if total is not None else 'N/A'} |"
         )
 
+    # Per-dimension breakdown
+    by_dim = current.get("by_dimension") or {}
+    if by_dim:
+        lines.extend([
+            "",
+            "## Per-Dimension Breakdown",
+            "",
+            "| Dimension | Count | Success | Status Acc | Verif. Pass | Halluc. Rate | Recall@10 | Avg Latency |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|",
+        ])
+        for dim, metrics in sorted(by_dim.items()):
+            lines.append(
+                f"| {dim} | {metrics.get('count', 0)} | "
+                f"{fmt(metrics.get('success_rate'), 4)} | "
+                f"{fmt(metrics.get('answer_status_accuracy'), 4)} | "
+                f"{fmt(metrics.get('verification_pass_rate'), 4)} | "
+                f"{fmt(metrics.get('hallucination_rate'), 4)} | "
+                f"{fmt(metrics.get('recall_at_10'), 4)} | "
+                f"{fmt(metrics.get('avg_latency_ms'), 0)} ms |"
+            )
+
+    # Per-difficulty breakdown
+    by_diff = current.get("by_difficulty") or {}
+    if by_diff:
+        lines.extend([
+            "",
+            "## Per-Difficulty Breakdown",
+            "",
+            "| Difficulty | Count | Success | Status Acc | Halluc. Rate | Avg Latency |",
+            "|---|---:|---:|---:|---:|---:|",
+        ])
+        for diff, metrics in sorted(by_diff.items()):
+            lines.append(
+                f"| {diff} | {metrics.get('count', 0)} | "
+                f"{fmt(metrics.get('success_rate'), 4)} | "
+                f"{fmt(metrics.get('answer_status_accuracy'), 4)} | "
+                f"{fmt(metrics.get('hallucination_rate'), 4)} | "
+                f"{fmt(metrics.get('avg_latency_ms'), 0)} ms |"
+            )
+
     lines.extend(["", "## Regression Gate", ""])
     failures = report.get("threshold_failures") or []
     if failures:
@@ -912,7 +1306,9 @@ def markdown_report(report: Mapping[str, Any]) -> str:
         or not record.get("answer_status_correct")
         or record.get("hallucination")
         or (
-            record.get("expected_answer_status") == "answerable"
+            record.get("expected_answer_status") in {
+                "answerable", "partially_answerable"
+            }
             and record.get("retrieval_metrics", {}).get("recall_at_10") == 0
         )
     ]
@@ -943,8 +1339,18 @@ def markdown_report(report: Mapping[str, Any]) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="固定100题的RAG回归基准")
-    parser.add_argument("--questions", type=Path, default=DEFAULT_QUESTIONS)
+    parser = argparse.ArgumentParser(description="分片式 Golden Dataset RAG 回归基准")
+    dataset_group = parser.add_mutually_exclusive_group()
+    dataset_group.add_argument(
+        "--questions",
+        type=Path,
+        help="显式题集路径；未指定时默认运行 blind_test 分片",
+    )
+    dataset_group.add_argument(
+        "--split",
+        choices=["train_dev", "calibration", "blind_test", "all", "legacy"],
+        help="命名题集分片（默认：blind_test）",
+    )
     parser.add_argument("--endpoint", default="http://127.0.0.1:8000")
     parser.add_argument(
         "--version", default=os.getenv("BENCHMARK_VERSION", "working-tree")
@@ -959,6 +1365,17 @@ def main() -> None:
     parser.add_argument("--warmup", type=int, default=1)
     parser.add_argument("--limit", type=int)
     parser.add_argument(
+        "--dimension",
+        action="append",
+        help="只运行指定 dimension；可重复，仅用于定向诊断",
+    )
+    parser.add_argument(
+        "--id",
+        action="append",
+        dest="question_ids",
+        help="只运行指定题目 ID；可重复，仅用于定向诊断",
+    )
+    parser.add_argument(
         "--skip-smoke",
         action="store_true",
         help="仅用于诊断；默认必须先通过 5 类冒烟门禁",
@@ -971,19 +1388,73 @@ def main() -> None:
         type=Path,
         default=DEFAULT_SMOKE_OUTPUT_DIR,
     )
+    parser.add_argument(
+        "--smoke-concurrency",
+        type=int,
+        default=1,
+        help="功能冒烟默认串行，容量与尾延迟由压力测试单独评估",
+    )
     parser.add_argument("--promote-baseline", action="store_true")
     parser.add_argument("--fail-on-regression", action="store_true")
     args = parser.parse_args()
 
-    questions_bytes = args.questions.read_bytes()
-    all_questions = json.loads(questions_bytes.decode("utf-8"))
+    split_name = args.split or (None if args.questions else DEFAULT_SPLIT)
+    if split_name:
+        try:
+            all_questions = load_split(split_name)
+        except (FileNotFoundError, ValueError, json.JSONDecodeError) as exc:
+            raise SystemExit(str(exc)) from exc
+        dataset_path = (
+            SPLIT_PATHS.get(split_name)
+            if split_name in SPLIT_PATHS
+            else LEGACY_QUESTIONS if split_name == "legacy" else None
+        )
+        questions_bytes = json.dumps(
+            all_questions,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    else:
+        dataset_path = args.questions
+        if dataset_path is None:
+            raise SystemExit("未指定 Golden Dataset")
+        questions_bytes = dataset_path.read_bytes()
+        all_questions = json.loads(questions_bytes.decode("utf-8"))
+
+    if not isinstance(all_questions, list):
+        raise SystemExit("Golden Dataset 顶层必须是数组")
+
+    if (
+        split_name != "blind_test" or args.limit or args.dimension
+        or args.question_ids
+    ) and (
+        args.promote_baseline or args.fail_on_regression
+    ):
+        parser.error(
+            "--promote-baseline/--fail-on-regression 只能用于未经筛选的 "
+            "blind_test 分片"
+        )
     questions = all_questions
+    if args.dimension:
+        dimensions = set(args.dimension)
+        questions = [
+            item for item in questions
+            if item.get("dimension") in dimensions
+        ]
+    if args.question_ids:
+        question_ids = set(args.question_ids)
+        questions = [
+            item for item in questions if item.get("id") in question_ids
+        ]
     if args.limit:
         questions = questions[: args.limit]
     if not questions:
         raise SystemExit("Golden Dataset 不能为空")
     if args.concurrency < 1 or args.timeout <= 0:
         parser.error("concurrency 和 timeout 必须大于0")
+    if args.smoke_concurrency < 1:
+        parser.error("smoke-concurrency 必须大于0")
 
     smoke_report = None
     if not args.skip_smoke:
@@ -992,7 +1463,7 @@ def main() -> None:
             endpoint=args.endpoint,
             cases_path=args.smoke_cases,
             timeout=args.timeout,
-            concurrency=min(5, args.concurrency),
+            concurrency=args.smoke_concurrency,
         )
         write_smoke_report(smoke_report, args.smoke_output_dir)
         print(
@@ -1070,7 +1541,8 @@ def main() -> None:
         "baseline_compatibility": baseline_compatibility,
         "decision": decision,
         "dataset": {
-            "path": str(args.questions),
+            "path": str(dataset_path) if dataset_path else "combined:splits/all",
+            "split": split_name,
             "sha256": hashlib.sha256(questions_bytes).hexdigest(),
             "effective_sha256": effective_dataset_sha,
             "questions": len(questions),
@@ -1082,7 +1554,11 @@ def main() -> None:
             "timeout_seconds": args.timeout,
             "top_k": args.top_k,
             "warmup": args.warmup,
+            "dimensions": args.dimension or [],
+            "question_ids": args.question_ids or [],
+            "smoke_concurrency": args.smoke_concurrency,
             "limit": args.limit,
+            "split": split_name,
             "pricing": str(args.pricing),
             "thresholds": str(args.thresholds),
             "percentile_method": "nearest-rank",
@@ -1102,6 +1578,9 @@ def main() -> None:
         "threshold_failures": threshold_failures,
         "records": records,
     }
+    report["provenance"] = build_provenance(
+        report["dataset"], metadata_before
+    )
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
     json_output = args.output_dir / "regression_report.json"
@@ -1115,11 +1594,12 @@ def main() -> None:
     print(f"[{decision}] JSON: {json_output}")
     print(f"[{decision}] Markdown: {markdown_output}")
     if args.promote_baseline:
-        args.baseline.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(json_output, args.baseline)
+        write_baseline(report, args.baseline)
         print(f"[BASELINE] promoted: {args.baseline}")
     if args.fail_on_regression and threshold_failures:
         raise SystemExit(2)
+    if args.fail_on_regression and decision in {"NO_BASELINE", "INCOMPARABLE"}:
+        raise SystemExit(3)
 
 
 if __name__ == "__main__":

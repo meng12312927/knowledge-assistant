@@ -263,6 +263,18 @@ def render_rag_trace(trace: dict):
         st.markdown("#### 4. selected_chunk_ids")
         st.code("\n".join(trace.get("selected_chunk_ids", [])) or "无", language=None)
 
+        if trace.get("subquestions"):
+            st.markdown("#### 子问题证据覆盖")
+            st.metric(
+                "Evidence Coverage",
+                f"{float(trace.get('evidence_coverage') or 0):.1%}",
+            )
+            st.dataframe(
+                trace.get("subquestions", []),
+                use_container_width=True,
+                hide_index=True,
+            )
+
         st.markdown("#### 5. [S1] → chunk_id 映射")
         citation_map = trace.get("citation_map", {})
         st.code("\n".join(f"[{key}] -> {value}" for key, value in citation_map.items()) or "无", language=None)

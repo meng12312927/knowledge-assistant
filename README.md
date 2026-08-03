@@ -77,7 +77,7 @@ VECTORSTORE_COLLECTION=documents_v4_1024
 ADAPTIVE_MULTIQUERY_ENABLED=true
 QUERY_REWRITE_CACHE_SIZE=512
 QUERY_EMBEDDING_CACHE_SIZE=512
-SIMPLE_QUERY_MIN_RRF_SCORE=0.025
+SIMPLE_QUERY_MIN_RRF_SCORE=0.031
 RETRIEVAL_PARALLEL_WORKERS=8
 
 RERANKER_PROVIDER=qwen3
@@ -85,7 +85,11 @@ RERANKER_MODEL=qwen3-rerank
 RERANKER_BASE_URL=https://dashscope.aliyuncs.com/compatible-api/v1
 RERANKER_CANDIDATE_K=40
 RERANKER_TOP_N=6
-RERANKER_NOT_FOUND_THRESHOLD=0.30
+RERANKER_NOT_FOUND_THRESHOLD=0.50
+SUBQUESTION_PLANNING_ENABLED=true
+SUBQUESTION_MAX_COUNT=4
+SUBQUESTION_RERANK_TOP_N=3
+EVIDENCE_PER_SOURCE_LIMIT=2
 
 TOP_K=6
 CITATION_VERIFICATION_ENABLED=true
@@ -109,6 +113,7 @@ streamlit run app/web/main.py
 
 ```bash
 python scripts/ingest_demo_corpus.py
+python scripts/ingest_v2_corpus.py
 ```
 
 ## Docker 部署
@@ -126,6 +131,7 @@ Chroma 数据和 SQLite 数据均通过卷持久化。
 | 调用类型 | 触发时机 | 默认配置 |
 |---|---|---|
 | Query Rewrite | 模糊/多意图 Query，或精确 Query 首次召回不足 | DeepSeek，关闭 thinking，2 秒阶段预算 |
+| Subquestion Planning | 明确跨文档、多条件或部分可回答问题 | DeepSeek 快速 JSON 输出，最多 4 个原子问题 |
 | Query / Document Embedding | 检索与文档摄取 | 阿里云 `text-embedding-v4`，在线查询 3 秒阶段预算 |
 | Rerank | RRF 候选出现后 | 阿里云 `qwen3-rerank`，最多 40 输入 / 6 输出，4 秒后降级 RRF |
 | 最终答案 | 有可用证据时 | DeepSeek，20 秒阶段预算 |
@@ -133,7 +139,9 @@ Chroma 数据和 SQLite 数据均通过卷持久化。
 
 严格 Citation Verification 默认开启。系统会在输出前缓冲完整答案，校验引用编号、漏引结论以及结论与原文的一致性；核验失败或异常时执行 fail-closed，不展示未经验证的原答案。可通过 `CITATION_VERIFICATION_ENABLED` 和 `CITATION_VERIFICATION_STRICT` 调整。
 
-`RERANKER_NOT_FOUND_THRESHOLD=0.30` 是基于当前演示语料和评测集的本地校准，只用于识别明显超出知识库的问题，不应未经重新评测就复用到其他数据集。Reranker 调用失败时保留 RRF 顺序并在 Trace 中标记 fallback，不会把降级分数误当成 Qwen 分数。
+明确的复合问题会进入 `subquestion_coverage`：系统按用户顺序拆为 `SQ1`～`SQ4`，批量生成 Query Embedding，并行执行各分支 Dense/BM25 与 Qwen Rerank。Evidence Coverage Selector 先为每个可回答子问题保留至少一条证据，再按分数和单来源上限补充证据。只有部分分支有可靠证据时，回答状态为 `partially_answerable`；逐结论核验会绑定 `subquestion_id`，严格模式只移除未支持结论并保留已核验分支。普通单问题仍走 Direct RAG，不增加规划调用。
+
+`RERANKER_NOT_FOUND_THRESHOLD=0.50` 是基于当前演示语料和 calibration 分片的本地校准，只用于识别明显超出知识库的问题，不应未经重新评测就复用到其他数据集。Reranker 调用失败时保留 RRF 顺序并在 Trace 中标记 fallback，不会把降级分数误当成 Qwen 分数。
 
 查看当前路由与指标：
 
@@ -259,10 +267,12 @@ python tests/performance_benchmark.py \
 
 脚本输出平均值、P50、P95、P99、三类 TTFT/SSE 耗时、LLM 与 Reranker Token、错误率、吞吐量、核验通过率和缓存 hit/miss 分组，并保留每次请求的原始记录。
 
-### Regression Benchmark（固定 100 题）
+### Regression Benchmark（210 题分片式 Golden Dataset）
 
-`tests/benchmark/questions.json` 是固定的 Golden Dataset：95 条可回答问题覆盖
-`tests/corpus/` 中的 19 份制度文档，另有 5 条知识库外问题用于检验拒答和幻觉。
+`tests/benchmark/splits/` 将 210 题隔离为开发集（37）、阈值校准集（62）和
+盲测集（111）。盲测集包含 20.7% OOD、26% Hard，以及跨文档、多跳、版本冲突、
+部分可回答、金额边界、错别字和缩写等对抗场景。旧 100 题保存在归档中，不再作为
+默认回归闸门。
 标签使用由“来源文件名 + 标准化 chunk 原文”生成的 `stable_chunk_id`，因此重新入库后
 Chroma UUID 改变也不会让期望结果失效。
 
@@ -278,43 +288,62 @@ python tests/smoke/smoke_test.py
 先校验黄金集与版本化语料是否一致：
 
 ```bash
-python tests/benchmark/validate_golden.py
+python tests/benchmark/validate_golden.py --all-splits
 ```
 
-启动 API 后执行固定 100 题，并自动与已保存 Baseline 对比：
+阈值只能使用 calibration 分片校准：
 
 ```bash
 python tests/benchmark/benchmark.py \
-  --version v1.4 \
+  --split calibration \
+  --version calibration-v1
+python tests/benchmark/calibrate_thresholds.py
+```
+
+应用推荐阈值并重启 API 后，执行 blind_test，并自动与已保存 Baseline 对比：
+
+```bash
+python tests/benchmark/benchmark.py \
+  --split blind_test \
+  --version v2.0 \
   --endpoint http://127.0.0.1:8000
 ```
 
 `benchmark.py` 默认会先自动执行上述 5 类冒烟。任一用例失败时立即以状态码 1
-退出，不会启动 100 问，也不会覆盖现有 Regression Report/Baseline。诊断脚本
+退出，不会启动盲测，也不会覆盖现有 Regression Report/Baseline。诊断脚本
 本身时才可显式使用 `--skip-smoke`，日常回归和 CI 不应跳过。
+功能冒烟默认 `--smoke-concurrency 1` 串行运行，避免把外部模型并发尾延迟误判为
+功能错误；正式回归仍使用 `--concurrency`，容量问题由压力测试单独评估。
 
 结果写入：
 
 - `tests/benchmark/results/regression_report.json`：完整逐题结果、Trace、环境与指标。
 - `tests/benchmark/results/regression_report.md`：适合代码评审的摘要报告。
 
-首次运行没有 Baseline 时，报告决策为 `NO_BASELINE`。确认结果有效后再显式提升，
-避免一次异常运行覆盖基准：
+首次运行没有 Baseline 时，报告决策为 `NO_BASELINE`。先完整运行 111 题，再使用
+安全 Bootstrap 建立相互独立的质量/性能基线：
 
 ```bash
 python tests/benchmark/benchmark.py \
-  --version v1.4 \
-  --promote-baseline
+  --split blind_test \
+  --version v2.0
+python tests/benchmark/regression_gate.py --bootstrap --promote
 ```
 
-以后修改代码后可启用回归门禁；超过
-`tests/benchmark/regression_thresholds.json` 中的阈值会以状态码 2 退出：
+Bootstrap 仅在固定 111 题、5 类 Smoke、零技术错误、完整 Git/Dataset/模型/阈值
+溯源、clean Git worktree 和绝对质量下限全部满足时才允许写入 Baseline。以后修改代码后运行分层门禁；
+质量层要求 Recall@10 不低于 97%，性能层约束 TTFT/P95/P99 的相对退化：
 
 ```bash
 python tests/benchmark/benchmark.py \
-  --version v1.5 \
-  --fail-on-regression
+  --split blind_test \
+  --version v2.1
+python tests/benchmark/regression_gate.py
 ```
+
+`.github/workflows/regression-gate.yml` 会在相关 PR 中执行同样流程。GitHub 仓库需要
+设置 `RAG_BENCHMARK_ENDPOINT` Secret（指向与待测 Commit 对应的隔离部署），并在
+Branch protection 中把 `blind-regression` 设为必需检查，CI 才能自动阻止回归合并。
 
 报告包含：
 
@@ -330,7 +359,7 @@ python tests/benchmark/benchmark.py \
 
 ### 本地历史实测快照
 
-条件：16 个唯一 QA 问题按固定种子调度，预热 1 次，正式请求 50 次，并发度 5，nearest-rank 分位数。完整原始报告仅保存在本地 `tests/results/`，避免在公开仓库中暴露逐请求 Trace 和完整证据文本。该次报告生成于最终 `RERANKER_NOT_FOUND_THRESHOLD=0.30` OOD 拒答补丁之前，50 次均记为 `answerable`；因此它是保守的历史性能回归基线，不代表最终拒答策略的最新质量结果。
+条件：16 个唯一 QA 问题按固定种子调度，预热 1 次，正式请求 50 次，并发度 5，nearest-rank 分位数。完整原始报告仅保存在本地 `tests/results/`，避免在公开仓库中暴露逐请求 Trace 和完整证据文本。该次报告生成于当前校准后的 `RERANKER_NOT_FOUND_THRESHOLD=0.50` OOD 拒答策略之前，50 次均记为 `answerable`；因此它是保守的历史性能回归基线，不代表最终拒答策略的最新质量结果。
 
 | 指标 | 优化前 | 优化后实测（最终 OOD 补丁前） | 变化 |
 |---|---:|---:|---:|

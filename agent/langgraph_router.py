@@ -19,7 +19,7 @@ from langchain.tools import tool
 from models.document import Citation, CitationVerification, QueryRequest, ChatResponse, RAGTrace
 from rag.chains.rag_chain import RAGChain
 from agent.router import AgentRouter, Intent, TaskPlan, ToolResult
-from agent.tools.base import BaseTool, ToolRegistry, CalculatorTool, DatabaseQueryTool
+from agent.tools.base import BaseTool, ToolCallGuard, ToolRegistry, CalculatorTool, DatabaseQueryTool
 
 
 # ═══════════════════════════════════════════════════════════
@@ -201,10 +201,12 @@ class LangGraphAgentRouter:
         }
 
     def _comparison_node(self, state: AgentState) -> AgentState:
-        """对比分析节点"""
+        """对比分析节点：复用子问题覆盖检索和逐结论引用核验。"""
         query = state["query"]
-        # 复用原 AgentRouter 的对比逻辑（使用缓存实例）
-        result = self._legacy_router._execute_comparison(query)
+        result = self.rag_chain.invoke(
+            QueryRequest(query=query),
+            prepared=state.get("prepared_rag"),
+        )
         return {
             **state,
             "final_answer": result.answer,
@@ -212,6 +214,7 @@ class LangGraphAgentRouter:
             "citations": [c.model_dump() for c in result.citations],
             "citation_verification": result.citation_verification.model_dump() if result.citation_verification else None,
             "trace": result.trace.model_dump() if result.trace else None,
+            "answer_status": result.answer_status,
         }
 
     def _summarization_node(self, state: AgentState) -> AgentState:
@@ -237,7 +240,13 @@ class LangGraphAgentRouter:
             requires_tools=plan_dict.get("requires_tools", []),
             estimated_complexity=plan_dict.get("estimated_complexity", 1),
         )
-        result = self._legacy_router._execute_multi_step(plan, query)
+        prepared = state.get("prepared_rag")
+        if prepared and prepared.trace.subquestion_planning_triggered:
+            result = self.rag_chain.invoke(
+                QueryRequest(query=query), prepared=prepared
+            )
+        else:
+            result = self._legacy_router._execute_multi_step(plan, query)
         return {
             **state,
             "final_answer": result.answer,
@@ -245,6 +254,7 @@ class LangGraphAgentRouter:
             "citations": [c.model_dump() for c in result.citations],
             "citation_verification": result.citation_verification.model_dump() if result.citation_verification else None,
             "trace": result.trace.model_dump() if result.trace else None,
+            "answer_status": result.answer_status,
         }
 
     def _chitchat_node(self, state: AgentState) -> AgentState:
@@ -263,23 +273,35 @@ class LangGraphAgentRouter:
 
     def _tool_call_node(self, state: AgentState) -> AgentState:
         """
-        工具调用节点（ReAct 风格）
+        工具调用节点（带断路器 + 模糊匹配 + 失败反馈重试）。
 
-        让 LLM 决定调用哪个工具，然后执行并整合结果。
-        简化为单轮工具调用（实际可扩展为多轮 ReAct 循环）。
+        四层防护：
+        1. 断路器防止死循环 / 重复调用 / 超时
+        2. 工具名模糊匹配防 LLM 拼写错误
+        3. 参数 schema 校验在 execute 前拦截
+        4. 失败后将错误信息反馈给 LLM，最多重试 2 次
         """
-        query = state["query"]
+        import json, re, ast
 
-        # 构建工具描述
+        query = state["query"]
+        guard = ToolCallGuard(max_rounds=5, max_total_seconds=10.0)
+
         tool_descriptions = "\n".join([
             f"- {t.name}: {t.description}" for t in self.lc_tools
         ])
 
-        prompt = f"""用户问题：{query}
+        def _build_prompt(last_error: str = None) -> str:
+            error_section = ""
+            if last_error:
+                error_section = f"""
+上一次调用失败，错误信息：{last_error}
+请修正后重新调用。"""
+
+            return f"""用户问题：{query}
 
 可用工具：
 {tool_descriptions}
-
+{error_section}
 规则：
 1. 禁止直接回答。
 2. 禁止进行任何计算或推理。
@@ -291,54 +313,93 @@ ARGS:{{\"expression\":\"123*456\"}}
 或者：
 TOOL:database_query
 ARGS:{{\"sql\":\"SELECT * FROM sales\"}}"""
-        response = self.llm.generate(
-            system_prompt="你是一个只能调用工具的助手。禁止直接计算或推理。只能输出指定格式。",
-            user_prompt=prompt,
-            temperature=0
-        )
 
+        answer = ""
+        tool_results: list = []
+        last_error: str | None = None
+        max_retries = 2
 
-        # 解析工具调用
-        answer = response
-        tool_results = []
+        for retry_attempt in range(max_retries + 1):
+            response = self.llm.generate(
+                system_prompt="你是一个只能调用工具的助手。禁止直接计算或推理。只能输出指定格式。",
+                user_prompt=_build_prompt(last_error),
+                temperature=0,
+            )
+            answer = response
 
-        import json, re, ast
-        # 支持两种格式：新格式 TOOL:xxx\nARGS:{...} 和旧格式
-        match = re.search(r"TOOL:(\w+)\s*\nARGS:(\{.*?\})", response, re.DOTALL)
-        if not match:
-            match = re.search(r"调用工具\s+(\w+)\s+参数[:：]\s*(\{.*?\})", response, re.DOTALL)
+            # 解析工具调用格式
+            match = re.search(
+                r"TOOL:(\w+)\s*\nARGS:(\{.*?\})", response, re.DOTALL
+            )
+            if not match:
+                match = re.search(
+                    r"调用工具\s+(\w+)\s+参数[:：]\s*(\{.*?\})",
+                    response, re.DOTALL,
+                )
 
-        if match:
-            tool_name = match.group(1)
+            if not match:
+                # LLM 完全没输出工具格式 → 直接用原始回答兜底
+                break
+
+            raw_tool_name = match.group(1)
             raw_params = match.group(2)
+
             try:
-                # 先尝试标准 JSON 解析
+                # ① 解析参数
                 try:
                     params = json.loads(raw_params)
                 except json.JSONDecodeError:
-                    # 容错：处理单引号 JSON
-                    params = ast.literal_eval(raw_params)
+                    params = ast.literal_eval(raw_params)  # 兼容单引号
 
+                # ② 工具名模糊匹配
+                tool_name = self.tools.fuzzy_find(raw_tool_name)
+
+                # ③ 断路器检查
+                guard.check(tool_name, params)
+
+                # ④ 执行工具（含参数校验）
                 result = self.tools.execute(tool_name, **params)
                 tool_results.append(asdict(result))
 
-                # 让 LLM 整合工具结果
-                integration_prompt = f"""用户问题：{query}
+                if result.success:
+                    # 成功 → 让 LLM 整合结果
+                    integration_prompt = f"""用户问题：{query}
 
 工具调用结果：
 {result.output}
 
 请基于工具结果回答用户问题。"""
-                answer = self.llm.generate(
-                    system_prompt="你是一个智能助手，请基于工具结果回答用户问题。",
-                    user_prompt=integration_prompt,
-                    temperature=0.3
+                    answer = self.llm.generate(
+                        system_prompt="你是一个智能助手，请基于工具结果回答用户问题。",
+                        user_prompt=integration_prompt,
+                        temperature=0.3,
+                    )
+                    break
+                else:
+                    # 工具执行失败（如参数非法）
+                    last_error = (
+                        f"工具 {tool_name} 执行失败：{result.error_message}"
+                    )
+                    logger.warning(
+                        "tool_call_retry attempt=%s tool=%s error=%s",
+                        retry_attempt + 1, tool_name, result.error_message,
+                    )
+                    if retry_attempt >= max_retries:
+                        answer = f"工具调用失败：{result.error_message}"
+                        break
+
+            except Exception as exc:
+                last_error = f"{type(exc).__name__}: {exc}"
+                logger.warning(
+                    "tool_call_error attempt=%s tool=%s error=%s",
+                    retry_attempt + 1, raw_tool_name, last_error,
                 )
-            except Exception as e:
-                answer = f"工具调用失败：{str(e)}"
-        else:
-            # 没有匹配到工具调用格式，直接返回 LLM 的原始回答
-            pass
+                if retry_attempt >= max_retries:
+                    answer = (
+                        f"工具调用失败：{last_error}。"
+                        "已重试 {max_retries} 次仍无法完成，请检查问题描述。"
+                    )
+                    break
 
         return {
             **state,

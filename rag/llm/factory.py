@@ -81,6 +81,15 @@ def _build_client(client_type: str, config: ProviderConfig, settings):
 
 
 class ResilientLLMClient:
+    VERIFIER_STAGES = {"citation_repair", "citation_verification"}
+    FAST_STAGES = {
+        "agent_intent",
+        "citation_repair",
+        "citation_verification",
+        "query_rewrite",
+        "subquestion_evidence_judgment",
+        "subquestion_planning",
+    }
     """在不侵入 RAGChain 的前提下提供任务路由、重试和主备降级。"""
 
     def __init__(
@@ -89,6 +98,8 @@ class ResilientLLMClient:
         primary_info: ProviderConfig,
         fast=None,
         fast_info: Optional[ProviderConfig] = None,
+        verifier=None,
+        verifier_info: Optional[ProviderConfig] = None,
         fallback=None,
         fallback_info: Optional[ProviderConfig] = None,
         max_retries: int = 2,
@@ -96,20 +107,30 @@ class ResilientLLMClient:
         default_timeout_seconds: float = 20.0,
         circuit_failure_threshold: int = 3,
         circuit_recovery_seconds: float = 30.0,
+        fast_stage_max_retries: int = 0,
+        generation_max_retries: int = 1,
     ):
         self.primary = primary
         self.primary_info = primary_info
         self.fast = fast or primary
         self.fast_info = fast_info or primary_info
+        self.verifier = verifier or self.fast
+        self.verifier_info = verifier_info or self.fast_info
         self.fallback = fallback
         self.fallback_info = fallback_info
         self.max_retries = max(0, max_retries)
         self.retry_base_seconds = max(0.0, retry_base_seconds)
         self.default_timeout_seconds = max(0.001, float(default_timeout_seconds))
+        self.fast_stage_max_retries = max(0, int(fast_stage_max_retries))
+        self.generation_max_retries = max(0, int(generation_max_retries))
         self._lock = Lock()
         self._usage_local = local()
         self._metrics = {"requests": 0, "retries": 0, "fallbacks": 0, "failures": 0}
-        providers = {primary_info.name, self.fast_info.name}
+        providers = {
+            primary_info.name,
+            self.fast_info.name,
+            self.verifier_info.name,
+        }
         if self.fallback_info:
             providers.add(self.fallback_info.name)
         self._breakers = {
@@ -157,6 +178,10 @@ class ResilientLLMClient:
         return {
             "primary": {"provider": self.primary_info.name, "model": self.primary_info.model},
             "fast": {"provider": self.fast_info.name, "model": self.fast_info.model},
+            "verifier": {
+                "provider": self.verifier_info.name,
+                "model": self.verifier_info.model,
+            },
             "fallback": (
                 {"provider": self.fallback_info.name, "model": self.fallback_info.model}
                 if self.fallback_info else None
@@ -173,11 +198,22 @@ class ResilientLLMClient:
             },
         }
 
-    def _route(self, max_tokens: Optional[int]):
+    def _route(self, max_tokens: Optional[int], stage: str = "generation"):
         # 查询改写、意图识别等短输出使用 fast provider；正式回答使用 primary。
-        if max_tokens is not None and max_tokens <= 512:
+        if stage in self.VERIFIER_STAGES:
+            return self.verifier, self.verifier_info
+        if stage in self.FAST_STAGES or (
+            max_tokens is not None and max_tokens <= 512
+        ):
             return self.fast, self.fast_info
         return self.primary, self.primary_info
+
+    def _max_retries_for_stage(self, stage: str) -> int:
+        if stage in self.FAST_STAGES:
+            return min(self.max_retries, self.fast_stage_max_retries)
+        if stage == "generation":
+            return min(self.max_retries, self.generation_max_retries)
+        return self.max_retries
 
     def _call_with_retry(
         self, client, info, method: str, *, stage: str, timeout: float, **kwargs
@@ -201,7 +237,8 @@ class ResilientLLMClient:
                 **budget_attributes(),
             })
             raise
-        for attempt in range(self.max_retries + 1):
+        max_retries = self._max_retries_for_stage(stage)
+        for attempt in range(max_retries + 1):
             try:
                 stage_remaining = timeout - (time.perf_counter() - started)
                 if stage_remaining <= 0.001:
@@ -232,7 +269,7 @@ class ResilientLLMClient:
                 })
                 return result
             except Exception as exc:
-                if attempt >= self.max_retries:
+                if attempt >= max_retries:
                     circuit_after = breaker.record_failure()
                     self._append_event({
                         "stage": stage,
@@ -278,7 +315,7 @@ class ResilientLLMClient:
         stage: str = "generation", timeout: Optional[float] = None,
     ) -> str:
         self._record("requests")
-        client, info = self._route(max_tokens)
+        client, info = self._route(max_tokens, stage)
         kwargs = dict(system_prompt=system_prompt, user_prompt=user_prompt,
                       temperature=temperature, max_tokens=max_tokens,
                       response_format=response_format, thinking=thinking)
@@ -288,7 +325,11 @@ class ResilientLLMClient:
                 timeout=timeout or self.default_timeout_seconds, **kwargs
             )
         except Exception as primary_error:
-            if not self.fallback or client is self.fallback:
+            if (
+                stage in self.FAST_STAGES
+                or not self.fallback
+                or client is self.fallback
+            ):
                 self._record("failures")
                 raise
             self._record("fallbacks")
@@ -307,20 +348,22 @@ class ResilientLLMClient:
 
     def generate_stream(
         self, system_prompt: str, user_prompt: str, temperature=0.3,
-        max_tokens=None, stage: str = "generation",
+        max_tokens=None, thinking=None, stage: str = "generation",
         timeout: Optional[float] = None,
     ):
         self._record("requests")
-        client, info = self._route(max_tokens)
+        client, info = self._route(max_tokens, stage)
         kwargs = dict(system_prompt=system_prompt, user_prompt=user_prompt,
-                      temperature=temperature, max_tokens=max_tokens)
+                      temperature=temperature, max_tokens=max_tokens,
+                      thinking=thinking)
         emitted = False
         breaker = self._breakers[info.name]
         circuit_before = breaker.before_call()
         started = time.perf_counter()
         stage_timeout = timeout or self.default_timeout_seconds
         try:
-            for attempt in range(self.max_retries + 1):
+            max_retries = self._max_retries_for_stage(stage)
+            for attempt in range(max_retries + 1):
                 try:
                     stage_remaining = stage_timeout - (
                         time.perf_counter() - started
@@ -355,7 +398,7 @@ class ResilientLLMClient:
                     })
                     break
                 except Exception as exc:
-                    if emitted or attempt >= self.max_retries:
+                    if emitted or attempt >= max_retries:
                         breaker.record_failure()
                         raise
                     self._record("retries")
@@ -376,7 +419,12 @@ class ResilientLLMClient:
                             time.sleep(delay)
         except Exception as primary_error:
             # 已经向客户端发送 token 后切换模型会造成重复文本，因此只允许首 token 前降级。
-            if emitted or not self.fallback or client is self.fallback:
+            if (
+                emitted
+                or stage in self.FAST_STAGES
+                or not self.fallback
+                or client is self.fallback
+            ):
                 self._record("failures")
                 raise
             self._record("fallbacks")
@@ -386,7 +434,7 @@ class ResilientLLMClient:
             )
             try:
                 fallback_emitted = False
-                for attempt in range(self.max_retries + 1):
+                for attempt in range(max_retries + 1):
                     try:
                         fallback_timeout = bounded_timeout(timeout or self.default_timeout_seconds)
                         for chunk in self.fallback.generate_stream(
@@ -397,7 +445,7 @@ class ResilientLLMClient:
                         self._capture_usage(self.fallback)
                         break
                     except Exception as exc:
-                        if fallback_emitted or attempt >= self.max_retries:
+                        if fallback_emitted or attempt >= max_retries:
                             raise
                         self._record("retries")
                         delay = self.retry_base_seconds * (2 ** attempt)
@@ -416,23 +464,47 @@ class ResilientLLMClient:
 def create_llm_client(client_type: str, provider: str, settings):
     primary_name = settings.llm_primary_provider or provider or settings.llm_default_provider
     fast_name = settings.llm_fast_provider or primary_name
+    verifier_name = settings.llm_verifier_provider or fast_name
     fallback_name = settings.llm_fallback_provider
+
+    def with_model(info: ProviderConfig, override: Optional[str]) -> ProviderConfig:
+        if not override or override == info.model:
+            return info
+        return ProviderConfig(
+            info.name, info.api_key, info.base_url, override
+        )
 
     primary_info = _provider_config(primary_name, settings)
     primary = _build_client(client_type, primary_info, settings)
 
-    if fast_name.lower() == primary_name.lower():
+    fast_info = with_model(
+        _provider_config(fast_name, settings), settings.llm_fast_model
+    )
+    if fast_info == primary_info:
         fast, fast_info = primary, primary_info
     else:
-        fast_info = _provider_config(fast_name, settings)
         fast = _build_client(client_type, fast_info, settings)
 
+    verifier_info = with_model(
+        _provider_config(verifier_name, settings),
+        settings.llm_verifier_model,
+    )
+    if verifier_info == primary_info:
+        verifier = primary
+    elif verifier_info == fast_info:
+        verifier = fast
+    else:
+        verifier = _build_client(client_type, verifier_info, settings)
+
     fallback = fallback_info = None
-    if fallback_name and fallback_name.lower() != primary_name.lower():
-        if fallback_name.lower() == fast_name.lower():
+    if fallback_name:
+        candidate_info = _provider_config(fallback_name, settings)
+        if candidate_info == primary_info:
+            fallback, fallback_info = primary, primary_info
+        elif candidate_info == fast_info:
             fallback, fallback_info = fast, fast_info
         else:
-            fallback_info = _provider_config(fallback_name, settings)
+            fallback_info = candidate_info
             fallback = _build_client(client_type, fallback_info, settings)
 
     return ResilientLLMClient(
@@ -440,6 +512,8 @@ def create_llm_client(client_type: str, provider: str, settings):
         primary_info=primary_info,
         fast=fast,
         fast_info=fast_info,
+        verifier=verifier,
+        verifier_info=verifier_info,
         fallback=fallback,
         fallback_info=fallback_info,
         max_retries=settings.llm_max_retries,
@@ -447,6 +521,8 @@ def create_llm_client(client_type: str, provider: str, settings):
         default_timeout_seconds=settings.llm_timeout_seconds,
         circuit_failure_threshold=settings.circuit_breaker_failure_threshold,
         circuit_recovery_seconds=settings.circuit_breaker_recovery_seconds,
+        fast_stage_max_retries=settings.llm_fast_stage_max_retries,
+        generation_max_retries=settings.llm_generation_max_retries,
     )
 
 

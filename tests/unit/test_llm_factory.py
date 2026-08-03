@@ -46,6 +46,50 @@ def test_short_task_routes_to_fast_provider():
     assert primary.calls == 0
 
 
+def test_citation_verification_routes_to_fast_provider_with_large_budget():
+    primary, fast = FakeClient(["primary"]), FakeClient(["verified"])
+    client = ResilientLLMClient(
+        primary,
+        info("deepseek"),
+        fast,
+        info("dashscope"),
+        max_retries=2,
+        fast_stage_max_retries=0,
+    )
+
+    result = client.generate(
+        "system",
+        "claims",
+        max_tokens=800,
+        stage="citation_verification",
+    )
+
+    assert result == "verified"
+    assert fast.calls == 1
+    assert primary.calls == 0
+
+
+def test_fast_stage_does_not_amplify_tail_with_retries():
+    primary, fast = FakeClient(["primary"]), FakeClient(failures=5)
+    client = ResilientLLMClient(
+        primary,
+        info("deepseek"),
+        fast,
+        info("dashscope"),
+        max_retries=2,
+        fast_stage_max_retries=0,
+        retry_base_seconds=0,
+    )
+
+    with pytest.raises(RuntimeError):
+        client.generate(
+            "system", "claims", max_tokens=800, stage="citation_verification"
+        )
+
+    assert fast.calls == 1
+    assert client.metrics()["retries"] == 0
+
+
 def test_primary_retries_before_succeeding():
     primary = FakeClient(["recovered"], failures=1)
     client = ResilientLLMClient(primary, info("deepseek"), max_retries=1, retry_base_seconds=0)

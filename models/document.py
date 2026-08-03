@@ -100,11 +100,22 @@ class Citation(BaseModel):
     page_number: Optional[int | str] = Field(default=None, description="页码或段落序号")
     content: str = Field(description="该引用对应的原始文本块")
     score: float = Field(description="最终检索或重排分数")
+    subquestion_ids: List[str] = Field(
+        default_factory=list,
+        description="该证据覆盖的原子子问题编号",
+    )
 
 
 class CitationVerificationItem(BaseModel):
     """单条答案结论与引用证据之间的核验结果。"""
+    claim_id: Optional[str] = Field(
+        default=None, description="程序预切分的结论编号，如 C1"
+    )
     claim: str = Field(description="从答案中识别出的事实结论")
+    subquestion_id: Optional[str] = Field(
+        default=None,
+        description="该结论对应的子问题编号，如 SQ1",
+    )
     citation_ids: List[str] = Field(default_factory=list, description="该结论引用的证据编号")
     verdict: str = Field(description="supported / partial / unsupported / uncited")
     reason: str = Field(default="", description="核验理由")
@@ -112,10 +123,15 @@ class CitationVerificationItem(BaseModel):
 
 class CitationVerification(BaseModel):
     """答案级 Citation Verification 结果。"""
-    status: str = Field(description="verified / failed / unverified / skipped")
+    status: str = Field(
+        description="verified / partially_verified / failed / unverified / skipped"
+    )
     items: List[CitationVerificationItem] = Field(default_factory=list)
     invalid_citation_ids: List[str] = Field(default_factory=list)
     uncited_claims: List[str] = Field(default_factory=list)
+    total_claims: int = Field(default=0, ge=0)
+    supported_claims: int = Field(default=0, ge=0)
+    claim_coverage_rate: Optional[float] = Field(default=None, ge=0, le=1)
     message: str = Field(default="")
 
 
@@ -155,6 +171,21 @@ class TokenUsage(BaseModel):
     total_tokens: int = Field(default=0, ge=0)
 
 
+class SubquestionTrace(BaseModel):
+    """复合问题中一个原子子问题的检索、覆盖和回答状态。"""
+    subquestion_id: str = Field(pattern=r"^SQ[1-9]\d*$")
+    query: str
+    status: str = Field(
+        description="answerable / low_confidence / not_found / conflict"
+    )
+    selected_chunk_ids: List[str] = Field(default_factory=list)
+    selected_stable_chunk_ids: List[str] = Field(default_factory=list)
+    source_files: List[str] = Field(default_factory=list)
+    top_score: Optional[float] = None
+    covered: bool = False
+    status_reason: str = ""
+
+
 class RAGTrace(BaseModel):
     """一次 Query 从改写到引用核验的完整可观测轨迹。"""
     query_variants: List[str] = Field(default_factory=list)
@@ -169,6 +200,9 @@ class RAGTrace(BaseModel):
     selected_chunk_ids: List[str] = Field(default_factory=list)
     citation_map: Dict[str, str] = Field(default_factory=dict)
     citation_verification: Optional[CitationVerification] = None
+    subquestion_planning_triggered: bool = False
+    subquestions: List[SubquestionTrace] = Field(default_factory=list)
+    evidence_coverage: Optional[float] = Field(default=None, ge=0, le=1)
     spans: List[TraceSpan] = Field(default_factory=list)
     query_strategy: str = "adaptive"
     multiquery_triggered: bool = False
@@ -221,5 +255,5 @@ class ChatResponse(BaseModel):
     tool_results: Optional[List[dict]] = Field(default=None, description="工具调用结果（Agent 模式）")
     answer_status: str = Field(
         default="answerable",
-        description="回答置信度状态: answerable(高置信度) / low_confidence(低置信度) / not_found(未找到)"
+        description="回答状态: answerable / partially_answerable / low_confidence / not_found / conflict"
     )

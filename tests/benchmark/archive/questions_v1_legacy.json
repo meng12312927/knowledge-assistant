@@ -1,0 +1,2014 @@
+[
+  {
+    "id": "asset-001",
+    "question": "申请电脑、显示器、移动终端和专业软件时，什么情况下需要部门负责人和IT资产管理员审批？",
+    "answer": "超出标准配置、单件价值超过8000元或需要特殊许可的软件，还需部门负责人和IT资产管理员审批。",
+    "expected_chunks": [
+      "schunk-70b260857dbe30e5df2f3ecf"
+    ],
+    "expected_sources": [
+      "办公设备与软件资产管理制度.txt"
+    ],
+    "evidence": [
+      "超出标准配置、单件价值超过8000元或需要特殊许可的软件，还需部门负责人和IT资产管理员审批。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "easy",
+    "tags": [
+      "资产申领",
+      "审批流程"
+    ]
+  },
+  {
+    "id": "asset-002",
+    "question": "临时借用设备的最长期限是多少天？到期前应如何处理？",
+    "answer": "临时借用设备最长30天，到期前应归还或申请延期。",
+    "expected_chunks": [
+      "schunk-1de866bc7273f86f8d6c2f00"
+    ],
+    "expected_sources": [
+      "办公设备与软件资产管理制度.txt"
+    ],
+    "evidence": [
+      "临时借用设备最长30天，到期前应归还或申请延期。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "登记与使用",
+      "借用期限"
+    ]
+  },
+  {
+    "id": "asset-003",
+    "question": "设备位置或主要使用人发生变化时，应在多少天内更新记录？",
+    "answer": "应在三个工作日内更新记录。",
+    "expected_chunks": [
+      "schunk-1de866bc7273f86f8d6c2f00"
+    ],
+    "expected_sources": [
+      "办公设备与软件资产管理制度.txt"
+    ],
+    "evidence": [
+      "设备位置或主要使用人发生变化时，应在三个工作日内更新记录。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "登记与使用",
+      "变更记录"
+    ]
+  },
+  {
+    "id": "asset-004",
+    "question": "软件安装必须来自哪些来源？",
+    "answer": "软件安装应来自公司批准的软件目录或经IT安全评估的来源。",
+    "expected_chunks": [
+      "schunk-47d8b0ea1b11f4b9c8fb1848"
+    ],
+    "expected_sources": [
+      "办公设备与软件资产管理制度.txt"
+    ],
+    "evidence": [
+      "软件安装应来自公司批准的软件目录或经IT安全评估的来源。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "软件许可",
+      "安装来源"
+    ]
+  },
+  {
+    "id": "asset-005",
+    "question": "员工转岗、长期离岗或离职时，应如何处理设备和配件？",
+    "answer": "员工转岗、长期离岗或离职时，应按清单归还不再需要的设备和配件。IT核对资产状态、回收权限并安全清除数据后，方可重新分配。",
+    "expected_chunks": [
+      "schunk-81c689d58deb13cb2dc80f45"
+    ],
+    "expected_sources": [
+      "办公设备与软件资产管理制度.txt"
+    ],
+    "evidence": [
+      "员工转岗、长期离岗或离职时，应按清单归还不再需要的设备和配件。IT核对资产状态、回收权限并安全清除数据后，方可重新分配。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "medium",
+    "tags": [
+      "归还与处置",
+      "离职流程"
+    ]
+  },
+  {
+    "id": "benefits-001",
+    "question": "转正员工可以参加什么补充医疗计划？",
+    "answer": "转正员工可参加公司补充商业医疗计划。",
+    "expected_chunks": [
+      "schunk-d04fabd57aeb39fadab1d13d"
+    ],
+    "expected_sources": [
+      "员工福利与学习发展制度.txt"
+    ],
+    "evidence": [
+      "转正员工可参加公司补充商业医疗计划"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "补充福利"
+    ]
+  },
+  {
+    "id": "benefits-002",
+    "question": "每名转正员工每自然年最高有多少学习预算？",
+    "answer": "每名转正员工每自然年享有最高3000元学习预算。",
+    "expected_chunks": [
+      "schunk-a6f502f196c1c5b570d0ee75"
+    ],
+    "expected_sources": [
+      "员工福利与学习发展制度.txt"
+    ],
+    "evidence": [
+      "每名转正员工每自然年享有最高3000元学习预算"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "学习预算"
+    ]
+  },
+  {
+    "id": "benefits-003",
+    "question": "单笔学习预算超过1000元需要谁审批？",
+    "answer": "单笔超过1000元还需部门负责人审批。",
+    "expected_chunks": [
+      "schunk-a6f502f196c1c5b570d0ee75"
+    ],
+    "expected_sources": [
+      "员工福利与学习发展制度.txt"
+    ],
+    "evidence": [
+      "单笔超过1000元还需部门负责人审批"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "medium",
+    "tags": [
+      "学习预算",
+      "审批流程"
+    ]
+  },
+  {
+    "id": "benefits-004",
+    "question": "使用学习预算参加外部课程报销金额超过1500元后，员工需要做什么？",
+    "answer": "应在两个月内完成一次团队分享或沉淀学习笔记。",
+    "expected_chunks": [
+      "schunk-80dce739f551aba6fd1feedc"
+    ],
+    "expected_sources": [
+      "员工福利与学习发展制度.txt"
+    ],
+    "evidence": [
+      "应在两个月内完成一次团队分享或沉淀学习笔记"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "内部分享"
+    ]
+  },
+  {
+    "id": "benefits-005",
+    "question": "员工可以为父母或配偶购买自费升级包吗？费用由谁承担？",
+    "answer": "员工可为一名父母或配偶购买自费升级包，费用由员工承担。",
+    "expected_chunks": [
+      "schunk-d04fabd57aeb39fadab1d13d"
+    ],
+    "expected_sources": [
+      "员工福利与学习发展制度.txt"
+    ],
+    "evidence": [
+      "员工可为一名父母或配偶购买自费升级包，费用由员工承担"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "补充福利"
+    ]
+  },
+  {
+    "id": "compliance-001",
+    "question": "员工发现近亲属在供应商任职，应在多少天内提交利益冲突申报？",
+    "answer": "三个工作日内。",
+    "expected_chunks": [
+      "schunk-895fa62f9d3d5c556248c120"
+    ],
+    "expected_sources": [
+      "利益冲突与礼品招待规范.txt"
+    ],
+    "evidence": [
+      "员工应在知悉冲突后三个工作日内提交申报。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "利益冲突",
+      "申报期限"
+    ]
+  },
+  {
+    "id": "compliance-002",
+    "question": "员工接受单次市场价值不超过300元的普通礼品，需要登记吗？",
+    "answer": "需要登记后接受。",
+    "expected_chunks": [
+      "schunk-b4c00811a99bab7d2042e5ca"
+    ],
+    "expected_sources": [
+      "利益冲突与礼品招待规范.txt"
+    ],
+    "evidence": [
+      "单次市场价值不超过300元、符合正常商务礼节且不处于招标或关键决策期的普通礼品，可以登记后接受"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "礼品",
+      "登记"
+    ]
+  },
+  {
+    "id": "compliance-003",
+    "question": "如果礼品价值超过300元且无法事前咨询合规，员工应该怎么做？",
+    "answer": "应在两个工作日内补报。",
+    "expected_chunks": [
+      "schunk-b4c00811a99bab7d2042e5ca"
+    ],
+    "expected_sources": [
+      "利益冲突与礼品招待规范.txt"
+    ],
+    "evidence": [
+      "超过300元或难以估值的，应在接受前咨询合规，无法事前咨询的应在两个工作日内补报。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "礼品",
+      "补报"
+    ]
+  },
+  {
+    "id": "compliance-004",
+    "question": "在利益冲突申报后，措施确认前，申报人不得参与哪些活动？",
+    "answer": "不应参与供应商选择、价格谈判、验收、招聘或付款决定。",
+    "expected_chunks": [
+      "schunk-9c548b9a820f8d0144963617"
+    ],
+    "expected_sources": [
+      "利益冲突与礼品招待规范.txt"
+    ],
+    "evidence": [
+      "申报人在措施确认前，不应参与供应商选择、价格谈判、验收、招聘或付款决定。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "medium",
+    "tags": [
+      "回避",
+      "限制"
+    ]
+  },
+  {
+    "id": "compliance-005",
+    "question": "商务招待报销记录需要写明哪些信息？",
+    "answer": "时间、地点、参与单位和业务目的。",
+    "expected_chunks": [
+      "schunk-ce8950ffea14f955aeff6e07"
+    ],
+    "expected_sources": [
+      "利益冲突与礼品招待规范.txt"
+    ],
+    "evidence": [
+      "报销记录应写明时间、地点、参与单位和业务目的，不得用模糊名称隐藏对象。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "商务招待",
+      "报销"
+    ]
+  },
+  {
+    "id": "customer-001",
+    "question": "收集客户联系人信息前需要做什么？",
+    "answer": "应明确业务目的、数据项目、使用范围和保存期限，只收集完成当前目的所必需的信息。",
+    "expected_chunks": [
+      "schunk-82cbceee8ae30d8adb332d0e"
+    ],
+    "expected_sources": [
+      "客户资料与隐私保护规范.txt"
+    ],
+    "evidence": [
+      "应明确业务目的、数据项目、使用范围和保存期限，只收集完成当前目的所必需的信息。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "easy",
+    "tags": [
+      "收集原则"
+    ]
+  },
+  {
+    "id": "customer-002",
+    "question": "销售人员能否将客户通讯录导入个人社交账号？",
+    "answer": "不能。",
+    "expected_chunks": [
+      "schunk-ad07d036cd107fb6dd2f795a"
+    ],
+    "expected_sources": [
+      "客户资料与隐私保护规范.txt"
+    ],
+    "evidence": [
+      "销售人员不得将客户通讯录导入个人社交账号"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "使用与共享"
+    ]
+  },
+  {
+    "id": "customer-003",
+    "question": "转岗人员的权限应在多长时间内调整？",
+    "answer": "两个工作日内。",
+    "expected_chunks": [
+      "schunk-d490f0373dd3638bbb827a10"
+    ],
+    "expected_sources": [
+      "客户资料与隐私保护规范.txt"
+    ],
+    "evidence": [
+      "转岗人员应在两个工作日内调整"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "权限与查询"
+    ]
+  },
+  {
+    "id": "customer-004",
+    "question": "客户提出删除请求时，员工应如何处理？",
+    "answer": "员工不得自行承诺结果，应在一个工作日内转交隐私联络人核实身份、适用范围和处理时限，并在工单中记录进展。",
+    "expected_chunks": [
+      "schunk-1fa7a9ce2c457def5d25724b"
+    ],
+    "expected_sources": [
+      "客户资料与隐私保护规范.txt"
+    ],
+    "evidence": [
+      "员工不得自行承诺结果，应在一个工作日内转交隐私联络人核实身份、适用范围和处理时限，并在工单中记录进展。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "medium",
+    "tags": [
+      "保存与删除"
+    ]
+  },
+  {
+    "id": "customer-005",
+    "question": "发现疑似账号盗用时，员工应如何报告？",
+    "answer": "应立即停止继续传播，在30分钟内通过安全事件门户报告，并保留时间、对象和已采取措施。",
+    "expected_chunks": [
+      "schunk-0dcd9b4fc410a8318e16b16e"
+    ],
+    "expected_sources": [
+      "客户资料与隐私保护规范.txt"
+    ],
+    "evidence": [
+      "应立即停止继续传播，在30分钟内通过安全事件门户报告，并保留时间、对象和已采取措施。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "medium",
+    "tags": [
+      "事件报告"
+    ]
+  },
+  {
+    "id": "finance-001",
+    "question": "非紧急差旅需要提前多久提交申请？",
+    "answer": "至少提前三个工作日。",
+    "expected_chunks": [
+      "schunk-932b609e8e77b80f7619ffb8"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度.txt"
+    ],
+    "evidence": [
+      "非紧急差旅应至少提前三个工作日提交申请"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "事前审批"
+    ]
+  },
+  {
+    "id": "finance-002",
+    "question": "预计总费用超过20000元的差旅，需要哪些人审批？",
+    "answer": "需要部门负责人、财务负责人和分管副总裁审批。",
+    "expected_chunks": [
+      "schunk-932b609e8e77b80f7619ffb8"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度.txt"
+    ],
+    "evidence": [
+      "超过20000元，还需分管副总裁审批"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "medium",
+    "tags": [
+      "事前审批",
+      "审批流程"
+    ]
+  },
+  {
+    "id": "finance-003",
+    "question": "员工国内出差，单程高铁预计超过6小时，可以选择什么交通工具？",
+    "answer": "可以选择飞机经济舱。",
+    "expected_chunks": [
+      "schunk-686359f301e76fb75cdb1481"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度.txt"
+    ],
+    "evidence": [
+      "单程高铁预计超过6小时的，可选择经济舱"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "easy",
+    "tags": [
+      "交通"
+    ]
+  },
+  {
+    "id": "finance-004",
+    "question": "一类城市住宿含税上限是多少？",
+    "answer": "每晚650元。",
+    "expected_chunks": [
+      "schunk-686359f301e76fb75cdb1481"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度.txt"
+    ],
+    "evidence": [
+      "一类城市每晚650元"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "住宿"
+    ]
+  },
+  {
+    "id": "finance-005",
+    "question": "如果客户提供了全天餐食，当天还能领取餐补吗？",
+    "answer": "不能。",
+    "expected_chunks": [
+      "schunk-a93d90ae86769377193ee83f"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度.txt"
+    ],
+    "evidence": [
+      "由客户或主办方提供全天餐食的，当日不再领取餐补"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "easy",
+    "tags": [
+      "补贴"
+    ]
+  },
+  {
+    "id": "finance-006",
+    "question": "成本中心负责人使用预算时，如果单项支出有预算，是否意味着已经完成了采购或合同审批？",
+    "answer": "不是，单项支出有预算不等于已经完成采购或合同审批。",
+    "expected_chunks": [
+      "schunk-517d78b543896cfb05d7fe0e"
+    ],
+    "expected_sources": [
+      "预算调整与采购付款制度.txt"
+    ],
+    "evidence": [
+      "单项支出有预算不等于已经完成采购或合同审批"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "预算使用"
+    ]
+  },
+  {
+    "id": "finance-007",
+    "question": "同一成本中心内，累计不超过多少元的科目调整可以由成本中心负责人和财务业务伙伴批准？",
+    "answer": "累计不超过10000元。",
+    "expected_chunks": [
+      "schunk-8216d34292aa9780f583164d"
+    ],
+    "expected_sources": [
+      "预算调整与采购付款制度.txt"
+    ],
+    "evidence": [
+      "同一成本中心内累计不超过10000元且不影响年度重点项目的科目调整，由成本中心负责人和财务业务伙伴批准"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "预算调整",
+      "金额"
+    ]
+  },
+  {
+    "id": "finance-008",
+    "question": "如果预算调整涉及增加年度总预算，需要由谁批准？",
+    "answer": "必须由财务负责人批准。",
+    "expected_chunks": [
+      "schunk-8216d34292aa9780f583164d"
+    ],
+    "expected_sources": [
+      "预算调整与采购付款制度.txt"
+    ],
+    "evidence": [
+      "增加年度总预算的，必须由财务负责人批准"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "预算调整",
+      "审批"
+    ]
+  },
+  {
+    "id": "finance-009",
+    "question": "付款申请中，仅有供应商发票是否代表已经达到付款条件？",
+    "answer": "不是，仅有供应商发票不代表已经达到付款条件。",
+    "expected_chunks": [
+      "schunk-1c1490f86219e2486e71f338"
+    ],
+    "expected_sources": [
+      "预算调整与采购付款制度.txt"
+    ],
+    "evidence": [
+      "仅有供应商发票不代表已经达到付款条件"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "付款条件"
+    ]
+  },
+  {
+    "id": "finance-010",
+    "question": "供应商收款账户首次登记或发生变更时，应如何核实？",
+    "answer": "应由采购或业务人员与供应商已知联系人独立核实，财务再复核账户名称和合同主体。",
+    "expected_chunks": [
+      "schunk-b89938b4614d027c48a1b5a0"
+    ],
+    "expected_sources": [
+      "预算调整与采购付款制度.txt"
+    ],
+    "evidence": [
+      "账户首次登记或发生变更时，应由采购或业务人员与供应商已知联系人独立核实，财务再复核账户名称和合同主体"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "medium",
+    "tags": [
+      "收款账户",
+      "核实"
+    ]
+  },
+  {
+    "id": "hr-001",
+    "question": "新员工入职前需要提交哪些材料？",
+    "answer": "身份、薪资账户和紧急联系人等材料。",
+    "expected_chunks": [
+      "schunk-dfe1f9b49314521d337d6329"
+    ],
+    "expected_sources": [
+      "入职转正与离职交接制度.txt"
+    ],
+    "evidence": [
+      "新员工应在入职前三个工作日完成身份、薪资账户和紧急联系人等材料提交。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "入职"
+    ]
+  },
+  {
+    "id": "hr-002",
+    "question": "试用期转正评估应在何时启动？",
+    "answer": "约定试用期届满前10个工作日。",
+    "expected_chunks": [
+      "schunk-66fda385a98202eb89098ccb"
+    ],
+    "expected_sources": [
+      "入职转正与离职交接制度.txt"
+    ],
+    "evidence": [
+      "转正评估原则上在约定试用期届满前10个工作日启动"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "medium",
+    "tags": [
+      "试用转正"
+    ]
+  },
+  {
+    "id": "hr-003",
+    "question": "直属负责人的口头承诺是否代表最终转正结果？",
+    "answer": "不代表，必须由人力资源部书面确认。",
+    "expected_chunks": [
+      "schunk-66fda385a98202eb89098ccb"
+    ],
+    "expected_sources": [
+      "入职转正与离职交接制度.txt"
+    ],
+    "evidence": [
+      "直属负责人的口头承诺不代表最终结果。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "试用转正"
+    ]
+  },
+  {
+    "id": "hr-004",
+    "question": "员工离职交接清单至少包括哪些内容？",
+    "answer": "项目状态、文档位置、待办事项、外部联系人和公司资产。",
+    "expected_chunks": [
+      "schunk-03e75fd20faef24e82a0cb98"
+    ],
+    "expected_sources": [
+      "入职转正与离职交接制度.txt"
+    ],
+    "evidence": [
+      "交接至少包括项目状态、文档位置、待办事项、外部联系人和公司资产。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "离职交接"
+    ]
+  },
+  {
+    "id": "hr-005",
+    "question": "离职员工能否删除或带走公司资料？",
+    "answer": "不能，不得删除、隐匿或带走公司资料。",
+    "expected_chunks": [
+      "schunk-18d5fd836d1fa31a6f99d344"
+    ],
+    "expected_sources": [
+      "入职转正与离职交接制度.txt"
+    ],
+    "evidence": [
+      "离职员工不得删除、隐匿或带走公司资料。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "exception",
+    "difficulty": "easy",
+    "tags": [
+      "知识资产"
+    ]
+  },
+  {
+    "id": "hr-006",
+    "question": "培训分为哪些类别？",
+    "answer": "入职必修、岗位必修、管理培训和个人发展学习。",
+    "expected_chunks": [
+      "schunk-db1ff6aaafff46853fd4f43c"
+    ],
+    "expected_sources": [
+      "岗位培训与资质认证管理办法.txt"
+    ],
+    "evidence": [
+      "培训分为入职必修、岗位必修、管理培训和个人发展学习。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "培训分类"
+    ]
+  },
+  {
+    "id": "hr-007",
+    "question": "入职必修培训应在多长时间内完成？",
+    "answer": "入职后十个工作日内。",
+    "expected_chunks": [
+      "schunk-db1ff6aaafff46853fd4f43c"
+    ],
+    "expected_sources": [
+      "岗位培训与资质认证管理办法.txt"
+    ],
+    "evidence": [
+      "入职必修应在入职后十个工作日内完成"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "入职必修",
+      "期限"
+    ]
+  },
+  {
+    "id": "hr-008",
+    "question": "外部认证费用超过3000元时，需要哪些审批？",
+    "answer": "直属负责人审批、部门负责人审批、人力资源部复核。",
+    "expected_chunks": [
+      "schunk-bf9836e3c86ca1cd1e8516f5"
+    ],
+    "expected_sources": [
+      "岗位培训与资质认证管理办法.txt"
+    ],
+    "evidence": [
+      "单项费用不超过1000元由直属负责人审批，超过1000元还需部门负责人审批；超过3000元的，增加人力资源部复核。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "medium",
+    "tags": [
+      "外部认证",
+      "审批流程"
+    ]
+  },
+  {
+    "id": "hr-009",
+    "question": "如果员工发现培训记录有错误，应该怎么办？",
+    "answer": "可提交证明申请更正。",
+    "expected_chunks": [
+      "schunk-2c2a2f6db8348f3b7bc27e5e"
+    ],
+    "expected_sources": [
+      "岗位培训与资质认证管理办法.txt"
+    ],
+    "evidence": [
+      "员工发现记录错误时，可提交证明申请更正。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "easy",
+    "tags": [
+      "培训记录",
+      "更正"
+    ]
+  },
+  {
+    "id": "hr-010",
+    "question": "关键岗位的负责人应在培训后多长时间内观察应用情况？",
+    "answer": "30天内。",
+    "expected_chunks": [
+      "schunk-35bc3370fefb6935d9def6e5"
+    ],
+    "expected_sources": [
+      "岗位培训与资质认证管理办法.txt"
+    ],
+    "evidence": [
+      "负责人应在培训后30天内观察应用情况。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "效果评估",
+      "期限"
+    ]
+  },
+  {
+    "id": "hr-011",
+    "question": "星云科技员工手册的生效日期是什么？",
+    "answer": "2026年1月1日",
+    "expected_chunks": [
+      "schunk-81ad961d1d9cae93a19b0f80"
+    ],
+    "expected_sources": [
+      "星云科技员工手册.txt"
+    ],
+    "evidence": [
+      "生效日期：2026年1月1日"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "生效日期"
+    ]
+  },
+  {
+    "id": "hr-012",
+    "question": "员工发现利益冲突后，应在多长时间内向谁申报？",
+    "answer": "三个工作日内向直属负责人及人力资源部申报。",
+    "expected_chunks": [
+      "schunk-9fed28326066c269a840803b"
+    ],
+    "expected_sources": [
+      "星云科技员工手册.txt"
+    ],
+    "evidence": [
+      "发现利益冲突时，应在三个工作日内向直属负责人及人力资源部申报。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "easy",
+    "tags": [
+      "利益冲突",
+      "申报"
+    ]
+  },
+  {
+    "id": "hr-013",
+    "question": "弹性打卡团队的员工最晚可以几点到岗？",
+    "answer": "10:00",
+    "expected_chunks": [
+      "schunk-b360501c66ba055c7d8771c4"
+    ],
+    "expected_sources": [
+      "星云科技员工手册.txt"
+    ],
+    "evidence": [
+      "可在09:00至10:00之间到岗"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "弹性打卡",
+      "到岗时间"
+    ]
+  },
+  {
+    "id": "hr-014",
+    "question": "员工对纪律处理有异议，向人力资源部提交书面申诉的期限是多久？",
+    "answer": "收到结果后五个工作日内",
+    "expected_chunks": [
+      "schunk-1a200495c71ff8fce8cb2b46"
+    ],
+    "expected_sources": [
+      "星云科技员工手册.txt"
+    ],
+    "evidence": [
+      "应在收到结果后五个工作日内向人力资源部提交书面申诉。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "申诉",
+      "期限"
+    ]
+  },
+  {
+    "id": "hr-015",
+    "question": "如果员工对排班有异议，且涉及直属负责人利益冲突，应如何申诉？",
+    "answer": "可直接向人力资源负责人或合规邮箱提交。",
+    "expected_chunks": [
+      "schunk-1a200495c71ff8fce8cb2b46"
+    ],
+    "expected_sources": [
+      "星云科技员工手册.txt"
+    ],
+    "evidence": [
+      "涉及直属负责人利益冲突的，可直接向人力资源负责人或合规邮箱提交。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "exception",
+    "difficulty": "medium",
+    "tags": [
+      "申诉",
+      "利益冲突"
+    ]
+  },
+  {
+    "id": "hr-016",
+    "question": "员工请假一天以内需要谁审批？",
+    "answer": "一天以内由直属负责人审批。",
+    "expected_chunks": [
+      "schunk-ebe1afadb205f9b54aa422f2"
+    ],
+    "expected_sources": [
+      "考勤与休假管理制度.txt"
+    ],
+    "evidence": [
+      "一天以内由直属负责人审批"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "请假流程"
+    ]
+  },
+  {
+    "id": "hr-017",
+    "question": "请假超过三天需要经过哪些审批环节？",
+    "answer": "超过三天还需人力资源部复核。",
+    "expected_chunks": [
+      "schunk-ebe1afadb205f9b54aa422f2"
+    ],
+    "expected_sources": [
+      "考勤与休假管理制度.txt"
+    ],
+    "evidence": [
+      "超过三天还需人力资源部复核"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "easy",
+    "tags": [
+      "请假流程"
+    ]
+  },
+  {
+    "id": "hr-018",
+    "question": "紧急病假无法预先申请时，应在什么时间前通知直属负责人？",
+    "answer": "应在当日10:00前通知直属负责人。",
+    "expected_chunks": [
+      "schunk-ebe1afadb205f9b54aa422f2"
+    ],
+    "expected_sources": [
+      "考勤与休假管理制度.txt"
+    ],
+    "evidence": [
+      "应在当日10:00前通知直属负责人"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "请假流程",
+      "病假"
+    ]
+  },
+  {
+    "id": "hr-019",
+    "question": "累计工作满10年不满20年的员工，年休假天数是多少？",
+    "answer": "10天。",
+    "expected_chunks": [
+      "schunk-29297b928171c2ca2949182f"
+    ],
+    "expected_sources": [
+      "考勤与休假管理制度.txt"
+    ],
+    "evidence": [
+      "满10年不满20年的为10天"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "年休假"
+    ]
+  },
+  {
+    "id": "hr-020",
+    "question": "公司福利假中的健康假，单次连续超过1天时需要提供什么？",
+    "answer": "需提交医疗机构就诊记录或其他合理证明。",
+    "expected_chunks": [
+      "schunk-1ca4d409b0596c9e21dc0844"
+    ],
+    "expected_sources": [
+      "考勤与休假管理制度.txt"
+    ],
+    "evidence": [
+      "健康假单次连续超过1天时需提交医疗机构就诊记录或其他合理证明"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "福利假",
+      "健康假"
+    ]
+  },
+  {
+    "id": "it-001",
+    "question": "公司数据分为哪几个等级？",
+    "answer": "公开、内部、机密、严格机密四级。",
+    "expected_chunks": [
+      "schunk-d71d6619b638e8c74b4f36a8"
+    ],
+    "expected_sources": [
+      "信息安全与数据分级制度.txt"
+    ],
+    "evidence": [
+      "公司数据分为公开、内部、机密、严格机密四级。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "数据分级"
+    ]
+  },
+  {
+    "id": "it-002",
+    "question": "机密数据包括哪些内容？",
+    "answer": "未公开经营数据、客户合同和源代码。",
+    "expected_chunks": [
+      "schunk-d71d6619b638e8c74b4f36a8"
+    ],
+    "expected_sources": [
+      "信息安全与数据分级制度.txt"
+    ],
+    "evidence": [
+      "机密数据包括未公开经营数据、客户合同和源代码"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "数据分级"
+    ]
+  },
+  {
+    "id": "it-003",
+    "question": "访问权限复核的频率是多久一次？",
+    "answer": "每季度复核一次。",
+    "expected_chunks": [
+      "schunk-25b434167c4e09c6072f3f3f"
+    ],
+    "expected_sources": [
+      "信息安全与数据分级制度.txt"
+    ],
+    "evidence": [
+      "每季度复核一次。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "访问权限"
+    ]
+  },
+  {
+    "id": "it-004",
+    "question": "向外部合作方传输机密数据前，业务负责人需要完成哪些步骤？",
+    "answer": "确认业务必要性，完成保密约定，并使用公司批准的加密渠道。",
+    "expected_chunks": [
+      "schunk-25b434167c4e09c6072f3f3f"
+    ],
+    "expected_sources": [
+      "信息安全与数据分级制度.txt"
+    ],
+    "evidence": [
+      "业务负责人应确认业务必要性，完成保密约定，并使用公司批准的加密渠道。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "medium",
+    "tags": [
+      "数据传输"
+    ]
+  },
+  {
+    "id": "it-005",
+    "question": "发现设备遗失或疑似钓鱼时，员工应在多长时间内报告？",
+    "answer": "30分钟内。",
+    "expected_chunks": [
+      "schunk-74d3efae784e8e5094758bd1"
+    ],
+    "expected_sources": [
+      "信息安全与数据分级制度.txt"
+    ],
+    "evidence": [
+      "在30分钟内通过安全热线或安全事件门户报告"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "安全事件"
+    ]
+  },
+  {
+    "id": "it-006",
+    "question": "员工因工作使用生成式AI前，应选择什么样的工具、账号类型和接入方式？",
+    "answer": "应选择公司批准的工具、账号类型和接入方式。",
+    "expected_chunks": [
+      "schunk-62ca80cb8b44aba00cba17d6"
+    ],
+    "expected_sources": [
+      "生成式AI工具安全使用规范.txt"
+    ],
+    "evidence": [
+      "员工因工作使用生成式AI前，应选择公司批准的工具、账号类型和接入方式。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "工具准入"
+    ]
+  },
+  {
+    "id": "it-007",
+    "question": "未批准的公共服务可以处理哪些信息？",
+    "answer": "只能处理公开信息或完全虚构的测试内容。",
+    "expected_chunks": [
+      "schunk-62ca80cb8b44aba00cba17d6"
+    ],
+    "expected_sources": [
+      "生成式AI工具安全使用规范.txt"
+    ],
+    "evidence": [
+      "未批准的公共服务只能处理公开信息或完全虚构的测试内容"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "工具准入"
+    ]
+  },
+  {
+    "id": "it-008",
+    "question": "哪些数据不得输入未获相应等级批准的模型？",
+    "answer": "客户合同、未公开经营数据、源代码、认证信息、员工个人资料和真实工单。",
+    "expected_chunks": [
+      "schunk-27c2153c933884e54add40c2"
+    ],
+    "expected_sources": [
+      "生成式AI工具安全使用规范.txt"
+    ],
+    "evidence": [
+      "客户合同、未公开经营数据、源代码、认证信息、员工个人资料和真实工单不得输入未获相应等级批准的模型。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "输入边界"
+    ]
+  },
+  {
+    "id": "it-009",
+    "question": "为获得帮助而删除姓名是否就完成了脱敏？",
+    "answer": "不一定，还应检查编号、上下文和组合信息能否重新识别对象。",
+    "expected_chunks": [
+      "schunk-27c2153c933884e54add40c2"
+    ],
+    "expected_sources": [
+      "生成式AI工具安全使用规范.txt"
+    ],
+    "evidence": [
+      "为获得帮助而删除姓名并不一定完成脱敏，还应检查编号、上下文和组合信息能否重新识别对象。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "输入边界",
+      "脱敏"
+    ]
+  },
+  {
+    "id": "it-010",
+    "question": "对外发布、客户承诺、财务决定、人员决定和安全配置能否仅凭模型输出自动执行？",
+    "answer": "不得仅凭模型输出自动执行。",
+    "expected_chunks": [
+      "schunk-9ec351ce5ab260766c51227a"
+    ],
+    "expected_sources": [
+      "生成式AI工具安全使用规范.txt"
+    ],
+    "evidence": [
+      "对外发布、客户承诺、财务决定、人员决定和安全配置不得仅凭模型输出自动执行。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "输出核验"
+    ]
+  },
+  {
+    "id": "legal-001",
+    "question": "合同发起人在合同系统中需要填写哪些内容？",
+    "answer": "交易背景、相对方、金额、期限、交付内容和预算编号，并上传可编辑版本及对方主体资料。",
+    "expected_chunks": [
+      "schunk-a258430162ba760a9cd776b2"
+    ],
+    "expected_sources": [
+      "合同评审与印章使用规范.txt"
+    ],
+    "evidence": [
+      "合同发起人应在合同系统中填写交易背景、相对方、金额、期限、交付内容和预算编号，并上传可编辑版本及对方主体资料。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "合同发起"
+    ]
+  },
+  {
+    "id": "legal-002",
+    "question": "哪些合同必须由法务评审？",
+    "answer": "非标准合同、跨境交易、自动续费、排他合作、个人信息处理或金额超过50000元的合同必须由法务评审。",
+    "expected_chunks": [
+      "schunk-36ede512620ef0b9088ddfb0"
+    ],
+    "expected_sources": [
+      "合同评审与印章使用规范.txt"
+    ],
+    "evidence": [
+      "非标准合同、跨境交易、自动续费、排他合作、个人信息处理或金额超过50000元的合同必须由法务评审"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "medium",
+    "tags": [
+      "分类评审"
+    ]
+  },
+  {
+    "id": "legal-003",
+    "question": "合同签署完成后，应在多长时间内将签署版本上传合同库？",
+    "answer": "两个工作日内。",
+    "expected_chunks": [
+      "schunk-e2e2f7c4d443b93aa28e24b7"
+    ],
+    "expected_sources": [
+      "合同评审与印章使用规范.txt"
+    ],
+    "evidence": [
+      "签署完成后两个工作日内，应将双方完整签署版本上传合同库并关联业务负责人。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "签署归档"
+    ]
+  },
+  {
+    "id": "legal-004",
+    "question": "如果印章保管人与申请人为同一人，应该怎么办？",
+    "answer": "应增加一名独立复核人并记录复核意见。",
+    "expected_chunks": [
+      "schunk-f4072c7306129a1773449f39"
+    ],
+    "expected_sources": [
+      "合同评审与印章使用规范.txt"
+    ],
+    "evidence": [
+      "印章保管人与申请人不应为同一人；确因人员安排无法分离的，应增加一名独立复核人并记录复核意见。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "印章使用"
+    ]
+  },
+  {
+    "id": "legal-005",
+    "question": "合同金额、范围、期限等发生实质变化时，应如何处理？",
+    "answer": "应签署补充协议并重新完成相应评审，不得仅在聊天工具中确认。",
+    "expected_chunks": [
+      "schunk-f3240b0f77cee98807f381ea"
+    ],
+    "expected_sources": [
+      "合同评审与印章使用规范.txt"
+    ],
+    "evidence": [
+      "合同金额、范围、期限、交付标准、数据用途或责任承担发生实质变化时，应签署补充协议并重新完成相应评审，不得仅在聊天工具中确认。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "medium",
+    "tags": [
+      "变更归档"
+    ]
+  },
+  {
+    "id": "operations-001",
+    "question": "事件分级中，影响单个员工且有替代方式的问题通常定为几级？",
+    "answer": "四级",
+    "expected_chunks": [
+      "schunk-be593cf13e736e47f5ea2cc1"
+    ],
+    "expected_sources": [
+      "业务连续性与应急响应办法.txt"
+    ],
+    "evidence": [
+      "影响单个员工且有替代方式的问题通常定为四级"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "事件分级"
+    ]
+  },
+  {
+    "id": "operations-002",
+    "question": "一级事件由哪个机构统一指挥？",
+    "answer": "应急委员会",
+    "expected_chunks": [
+      "schunk-5f4b90aa2b2243920cb38a9e"
+    ],
+    "expected_sources": [
+      "业务连续性与应急响应办法.txt"
+    ],
+    "evidence": [
+      "一级事件由应急委员会统一指挥"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "响应职责"
+    ]
+  },
+  {
+    "id": "operations-003",
+    "question": "各关键系统的恢复时间目标和可接受数据丢失范围至少多久复核一次？",
+    "answer": "每年",
+    "expected_chunks": [
+      "schunk-2a931c5b01079dfac8b94446"
+    ],
+    "expected_sources": [
+      "业务连续性与应急响应办法.txt"
+    ],
+    "evidence": [
+      "至少每年复核一次"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "恢复目标"
+    ]
+  },
+  {
+    "id": "operations-004",
+    "question": "启用备用流程时，应记录哪些信息？",
+    "answer": "开始时间、批准人、处理范围和后续补录责任",
+    "expected_chunks": [
+      "schunk-2a931c5b01079dfac8b94446"
+    ],
+    "expected_sources": [
+      "业务连续性与应急响应办法.txt"
+    ],
+    "evidence": [
+      "启用备用流程时，应记录开始时间、批准人、处理范围和后续补录责任"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "medium",
+    "tags": [
+      "恢复目标"
+    ]
+  },
+  {
+    "id": "operations-005",
+    "question": "在恢复过程中，为了快速恢复可以跳过必要的访问控制、数据校验或双人复核吗？",
+    "answer": "不得",
+    "expected_chunks": [
+      "schunk-2a931c5b01079dfac8b94446"
+    ],
+    "expected_sources": [
+      "业务连续性与应急响应办法.txt"
+    ],
+    "evidence": [
+      "不得为了快速恢复而跳过必要的访问控制、数据校验或双人复核"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "恢复目标"
+    ]
+  },
+  {
+    "id": "performance-001",
+    "question": "绩效周期按什么频率执行？",
+    "answer": "按季度执行。",
+    "expected_chunks": [
+      "schunk-cf46ea44c66f11724fcea8f3"
+    ],
+    "expected_sources": [
+      "绩效管理制度.txt"
+    ],
+    "evidence": [
+      "绩效周期按季度执行。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "绩效周期"
+    ]
+  },
+  {
+    "id": "performance-002",
+    "question": "员工与直属负责人应在每季度首个多少工作日内确认目标？",
+    "answer": "10个工作日内。",
+    "expected_chunks": [
+      "schunk-cf46ea44c66f11724fcea8f3"
+    ],
+    "expected_sources": [
+      "绩效管理制度.txt"
+    ],
+    "evidence": [
+      "员工与直属负责人应在每季度首个10个工作日内确认目标"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "目标确认",
+      "期限"
+    ]
+  },
+  {
+    "id": "performance-003",
+    "question": "评价等级分为哪五档？",
+    "answer": "显著超出预期、部分超出预期、符合预期、部分未达预期、未达预期。",
+    "expected_chunks": [
+      "schunk-9d9dc5c9d776e5f2d9b96cc4"
+    ],
+    "expected_sources": [
+      "绩效管理制度.txt"
+    ],
+    "evidence": [
+      "等级分为“显著超出预期、部分超出预期、符合预期、部分未达预期、未达预期”五档。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "评价等级"
+    ]
+  },
+  {
+    "id": "performance-004",
+    "question": "员工对事实依据有异议时，应在多少个工作日内提交申诉？",
+    "answer": "五个工作日内。",
+    "expected_chunks": [
+      "schunk-28da74001ad10e5e3585cf5b"
+    ],
+    "expected_sources": [
+      "绩效管理制度.txt"
+    ],
+    "evidence": [
+      "员工对事实依据有异议的，可在五个工作日内提交申诉"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "申诉",
+      "期限"
+    ]
+  },
+  {
+    "id": "performance-005",
+    "question": "什么情况下员工可能进入绩效改进计划？",
+    "answer": "连续两个季度“部分未达预期”或单季度“未达预期”的员工。",
+    "expected_chunks": [
+      "schunk-28da74001ad10e5e3585cf5b"
+    ],
+    "expected_sources": [
+      "绩效管理制度.txt"
+    ],
+    "evidence": [
+      "连续两个季度“部分未达预期”或单季度“未达预期”的员工，可能进入绩效改进计划"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "绩效改进计划"
+    ]
+  },
+  {
+    "id": "procurement-001",
+    "question": "单次含税金额不超过5000元的常规采购，需要谁审批？",
+    "answer": "由直属负责人审批。",
+    "expected_chunks": [
+      "schunk-7c0831ab355bb976cbe36fa0"
+    ],
+    "expected_sources": [
+      "采购与供应商准入管理办法.txt"
+    ],
+    "evidence": [
+      "单次含税金额不超过5000元的常规采购，由直属负责人审批"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "采购申请",
+      "审批权限"
+    ]
+  },
+  {
+    "id": "procurement-002",
+    "question": "含税金额超过多少元的采购原则上应取得至少三家可比报价？",
+    "answer": "超过10000元。",
+    "expected_chunks": [
+      "schunk-2ef925dc0664c063f564c176"
+    ],
+    "expected_sources": [
+      "采购与供应商准入管理办法.txt"
+    ],
+    "evidence": [
+      "含税金额超过10000元的采购原则上应取得至少三家可比报价"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "询价与比选",
+      "报价要求"
+    ]
+  },
+  {
+    "id": "procurement-003",
+    "question": "新供应商签约前，如果涉及处理客户数据，还需要通过什么评估？",
+    "answer": "还应通过信息安全评估并签署保密和数据处理约定。",
+    "expected_chunks": [
+      "schunk-a88fa0c325869c7ab6af7e10"
+    ],
+    "expected_sources": [
+      "采购与供应商准入管理办法.txt"
+    ],
+    "evidence": [
+      "处理客户数据、源代码或内部系统的供应商，还应通过信息安全评估并签署保密和数据处理约定"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "供应商准入",
+      "信息安全"
+    ]
+  },
+  {
+    "id": "procurement-004",
+    "question": "采购订单能否以聊天记录替代正式订单？",
+    "answer": "不得以聊天记录替代正式订单。",
+    "expected_chunks": [
+      "schunk-c87f77f54434a9f7faea91a1"
+    ],
+    "expected_sources": [
+      "采购与供应商准入管理办法.txt"
+    ],
+    "evidence": [
+      "不得以聊天记录替代正式订单"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "下单与验收",
+      "订单规范"
+    ]
+  },
+  {
+    "id": "procurement-005",
+    "question": "供应商存在商业贿赂或伪造材料时，可以采取什么措施？",
+    "answer": "可暂停新增订单并启动退出评审。",
+    "expected_chunks": [
+      "schunk-8333f644ec3fe5533449bf7d"
+    ],
+    "expected_sources": [
+      "采购与供应商准入管理办法.txt"
+    ],
+    "evidence": [
+      "存在商业贿赂、伪造材料、严重数据泄露或拒不整改情形的，可暂停新增订单并启动退出评审"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "绩效与退出",
+      "违规处理"
+    ]
+  },
+  {
+    "id": "project-001",
+    "question": "项目立项时，什么情况下需要设置项目委员会？",
+    "answer": "预计周期超过三个月或预算超过100000元的项目，应设置项目委员会。",
+    "expected_chunks": [
+      "schunk-3af4888706abf768dfca0dc9"
+    ],
+    "expected_sources": [
+      "项目变更与交付验收办法.txt"
+    ],
+    "evidence": [
+      "预计周期超过三个月或预算超过100000元的项目，应设置项目委员会"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "项目立项",
+      "项目委员会"
+    ]
+  },
+  {
+    "id": "project-002",
+    "question": "需求基线包括哪些内容？",
+    "answer": "至少包括业务场景、功能清单、性能要求、数据边界和验收方法。",
+    "expected_chunks": [
+      "schunk-c52a74d79d836b88cc31f008"
+    ],
+    "expected_sources": [
+      "项目变更与交付验收办法.txt"
+    ],
+    "evidence": [
+      "至少包括业务场景、功能清单、性能要求、数据边界和验收方法"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "需求基线"
+    ]
+  },
+  {
+    "id": "project-003",
+    "question": "变更申请预计增加费用不超过5000元且不改变关键里程碑的，由谁批准？",
+    "answer": "由项目负责人和预算负责人批准。",
+    "expected_chunks": [
+      "schunk-cfa7b26cafecdea92eb4545b"
+    ],
+    "expected_sources": [
+      "项目变更与交付验收办法.txt"
+    ],
+    "evidence": [
+      "预计增加费用不超过5000元且不改变关键里程碑的，由项目负责人和预算负责人批准"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "easy",
+    "tags": [
+      "变更控制",
+      "审批权限"
+    ]
+  },
+  {
+    "id": "project-004",
+    "question": "紧急缺陷修复后，应在多长时间内补录变更？",
+    "answer": "应在一个工作日内补录变更。",
+    "expected_chunks": [
+      "schunk-cfa7b26cafecdea92eb4545b"
+    ],
+    "expected_sources": [
+      "项目变更与交付验收办法.txt"
+    ],
+    "evidence": [
+      "应在一个工作日内补录变更"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "变更控制",
+      "紧急缺陷"
+    ]
+  },
+  {
+    "id": "project-005",
+    "question": "验收时发现影响核心功能的问题，应如何处理？",
+    "answer": "影响核心功能、安全或合同承诺的问题应判定未通过。",
+    "expected_chunks": [
+      "schunk-a0ca4ac78cb946789c3f5b7b"
+    ],
+    "expected_sources": [
+      "项目变更与交付验收办法.txt"
+    ],
+    "evidence": [
+      "影响核心功能、安全或合同承诺的问题应判定未通过"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "交付验收",
+      "验收标准"
+    ]
+  },
+  {
+    "id": "quality-001",
+    "question": "内部审计年度计划的制定依据是什么？",
+    "answer": "根据风险、重大变化、历史问题和管理要求制定年度计划。",
+    "expected_chunks": [
+      "schunk-998a7c2a8da7c8a4c3f8997d"
+    ],
+    "expected_sources": [
+      "内部审计与整改闭环管理办法.txt"
+    ],
+    "evidence": [
+      "内部审计根据风险、重大变化、历史问题和管理要求制定年度计划。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "审计计划"
+    ]
+  },
+  {
+    "id": "quality-002",
+    "question": "审计结论应以哪些证据为基础？",
+    "answer": "系统记录、合同、抽样材料、访谈和复核结果等证据。",
+    "expected_chunks": [
+      "schunk-65fa6e99f934f76013ee2d1e"
+    ],
+    "expected_sources": [
+      "内部审计与整改闭环管理办法.txt"
+    ],
+    "evidence": [
+      "审计结论应以系统记录、合同、抽样材料、访谈和复核结果等证据为基础"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "证据与沟通"
+    ]
+  },
+  {
+    "id": "quality-003",
+    "question": "高风险问题的整改期限是多久？",
+    "answer": "原则上30天内完成。",
+    "expected_chunks": [
+      "schunk-df2d6573314f66cf1dcd482c"
+    ],
+    "expected_sources": [
+      "内部审计与整改闭环管理办法.txt"
+    ],
+    "evidence": [
+      "高风险问题原则上30天内完成"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "整改计划"
+    ]
+  },
+  {
+    "id": "quality-004",
+    "question": "如果整改无法按期完成，责任部门应该怎么做？",
+    "answer": "应在到期前申请延期并说明临时控制。",
+    "expected_chunks": [
+      "schunk-df2d6573314f66cf1dcd482c"
+    ],
+    "expected_sources": [
+      "内部审计与整改闭环管理办法.txt"
+    ],
+    "evidence": [
+      "无法按期完成的，应在到期前申请延期并说明临时控制。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "整改计划"
+    ]
+  },
+  {
+    "id": "quality-005",
+    "question": "问题关闭前应由谁进行验证？",
+    "answer": "独立于整改执行人的人员。",
+    "expected_chunks": [
+      "schunk-2976924bfca4c2bbf03d2986"
+    ],
+    "expected_sources": [
+      "内部审计与整改闭环管理办法.txt"
+    ],
+    "evidence": [
+      "问题关闭前应由独立于整改执行人的人员验证证据和实际效果。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "验证与关闭"
+    ]
+  },
+  {
+    "id": "workplace-001",
+    "question": "哪些员工可以申请远程办公？",
+    "answer": "转正且最近一次绩效不低于“符合预期”的员工。",
+    "expected_chunks": [
+      "schunk-19ea17a7f61cfd8dc9690ac7"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt"
+    ],
+    "evidence": [
+      "转正且最近一次绩效不低于“符合预期”的员工"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "适用范围"
+    ]
+  },
+  {
+    "id": "workplace-002",
+    "question": "每周最多可以申请几个远程办公日？",
+    "answer": "每周最多2个远程办公日。",
+    "expected_chunks": [
+      "schunk-19ea17a7f61cfd8dc9690ac7"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt"
+    ],
+    "evidence": [
+      "每周最多2个远程办公日"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "numeric_reasoning",
+    "difficulty": "easy",
+    "tags": [
+      "额度"
+    ]
+  },
+  {
+    "id": "workplace-003",
+    "question": "远程办公申请最晚应在什么时间提交？",
+    "answer": "最迟在前一工作日17:00前提交申请。",
+    "expected_chunks": [
+      "schunk-9b29ad14f7418c81799b3fa5"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt"
+    ],
+    "evidence": [
+      "最迟在前一工作日17:00前提交申请"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "procedure",
+    "difficulty": "easy",
+    "tags": [
+      "申请流程"
+    ]
+  },
+  {
+    "id": "workplace-004",
+    "question": "远程办公日的核心协作时段是什么？",
+    "answer": "10:00至17:30。",
+    "expected_chunks": [
+      "schunk-9b29ad14f7418c81799b3fa5"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt"
+    ],
+    "evidence": [
+      "核心协作时段10:00至17:30"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "协作要求"
+    ]
+  },
+  {
+    "id": "workplace-005",
+    "question": "远程办公时，如果无法保持网络连接超过30分钟应该怎么办？",
+    "answer": "应主动通知团队并调整安排。",
+    "expected_chunks": [
+      "schunk-9b29ad14f7418c81799b3fa5"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt"
+    ],
+    "evidence": [
+      "无法保持网络连接超过30分钟时，应主动通知团队并调整安排"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "异常处理"
+    ]
+  },
+  {
+    "id": "not-found-001",
+    "question": "公司员工食堂早餐几点供应？",
+    "answer": "根据现有知识库无法确定。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "easy",
+    "tags": [
+      "boundary",
+      "hallucination"
+    ]
+  },
+  {
+    "id": "not-found-002",
+    "question": "公司停车场每月收费多少钱？",
+    "answer": "根据现有知识库无法确定。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "easy",
+    "tags": [
+      "boundary",
+      "hallucination"
+    ]
+  },
+  {
+    "id": "not-found-003",
+    "question": "员工健身房周末开放到几点？",
+    "answer": "根据现有知识库无法确定。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "easy",
+    "tags": [
+      "boundary",
+      "hallucination"
+    ]
+  },
+  {
+    "id": "not-found-004",
+    "question": "公司班车经过哪些地铁站？",
+    "answer": "根据现有知识库无法确定。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "easy",
+    "tags": [
+      "boundary",
+      "hallucination"
+    ]
+  },
+  {
+    "id": "not-found-005",
+    "question": "员工宿舍允许饲养宠物吗？",
+    "answer": "根据现有知识库无法确定。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "easy",
+    "tags": [
+      "boundary",
+      "hallucination"
+    ]
+  }
+]

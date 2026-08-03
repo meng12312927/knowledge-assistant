@@ -40,12 +40,17 @@ class Settings(BaseSettings):
     # fallback 在 primary 调用失败时自动接管。留空则分别继承 primary。
     llm_primary_provider: Optional[str] = None
     llm_fast_provider: Optional[str] = None
+    llm_fast_model: Optional[str] = None
+    llm_verifier_provider: Optional[str] = None
+    llm_verifier_model: Optional[str] = None
     llm_fallback_provider: Optional[str] = None
     llm_max_retries: int = 2
+    llm_fast_stage_max_retries: int = 0
+    llm_generation_max_retries: int = 1
     llm_retry_base_seconds: float = 0.5
     llm_timeout_seconds: float = 20.0
-    query_rewrite_timeout_seconds: float = 2.0
-    generation_timeout_seconds: float = 20.0
+    query_rewrite_timeout_seconds: float = 3.0
+    generation_timeout_seconds: float = 15.0
     citation_verification_timeout_seconds: float = 5.0
 
     # === Embedding 配置 ===
@@ -60,7 +65,7 @@ class Settings(BaseSettings):
     adaptive_multiquery_enabled: bool = True
     query_rewrite_cache_size: int = 512
     query_embedding_cache_size: int = 512
-    simple_query_min_rrf_score: float = 0.025
+    simple_query_min_rrf_score: float = 0.031
     retrieval_parallel_workers: int = 8
 
     # === Reranker 配置 ===
@@ -69,10 +74,17 @@ class Settings(BaseSettings):
     reranker_base_url: str = "https://dashscope.aliyuncs.com/compatible-api/v1"
     reranker_candidate_k: int = 40
     reranker_top_n: int = 6
-    reranker_not_found_threshold: float = 0.30
-    reranker_timeout_seconds: float = 4.0
-    reranker_max_retries: int = 2
+    reranker_not_found_threshold: float = 0.50
+    reranker_timeout_seconds: float = 3.5
+    reranker_max_retries: int = 1
     reranker_instruct: str = "Given a web search query, retrieve relevant passages that answer the query."
+
+    # === 复合问题子问题编排 ===
+    subquestion_planning_enabled: bool = True
+    subquestion_max_count: int = 4
+    subquestion_rerank_top_n: int = 4
+    subquestion_rerank_candidate_k: int = 24
+    evidence_per_source_limit: int = 2
 
     # === 向量数据库配置 ===
     vectorstore_provider: str = "chroma"
@@ -97,7 +109,7 @@ class Settings(BaseSettings):
     citation_verification_strict: bool = True
 
     # === 外部依赖可靠性 ===
-    request_timeout_seconds: float = 30.0
+    request_timeout_seconds: float = 25.0
     circuit_breaker_failure_threshold: int = 3
     circuit_breaker_recovery_seconds: float = 30.0
 

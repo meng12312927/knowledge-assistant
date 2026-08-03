@@ -13,6 +13,7 @@ load_dotenv()
 
 import hashlib
 import logging
+import re
 import tempfile
 import time
 import uuid
@@ -238,6 +239,13 @@ async def lifespan(app: FastAPI):
         retrieval_candidate_k=settings.reranker_candidate_k,
         rerank_top_n=settings.reranker_top_n,
         reranker_not_found_threshold=settings.reranker_not_found_threshold,
+        subquestion_planning_enabled=settings.subquestion_planning_enabled,
+        subquestion_max_count=settings.subquestion_max_count,
+        subquestion_rerank_top_n=settings.subquestion_rerank_top_n,
+        subquestion_rerank_candidate_k=(
+            settings.subquestion_rerank_candidate_k
+        ),
+        evidence_per_source_limit=settings.evidence_per_source_limit,
         query_rewrite_timeout_seconds=settings.query_rewrite_timeout_seconds,
         embedding_timeout_seconds=settings.embedding_timeout_seconds,
         reranker_timeout_seconds=settings.reranker_timeout_seconds,
@@ -346,7 +354,20 @@ def model_status():
             "model": settings.reranker_model,
             "candidate_k": settings.reranker_candidate_k,
             "top_n": settings.reranker_top_n,
+            "not_found_threshold": settings.reranker_not_found_threshold,
             "last_call": reranker_metadata,
+        },
+        "retrieval": {
+            "simple_query_min_rrf_score": settings.simple_query_min_rrf_score,
+            "answer_status_threshold_low": settings.answer_status_threshold_low,
+            "answer_status_threshold_high": settings.answer_status_threshold_high,
+            "subquestion_planning_enabled": settings.subquestion_planning_enabled,
+            "subquestion_max_count": settings.subquestion_max_count,
+            "subquestion_rerank_top_n": settings.subquestion_rerank_top_n,
+            "subquestion_rerank_candidate_k": (
+                settings.subquestion_rerank_candidate_k
+            ),
+            "evidence_per_source_limit": settings.evidence_per_source_limit,
         },
         "reliability": {
             "request_timeout_seconds": settings.request_timeout_seconds,
@@ -727,9 +748,19 @@ def ingest_document(file: UploadFile = File(...)):
         # 检查是否已存在相同文件
         existing = get_document_meta(doc_id)
         existing_filename = get_document_meta_by_filename(filename)
+        declared_version_match = re.search(
+            r"_v(?P<version>\d+)(?=\.[^.]+$)", filename, flags=re.IGNORECASE
+        )
+        declared_version = (
+            int(declared_version_match.group("version"))
+            if declared_version_match else 1
+        )
         document_version = (
-            existing["version"] if existing else
-            (existing_filename["version"] + 1 if existing_filename else 1)
+            max(existing["version"], declared_version) if existing else
+            max(
+                existing_filename["version"] + 1 if existing_filename else 1,
+                declared_version,
+            )
         )
         next_kb_version = get_knowledge_base_version() + 1
         if existing:

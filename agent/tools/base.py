@@ -11,10 +11,17 @@ Agent 的强大之处在于可以调用外部工具扩展能力。
 """
 
 import ast
+import hashlib
+import json
+import logging
 import operator
+import re
+import time
 from abc import ABC, abstractmethod
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
 from dataclasses import dataclass
+
+logger = logging.getLogger(__name__)
 
 
 # 安全数学表达式解析器（替代 eval）
@@ -70,6 +77,41 @@ class ToolResult:
     error_message: str = ""
 
 
+class ToolCallGuard:
+    """断路器：防止死循环、重复调用和超时。"""
+
+    def __init__(self, max_rounds: int = 5, max_total_seconds: float = 10.0):
+        self.max_rounds = max_rounds
+        self.max_total_seconds = max_total_seconds
+        self.call_history: List[str] = []  # 存调用指纹
+        self.rounds = 0
+        self.started = time.monotonic()
+
+    def check(self, tool_name: str, params: dict) -> None:
+        """每次工具调用前检查。抛出异常则终止。"""
+        self.rounds += 1
+
+        if self.rounds > self.max_rounds:
+            raise RuntimeError(
+                f"工具调用已达上限 {self.max_rounds} 轮，终止避免死循环"
+            )
+
+        if time.monotonic() - self.started > self.max_total_seconds:
+            raise TimeoutError(
+                f"工具调用总耗时超过 {self.max_total_seconds} 秒"
+            )
+
+        # 重复调用检测：相同的工具名 + 相同的参数 = 死循环
+        fingerprint = hashlib.md5(
+            json.dumps({"tool": tool_name, "params": params}, sort_keys=True).encode()
+        ).hexdigest()
+        if fingerprint in self.call_history:
+            raise RuntimeError(
+                f"检测到重复调用 {tool_name}({params})，终止避免死循环"
+        )
+        self.call_history.append(fingerprint)
+
+
 class BaseTool(ABC):
     """
     工具抽象基类
@@ -89,6 +131,26 @@ class BaseTool(ABC):
     def execute(self, **kwargs) -> ToolResult:
         pass
 
+    def validate_params(self, **kwargs) -> Optional[str]:
+        """校验参数是否符合 input_schema。返回 None 表示通过，否则返回错误描述。"""
+        schema = self.input_schema or {}
+        required = schema.get("required", [])
+        properties = schema.get("properties", {})
+
+        for param in required:
+            if param not in kwargs:
+                return f"缺少必填参数 '{param}'"
+        for param in properties:
+            if param in kwargs:
+                prop_schema = properties[param]
+                pattern = prop_schema.get("pattern")
+                if pattern and not re.search(pattern, str(kwargs[param])):
+                    return f"参数 '{param}' 的值 '{kwargs[param]}' 不匹配格式要求"
+                max_len = prop_schema.get("maxLength")
+                if max_len and len(str(kwargs[param])) > max_len:
+                    return f"参数 '{param}' 超过最大长度 {max_len}"
+        return None
+
     def get_tool_info(self) -> Dict[str, Any]:
         """返回工具信息，用于 LLM 的工具选择决策"""
         return {
@@ -107,13 +169,20 @@ class CalculatorTool(BaseTool):
     """
 
     name = "calculator"
-    description = "执行数学计算，如加减乘除、百分比等。输入是数学表达式字符串。"
+    description = (
+        "执行数学运算，支持加减乘除、括号和百分比。"
+        "参数 expression 为数学表达式字符串。"
+        "示例：TOOL:calculator\\nARGS:{\"expression\":\"320*5000\"}"
+        "注意：只支持 + - * / ( ) % 运算，不支持函数调用"
+    )
     input_schema = {
         "type": "object",
         "properties": {
             "expression": {
                 "type": "string",
-                "description": "数学表达式，如 '123 * 456' 或 '(100 - 20) / 5'"
+                "description": "数学表达式，如 '123 * 456' 或 '(100 - 20) / 5'",
+                "pattern": r"^[\d+\-*/.()%\s]+$",
+                "maxLength": 200,
             }
         },
         "required": ["expression"]
@@ -121,12 +190,17 @@ class CalculatorTool(BaseTool):
 
     def execute(self, expression: str) -> ToolResult:
         try:
-            # 安全评估：只允许数字和基本运算符
+            expression = str(expression).strip()
+            if not expression:
+                raise ValueError("表达式不能为空")
+            if len(expression) > 200:
+                raise ValueError(f"表达式过长（{len(expression)} 字符，上限 200）")
+
             allowed_chars = set("0123456789+-*/.() %")
             if not all(c in allowed_chars for c in expression.replace(" ", "")):
-                raise ValueError("表达式包含非法字符")
+                raise ValueError("表达式包含非法字符，只支持数字和 +-*/.()%")
 
-            result = _safe_eval(expression)  # 使用 AST 安全解析器替代 eval()
+            result = _safe_eval(expression)
             return ToolResult(
                 tool_name=self.name,
                 input_params={"expression": expression},
@@ -152,20 +226,24 @@ class DatabaseQueryTool(BaseTool):
     """
 
     name = "database_query"
-    description = "查询结构化数据库，如销售数据、用户数据等。输入是 SQL 查询语句。"
+    description = (
+        "查询结构化数据库中的销售数据。"
+        "参数 sql 为 SELECT 查询语句。"
+        "示例：TOOL:database_query\\nARGS:{\"sql\":\"SELECT * FROM sales\"}"
+    )
     input_schema = {
         "type": "object",
         "properties": {
             "sql": {
                 "type": "string",
-                "description": "SQL 查询语句"
+                "description": "SQL 查询语句（仅支持 SELECT）",
+                "maxLength": 1000,
             }
         },
         "required": ["sql"]
     }
 
     def __init__(self):
-        # 模拟数据库：产品销售额数据
         self.mock_data = {
             "sales": [
                 {"product": "产品A", "month": "2024-01", "amount": 150000},
@@ -177,12 +255,17 @@ class DatabaseQueryTool(BaseTool):
         }
 
     def execute(self, sql: str) -> ToolResult:
-        # 实际项目中这里会连接真实数据库执行 SQL
-        # 简化演示：解析简单的 SELECT 语句
         try:
+            sql = str(sql).strip()
+            if not sql:
+                raise ValueError("SQL 不能为空")
             sql_lower = sql.lower()
-            if "select" in sql_lower and "from sales" in sql_lower:
-                # 模拟查询结果
+            if not sql_lower.startswith("select"):
+                raise ValueError("仅支持 SELECT 查询")
+            if "drop" in sql_lower or "delete" in sql_lower or "insert" in sql_lower:
+                raise ValueError("不允许修改数据的 SQL 语句")
+
+            if "from sales" in sql_lower:
                 results = self.mock_data["sales"]
                 return ToolResult(
                     tool_name=self.name,
@@ -222,18 +305,45 @@ class ToolRegistry:
         self._tools[tool.name] = tool
 
     def get(self, name: str) -> BaseTool:
-        """获取工具"""
+        """获取工具（精确匹配）"""
         if name not in self._tools:
             raise ValueError(f"未知工具: {name}")
         return self._tools[name]
+
+    def fuzzy_find(self, raw_name: str) -> str:
+        """模糊匹配工具名，防 LLM 拼写错误。返回标准化名称。"""
+        normalized = raw_name.lower().strip()
+
+        # 精确匹配
+        if normalized in self._tools:
+            return normalized
+
+        # 子串匹配
+        for name in self._tools:
+            if normalized in name or name in normalized:
+                logger.warning("工具名模糊匹配：%s → %s", raw_name, name)
+                return name
+
+        raise ValueError(
+            f"未知工具 '{raw_name}'，可用：{list(self._tools)}"
+        )
 
     def list_tools(self) -> list:
         """列出所有工具信息"""
         return [tool.get_tool_info() for tool in self._tools.values()]
 
     def execute(self, tool_name: str, **kwargs) -> ToolResult:
-        """执行指定工具"""
+        """执行指定工具（含参数校验）"""
         tool = self.get(tool_name)
+        validation_error = tool.validate_params(**kwargs)
+        if validation_error:
+            return ToolResult(
+                tool_name=tool_name,
+                input_params=kwargs,
+                output=None,
+                success=False,
+                error_message=f"参数校验失败：{validation_error}"
+            )
         return tool.execute(**kwargs)
 
 

@@ -1,0 +1,2491 @@
+[
+  {
+    "id": "blind-ood-easy-001",
+    "question": "公司园区哪里有便利店？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "easy",
+    "tags": [
+      "boundary",
+      "hallucination",
+      "trivial-ood"
+    ]
+  },
+  {
+    "id": "blind-ood-easy-002",
+    "question": "员工的子女入学有相关政策吗？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "easy",
+    "tags": [
+      "boundary",
+      "hallucination",
+      "trivial-ood"
+    ]
+  },
+  {
+    "id": "blind-ood-easy-003",
+    "question": "公司班车经过哪些地铁站？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "easy",
+    "tags": [
+      "boundary",
+      "hallucination",
+      "trivial-ood"
+    ]
+  },
+  {
+    "id": "blind-ood-easy-004",
+    "question": "员工健身房周末开放到几点？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "easy",
+    "tags": [
+      "boundary",
+      "hallucination",
+      "trivial-ood"
+    ]
+  },
+  {
+    "id": "blind-ood-easy-005",
+    "question": "公司停车场每月收费多少钱？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "easy",
+    "tags": [
+      "boundary",
+      "hallucination",
+      "trivial-ood"
+    ]
+  },
+  {
+    "id": "blind-ood-easy-006",
+    "question": "公司员工食堂早餐几点供应？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "easy",
+    "tags": [
+      "boundary",
+      "hallucination",
+      "trivial-ood"
+    ]
+  },
+  {
+    "id": "blind-ood-easy-007",
+    "question": "公司有员工宿舍吗？可以申请吗？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "easy",
+    "tags": [
+      "boundary",
+      "hallucination",
+      "trivial-ood"
+    ]
+  },
+  {
+    "id": "blind-ood-easy-008",
+    "question": "公司是否提供通勤班车服务？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "easy",
+    "tags": [
+      "boundary",
+      "hallucination",
+      "trivial-ood"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-001",
+    "question": "公司提供补充养老险吗？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "medium",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "benefits-similar"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-002",
+    "question": "员工加班到晚上10点可以打车回家报销吗？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "medium",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "overtime"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-003",
+    "question": "年假未休完可以折算成工资吗？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "medium",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "annual-leave-cash"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-004",
+    "question": "公司的加班费计算标准是什么？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "medium",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "overtime-pay"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-005",
+    "question": "员工出差期间发生意外伤害，公司有什么保障措施？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "medium",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "travel-insurance"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-006",
+    "question": "员工股票期权的行权价格如何计算？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "medium",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "equity"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-007",
+    "question": "公司对于员工专利申请有什么奖励制度？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "medium",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "ip-reward"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-008",
+    "question": "公司有没有员工心理咨询服务？怎么预约？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "medium",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "eap"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-009",
+    "question": "员工如果对绩效考核结果不满意，可以向劳动仲裁部门投诉吗？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "medium",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "labor-arbitration"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-010",
+    "question": "公司是否提供住房补贴或住房公积金之外的住房福利？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "medium",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "housing"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-011",
+    "question": "公司的碳排放中和目标是什么？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "hard",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "esg"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-012",
+    "question": "如果员工在项目交付前离职，项目奖金如何分配？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "hard",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "project-bonus"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-013",
+    "question": "公司对管理层有什么特殊的股权激励方案？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "hard",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "equity-incentive"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-014",
+    "question": "公司的供应商ESG评级标准和审核频率是什么？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "hard",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "supplier-esg"
+    ]
+  },
+  {
+    "id": "blind-ood-lexical-015",
+    "question": "公司内部员工推荐奖励政策的具体金额是多少？",
+    "answer": "根据现有知识库，无法找到相关信息。",
+    "expected_chunks": [],
+    "expected_sources": [],
+    "evidence": [],
+    "expected_answer_status": "not_found",
+    "dimension": "not_found",
+    "difficulty": "medium",
+    "tags": [
+      "lexical-trap",
+      "ood",
+      "referral-bonus"
+    ]
+  },
+  {
+    "id": "blind-multihop-001",
+    "question": "员工入职后需要完成哪些培训？分别在什么时间内完成？",
+    "answer": "入职必修培训应在入职后十个工作日内完成；岗位必修培训按岗位要求完成；此外还有管理培训和个人发展学习。",
+    "expected_chunks": [
+      "schunk-db1ff6aaafff46853fd4f43c"
+    ],
+    "expected_sources": [
+      "岗位培训与资质认证管理办法.txt"
+    ],
+    "evidence": [
+      "培训分为入职必修、岗位必修、管理培训和个人发展学习。",
+      "入职必修应在入职后十个工作日内完成"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "multi_hop",
+    "difficulty": "medium",
+    "tags": [
+      "multi-hop",
+      "same-document",
+      "training"
+    ]
+  },
+  {
+    "id": "blind-multihop-002",
+    "question": "采购申请超过不同金额分别需要谁审批？",
+    "answer": "单次含税金额不超过5000元的常规采购，由直属负责人审批；超过5000元且不超过30000元的，由部门负责人审批；超过30000元的，还需分管领导审批。",
+    "expected_chunks": [
+      "schunk-7c0831ab355bb976cbe36fa0",
+      "schunk-2ef925dc0664c063f564c176"
+    ],
+    "expected_sources": [
+      "采购与供应商准入管理办法.txt"
+    ],
+    "evidence": [
+      "单次含税金额不超过5000元的常规采购，由直属负责人审批",
+      "含税金额超过10000元的采购原则上应取得至少三家可比报价"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "multi_hop",
+    "difficulty": "medium",
+    "tags": [
+      "multi-hop",
+      "same-document",
+      "procurement"
+    ]
+  },
+  {
+    "id": "blind-multihop-003",
+    "question": "哪些合同必须由法务评审？签署完成后多久需要归档？",
+    "answer": "非标准合同、跨境交易、自动续费、排他合作、个人信息处理或金额超过50000元的合同必须由法务评审。签署完成后两个工作日内，应将双方完整签署版本上传合同库。",
+    "expected_chunks": [
+      "schunk-36ede512620ef0b9088ddfb0",
+      "schunk-e2e2f7c4d443b93aa28e24b7"
+    ],
+    "expected_sources": [
+      "合同评审与印章使用规范.txt"
+    ],
+    "evidence": [
+      "非标准合同、跨境交易、自动续费、排他合作、个人信息处理或金额超过50000元的合同必须由法务评审",
+      "签署完成后两个工作日内，应将双方完整签署版本上传合同库并关联业务负责人。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "multi_hop",
+    "difficulty": "medium",
+    "tags": [
+      "multi-hop",
+      "same-document",
+      "legal"
+    ]
+  },
+  {
+    "id": "blind-multihop-004",
+    "question": "一级事件由哪个机构指挥？各关键系统的恢复目标多久复核一次？",
+    "answer": "一级事件由应急委员会统一指挥。各关键系统的恢复时间目标和可接受数据丢失范围至少每年复核一次。",
+    "expected_chunks": [
+      "schunk-5f4b90aa2b2243920cb38a9e",
+      "schunk-2a931c5b01079dfac8b94446"
+    ],
+    "expected_sources": [
+      "业务连续性与应急响应办法.txt"
+    ],
+    "evidence": [
+      "一级事件由应急委员会统一指挥",
+      "至少每年复核一次"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "multi_hop",
+    "difficulty": "easy",
+    "tags": [
+      "multi-hop",
+      "same-document",
+      "bcp"
+    ]
+  },
+  {
+    "id": "blind-multihop-005",
+    "question": "内部审计的年度计划依据什么制定？审计结论以哪些证据为基础？",
+    "answer": "内部审计根据风险、重大变化、历史问题和管理要求制定年度计划。审计结论应以系统记录、合同、抽样材料、访谈和复核结果等证据为基础。",
+    "expected_chunks": [
+      "schunk-998a7c2a8da7c8a4c3f8997d",
+      "schunk-65fa6e99f934f76013ee2d1e"
+    ],
+    "expected_sources": [
+      "内部审计与整改闭环管理办法.txt"
+    ],
+    "evidence": [
+      "内部审计根据风险、重大变化、历史问题和管理要求制定年度计划。",
+      "审计结论应以系统记录、合同、抽样材料、访谈和复核结果等证据为基础"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "multi_hop",
+    "difficulty": "medium",
+    "tags": [
+      "multi-hop",
+      "same-document",
+      "audit"
+    ]
+  },
+  {
+    "id": "blind-multihop-006",
+    "question": "新供应商签约前需要核查哪些资质？如果涉及处理客户数据，还需要通过什么评估？",
+    "answer": "新供应商签约前应完成主体信息、收款账户、履约能力和合规风险核验。处理客户数据、源代码或内部系统的供应商，还应通过信息安全评估并签署保密和数据处理约定。",
+    "expected_chunks": [
+      "schunk-a88fa0c325869c7ab6af7e10"
+    ],
+    "expected_sources": [
+      "采购与供应商准入管理办法.txt"
+    ],
+    "evidence": [
+      "新供应商签约前应完成主体信息、收款账户、履约能力和合规风险核验。",
+      "处理客户数据、源代码或内部系统的供应商，还应通过信息安全评估并签署保密和数据处理约定"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "multi_hop",
+    "difficulty": "medium",
+    "tags": [
+      "multi-hop",
+      "same-document",
+      "supplier"
+    ]
+  },
+  {
+    "id": "blind-multihop-007",
+    "question": "员工离职交接清单至少包括哪些内容？离职员工能否删除公司资料？",
+    "answer": "交接至少包括项目状态、文档位置、待办事项、外部联系人和公司资产。离职员工不得删除、隐匿或带走公司资料。",
+    "expected_chunks": [
+      "schunk-03e75fd20faef24e82a0cb98",
+      "schunk-18d5fd836d1fa31a6f99d344"
+    ],
+    "expected_sources": [
+      "入职转正与离职交接制度.txt"
+    ],
+    "evidence": [
+      "交接至少包括项目状态、文档位置、待办事项、外部联系人和公司资产。",
+      "离职员工不得删除、隐匿或带走公司资料。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "multi_hop",
+    "difficulty": "easy",
+    "tags": [
+      "multi-hop",
+      "same-document",
+      "offboarding"
+    ]
+  },
+  {
+    "id": "blind-multihop-008",
+    "question": "紧急病假无法预先申请时，应在什么时间前通知谁？返岗后多久补交申请？",
+    "answer": "应在当日09:30前通知直属负责人，并在返岗后三个工作日内补交申请。",
+    "expected_chunks": [
+      "schunk-00f52061e2e452721903d3ca"
+    ],
+    "expected_sources": [
+      "考勤与休假管理制度_v2.txt"
+    ],
+    "evidence": [
+      "应在当日09:30前通知直属负责人",
+      "返岗后三个工作日内补交申请"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "multi_hop",
+    "difficulty": "medium",
+    "tags": [
+      "multi-hop",
+      "same-document",
+      "sick-leave"
+    ]
+  },
+  {
+    "id": "blind-multihop-009",
+    "question": "生成式AI使用中，哪些数据禁止输入？输出需要什么审核？",
+    "answer": "客户合同、未公开经营数据、源代码、认证信息、员工个人资料和真实工单不得输入未获相应等级批准的模型。对外发布、客户承诺、财务决定、人员决定和安全配置不得仅凭模型输出自动执行。",
+    "expected_chunks": [
+      "schunk-27c2153c933884e54add40c2",
+      "schunk-9ec351ce5ab260766c51227a"
+    ],
+    "expected_sources": [
+      "生成式AI工具安全使用规范.txt"
+    ],
+    "evidence": [
+      "客户合同、未公开经营数据、源代码、认证信息、员工个人资料和真实工单不得输入未获相应等级批准的模型。",
+      "对外发布、客户承诺、财务决定、人员决定和安全配置不得仅凭模型输出自动执行。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "multi_hop",
+    "difficulty": "medium",
+    "tags": [
+      "multi-hop",
+      "same-document",
+      "ai",
+      "security"
+    ]
+  },
+  {
+    "id": "blind-crossdoc-001",
+    "question": "远程办公的员工出差时，餐补和住宿标准怎么算？",
+    "answer": "远程办公员工发生国内差旅时，现行差旅制度规定餐补每天150元；住宿含税上限为一类城市700元、二类城市550元、其他城市450元。",
+    "expected_chunks": [
+      "schunk-eee710611932aa01f0847ba0",
+      "schunk-63d67e58b72c17654d86668b"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度_v2.txt"
+    ],
+    "evidence": [
+      "国内差旅餐补为每天150元",
+      "住宿含税上限：一类城市每晚700元，二类城市每晚550元，其他城市每晚450元"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "cross-document",
+      "remote-work",
+      "travel"
+    ]
+  },
+  {
+    "id": "blind-crossdoc-002",
+    "question": "新入职的试用期员工可以申请远程办公吗？可以使用学习预算参加外部培训吗？",
+    "answer": "远程办公仅限转正且最近一次绩效不低于'符合预期'的员工，试用期员工不符合条件。学习预算仅限转正员工使用。",
+    "expected_chunks": [
+      "schunk-19ea17a7f61cfd8dc9690ac7",
+      "schunk-a6f502f196c1c5b570d0ee75"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt",
+      "员工福利与学习发展制度.txt"
+    ],
+    "evidence": [
+      "转正且最近一次绩效不低于“符合预期”的员工，可申请每周最多2个远程办公日",
+      "每名转正员工每自然年享有最高3000元学习预算"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "medium",
+    "tags": [
+      "cross-document",
+      "probation",
+      "eligibility"
+    ]
+  },
+  {
+    "id": "blind-crossdoc-003",
+    "question": "采购涉及客户数据的软件系统时，供应商准入需要哪些额外评估？",
+    "answer": "处理客户数据、源代码或内部系统的供应商，应通过信息安全评估并签署保密和数据处理约定。同时，应明确业务目的、数据项目、使用范围和保存期限，只收集完成当前目的所必需的信息。",
+    "expected_chunks": [
+      "schunk-a88fa0c325869c7ab6af7e10",
+      "schunk-82cbceee8ae30d8adb332d0e"
+    ],
+    "expected_sources": [
+      "采购与供应商准入管理办法.txt",
+      "客户资料与隐私保护规范.txt"
+    ],
+    "evidence": [
+      "处理客户数据、源代码或内部系统的供应商，还应通过信息安全评估并签署保密和数据处理约定",
+      "应明确业务目的、数据项目、使用范围和保存期限，只收集完成当前目的所必需的信息。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "cross-document",
+      "procurement",
+      "privacy"
+    ]
+  },
+  {
+    "id": "blind-crossdoc-004",
+    "question": "如果项目变更涉及预算增加且需要新签合同，需要经过哪些审批流程？",
+    "answer": "变更申请预计增加费用不超过5000元且不改变关键里程碑的，由项目负责人和预算负责人批准。合同发起人应在合同系统中填写交易背景、相对方、金额、期限、交付内容和预算编号。非标准合同或金额超过50000元的合同必须由法务评审。",
+    "expected_chunks": [
+      "schunk-cfa7b26cafecdea92eb4545b",
+      "schunk-a258430162ba760a9cd776b2"
+    ],
+    "expected_sources": [
+      "项目变更与交付验收办法.txt",
+      "合同评审与印章使用规范.txt"
+    ],
+    "evidence": [
+      "预计增加费用不超过5000元且不改变关键里程碑的，由项目负责人和预算负责人批准",
+      "合同发起人应在合同系统中填写交易背景、相对方、金额、期限、交付内容和预算编号"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "cross-document",
+      "project",
+      "contract"
+    ]
+  },
+  {
+    "id": "blind-crossdoc-005",
+    "question": "员工手册和利益冲突规范对利益冲突申报的要求有什么不同？",
+    "answer": "现行员工手册规定：发现利益冲突时，应在五个工作日内向直属负责人及人力资源部申报。利益冲突与礼品招待规范要求在知悉冲突后三个工作日内提交申报，并在措施确认前回避供应商选择、价格谈判、验收、招聘或付款决定。",
+    "expected_chunks": [
+      "schunk-8630b1602deccf25929402e7",
+      "schunk-895fa62f9d3d5c556248c120",
+      "schunk-9c548b9a820f8d0144963617"
+    ],
+    "expected_sources": [
+      "星云科技员工手册_v2.txt",
+      "利益冲突与礼品招待规范.txt"
+    ],
+    "evidence": [
+      "发现利益冲突时，应在五个工作日内向直属负责人及人力资源部申报。",
+      "员工应在知悉冲突后三个工作日内提交申报。",
+      "申报人在措施确认前，不应参与供应商选择、价格谈判、验收、招聘或付款决定。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "medium",
+    "tags": [
+      "cross-document",
+      "comparison",
+      "conflict-of-interest"
+    ]
+  },
+  {
+    "id": "blind-crossdoc-006",
+    "question": "员工在远程办公日使用生成式AI工具处理工作，需要遵守哪些安全规定？",
+    "answer": "远程办公：必须使用公司设备、VPN和多因素认证；禁止在公共电脑处理公司信息。生成式AI：应选择公司批准的工具、账号类型和接入方式；客户合同、未公开经营数据、源代码、认证信息、员工个人资料和真实工单不得输入未获相应等级批准的模型。",
+    "expected_chunks": [
+      "schunk-d92223e2af7e3caf0d93c728",
+      "schunk-62ca80cb8b44aba00cba17d6",
+      "schunk-27c2153c933884e54add40c2"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt",
+      "生成式AI工具安全使用规范.txt"
+    ],
+    "evidence": [
+      "远程访问内部系统必须使用公司设备、VPN和多因素认证",
+      "员工因工作使用生成式AI前，应选择公司批准的工具、账号类型和接入方式。",
+      "客户合同、未公开经营数据、源代码、认证信息、员工个人资料和真实工单不得输入未获相应等级批准的模型。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "cross-document",
+      "security",
+      "ai"
+    ]
+  },
+  {
+    "id": "blind-crossdoc-007",
+    "question": "绩效改进计划中的员工可以申请远程办公吗？可以用学习预算吗？",
+    "answer": "远程办公要求最近一次绩效不低于'符合预期'，进入绩效改进计划的员工通常为连续两个季度'部分未达预期'或单季度'未达预期'，不符合远程办公条件。但学习预算仅要求转正员工身份，绩效改进计划本身不取消学习预算资格。",
+    "expected_chunks": [
+      "schunk-19ea17a7f61cfd8dc9690ac7",
+      "schunk-28da74001ad10e5e3585cf5b",
+      "schunk-a6f502f196c1c5b570d0ee75"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt",
+      "绩效管理制度.txt",
+      "员工福利与学习发展制度.txt"
+    ],
+    "evidence": [
+      "转正且最近一次绩效不低于“符合预期”的员工",
+      "连续两个季度“部分未达预期”或单季度“未达预期”的员工，可能进入绩效改进计划",
+      "每名转正员工每自然年享有最高3000元学习预算"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "cross-document",
+      "pip",
+      "eligibility"
+    ]
+  },
+  {
+    "id": "blind-crossdoc-008",
+    "question": "外部认证费用超过3000元且涉及信息安全相关认证，需要哪些审批？",
+    "answer": "外部认证费用超过3000元的，需要直属负责人审批、部门负责人审批和人力资源部复核。",
+    "expected_chunks": [
+      "schunk-bf9836e3c86ca1cd1e8516f5"
+    ],
+    "expected_sources": [
+      "岗位培训与资质认证管理办法.txt"
+    ],
+    "evidence": [
+      "单项费用不超过1000元由直属负责人审批，超过1000元还需部门负责人审批；超过3000元的，增加人力资源部复核。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "medium",
+    "tags": [
+      "cross-document",
+      "training",
+      "certification"
+    ]
+  },
+  {
+    "id": "blind-crossdoc-009",
+    "question": "审计发现高风险问题后，如果整改涉及需要采购新系统，审批流程是怎样的？",
+    "answer": "高风险问题原则上30天内完成整改。采购方面：单次含税不超过5000元由直属负责人审批，超过5000元由部门负责人审批，超过10000元需至少三家报价。如涉及客户数据的系统，供应商还需通过信息安全评估。",
+    "expected_chunks": [
+      "schunk-df2d6573314f66cf1dcd482c",
+      "schunk-7c0831ab355bb976cbe36fa0",
+      "schunk-2ef925dc0664c063f564c176"
+    ],
+    "expected_sources": [
+      "内部审计与整改闭环管理办法.txt",
+      "采购与供应商准入管理办法.txt"
+    ],
+    "evidence": [
+      "高风险问题原则上30天内完成",
+      "单次含税金额不超过5000元的常规采购，由直属负责人审批",
+      "含税金额超过10000元的采购原则上应取得至少三家可比报价"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "hard",
+      "cross-document",
+      "audit",
+      "procurement"
+    ]
+  },
+  {
+    "id": "blind-crossdoc-010",
+    "question": "绩效改进计划的时间周期是多长？在此期间如果员工申请外部认证，费用审批流程是什么？",
+    "answer": "绩效改进计划周期未在公开制度中明确。外部认证费用审批与员工绩效状态无关，按正常流程：单项不超过1000元直属负责人审批，超过1000元增加部门负责人审批，超过3000元增加人力资源部复核。",
+    "expected_chunks": [
+      "schunk-bf9836e3c86ca1cd1e8516f5"
+    ],
+    "expected_sources": [
+      "绩效管理制度.txt",
+      "岗位培训与资质认证管理办法.txt"
+    ],
+    "evidence": [
+      "单项费用不超过1000元由直属负责人审批，超过1000元还需部门负责人审批；超过3000元的，增加人力资源部复核。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "hard",
+      "cross-document",
+      "pip",
+      "certification"
+    ]
+  },
+  {
+    "id": "blind-version-001",
+    "question": "根据最新版员工手册，利益冲突申报应在多少个工作日内完成？",
+    "answer": "根据v2.0版员工手册（2026年7月1日生效），应在五个工作日内向直属负责人及人力资源部申报。",
+    "expected_chunks": [
+      "schunk-8630b1602deccf25929402e7"
+    ],
+    "expected_sources": [
+      "星云科技员工手册_v2.txt"
+    ],
+    "evidence": [
+      "发现利益冲突时，应在五个工作日内向直属负责人及人力资源部申报。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "version_conflict",
+    "difficulty": "medium",
+    "tags": [
+      "version-conflict"
+    ]
+  },
+  {
+    "id": "blind-version-002",
+    "question": "满10年不满20年的员工年休假有多少天？",
+    "answer": "根据最新版考勤与休假管理制度（v2.0，2026年7月1日生效），满10年不满20年的为12天。旧版（v1.0）规定为10天。",
+    "expected_chunks": [
+      "schunk-4afa5621a835b98296f09f48",
+      "schunk-29297b928171c2ca2949182f"
+    ],
+    "expected_sources": [
+      "考勤与休假管理制度_v2.txt",
+      "考勤与休假管理制度.txt"
+    ],
+    "evidence": [
+      "满10年不满20年的为12天",
+      "满10年不满20年的为10天"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "version_conflict",
+    "difficulty": "medium",
+    "tags": [
+      "version-conflict"
+    ]
+  },
+  {
+    "id": "blind-version-003",
+    "question": "一类城市出差住宿含税上限是多少？",
+    "answer": "根据最新版差旅与费用报销制度（v2.0，2026年7月1日生效），一类城市每晚700元。旧版（v1.0）规定为650元。",
+    "expected_chunks": [
+      "schunk-63d67e58b72c17654d86668b",
+      "schunk-686359f301e76fb75cdb1481"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度_v2.txt",
+      "差旅与费用报销制度.txt"
+    ],
+    "evidence": [
+      "一类城市每晚700元",
+      "一类城市每晚650元"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "version_conflict",
+    "difficulty": "medium",
+    "tags": [
+      "version-conflict"
+    ]
+  },
+  {
+    "id": "blind-version-004",
+    "question": "根据最新制度，员工请假超过几天需要人力资源部复核？",
+    "answer": "根据最新版考勤与休假管理制度（v2.0），超过五天还需人力资源部复核。旧版v1.0规定超过三天需人力资源部复核。",
+    "expected_chunks": [
+      "schunk-00f52061e2e452721903d3ca",
+      "schunk-ebe1afadb205f9b54aa422f2"
+    ],
+    "expected_sources": [
+      "考勤与休假管理制度_v2.txt",
+      "考勤与休假管理制度.txt"
+    ],
+    "evidence": [
+      "超过五天还需人力资源部复核",
+      "超过三天还需人力资源部复核"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "version_conflict",
+    "difficulty": "medium",
+    "tags": [
+      "version-conflict"
+    ]
+  },
+  {
+    "id": "blind-version-005",
+    "question": "转正员工每自然年有多少天全薪健康假？",
+    "answer": "根据最新版考勤与休假管理制度（v2.0），转正员工每自然年享有5天全薪健康假。旧版v1.0规定为3天。",
+    "expected_chunks": [
+      "schunk-c916cf113c3909e5cc01d8e4",
+      "schunk-1ca4d409b0596c9e21dc0844"
+    ],
+    "expected_sources": [
+      "考勤与休假管理制度_v2.txt",
+      "考勤与休假管理制度.txt"
+    ],
+    "evidence": [
+      "转正员工每自然年享有5天全薪健康假",
+      "转正员工每自然年享有3天全薪健康假"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "version_conflict",
+    "difficulty": "medium",
+    "tags": [
+      "version-conflict"
+    ]
+  },
+  {
+    "id": "blind-version-006",
+    "question": "根据最新员工手册，标准工作时段是什么？",
+    "answer": "根据v2.0员工手册（2026年7月1日生效），默认工作时段为09:00至18:00，午休一小时。核心协作时段为09:30至17:00。旧版v1.0规定为09:30至18:30，核心协作时段10:00至17:30。",
+    "expected_chunks": [
+      "schunk-c7e0f5353f7babf5e6842422",
+      "schunk-b360501c66ba055c7d8771c4"
+    ],
+    "expected_sources": [
+      "星云科技员工手册_v2.txt",
+      "星云科技员工手册.txt"
+    ],
+    "evidence": [
+      "默认工作时段为09:00至18:00",
+      "默认工作时段为09:30至18:30"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "version_conflict",
+    "difficulty": "easy",
+    "tags": [
+      "version-conflict"
+    ]
+  },
+  {
+    "id": "blind-version-007",
+    "question": "差旅报销需要在行程结束后多少天内提交？",
+    "answer": "根据最新版差旅与费用报销制度（v2.0），应在行程结束后10个自然日内提交报销。旧版v1.0规定为15个自然日。",
+    "expected_chunks": [
+      "schunk-a2653c74d04757b27c1df8c2",
+      "schunk-33cb6ebff24fea284ed9107c"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度_v2.txt",
+      "差旅与费用报销制度.txt"
+    ],
+    "evidence": [
+      "员工应在行程结束后10个自然日内提交报销",
+      "员工应在行程结束后15个自然日内提交报销"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "version_conflict",
+    "difficulty": "medium",
+    "tags": [
+      "version-conflict"
+    ]
+  },
+  {
+    "id": "blind-version-008",
+    "question": "单程高铁预计超过几小时可以改乘飞机经济舱？",
+    "answer": "根据最新版差旅与费用报销制度（v2.0），单程高铁预计超过5小时的，可选择经济舱。旧版v1.0规定超过6小时。",
+    "expected_chunks": [
+      "schunk-63d67e58b72c17654d86668b",
+      "schunk-686359f301e76fb75cdb1481"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度_v2.txt",
+      "差旅与费用报销制度.txt"
+    ],
+    "evidence": [
+      "单程高铁预计超过5小时的，可选择经济舱",
+      "单程高铁预计超过6小时的，可选择经济舱"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "version_conflict",
+    "difficulty": "medium",
+    "tags": [
+      "version-conflict"
+    ]
+  },
+  {
+    "id": "blind-conditional-001",
+    "question": "如果差旅中客户提供了午餐但没提供晚餐，当天餐补怎么算？",
+    "answer": "仅提供午餐不属于提供全天餐食，当日仍可领取150元餐补。",
+    "expected_chunks": [
+      "schunk-eee710611932aa01f0847ba0"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度_v2.txt"
+    ],
+    "evidence": [
+      "由客户或主办方提供全天餐食的，当日不再领取餐补"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "hard",
+    "tags": [
+      "conditional",
+      "boundary",
+      "partial-condition"
+    ]
+  },
+  {
+    "id": "blind-conditional-002",
+    "question": "出差总费用为5000元整时，需要财务负责人审批吗？",
+    "answer": "不需要。现行制度规定预计总费用不超过8000元由部门负责人审批，5000元整属于该范围。",
+    "expected_chunks": [
+      "schunk-fbe152e4807ec0aa296809a0"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度_v2.txt"
+    ],
+    "evidence": [
+      "预计总费用不超过8000元，由部门负责人审批；超过8000元且不超过30000元，增加财务负责人审批"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "conditional",
+      "amount-boundary",
+      "edge-case"
+    ]
+  },
+  {
+    "id": "blind-conditional-003",
+    "question": "员工的直属负责人口头承诺试用期过了就转正，这算数吗？",
+    "answer": "不算。直属负责人的口头承诺不代表最终结果，必须由人力资源部书面确认。",
+    "expected_chunks": [
+      "schunk-66fda385a98202eb89098ccb"
+    ],
+    "expected_sources": [
+      "入职转正与离职交接制度.txt"
+    ],
+    "evidence": [
+      "直属负责人的口头承诺不代表最终结果。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "easy",
+    "tags": [
+      "negation",
+      "verbal-promise"
+    ]
+  },
+  {
+    "id": "blind-conditional-004",
+    "question": "印章保管人与申请人是同一个人时可以盖章吗？",
+    "answer": "印章保管人与申请人不应为同一人。确因人员安排无法分离的，应增加一名独立复核人并记录复核意见。所以可以，但有附加条件。",
+    "expected_chunks": [
+      "schunk-f4072c7306129a1773449f39"
+    ],
+    "expected_sources": [
+      "合同评审与印章使用规范.txt"
+    ],
+    "evidence": [
+      "印章保管人与申请人不应为同一人；确因人员安排无法分离的，应增加一名独立复核人并记录复核意见。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "conditional",
+      "exception",
+      "seal"
+    ]
+  },
+  {
+    "id": "blind-conditional-005",
+    "question": "单笔学习预算为1000元整，需要部门负责人审批吗？",
+    "answer": "不需要。制度原文为'单笔超过1000元还需部门负责人审批'，恰好1000元不需部门负责人审批，由直属负责人审批即可。",
+    "expected_chunks": [
+      "schunk-a6f502f196c1c5b570d0ee75"
+    ],
+    "expected_sources": [
+      "员工福利与学习发展制度.txt"
+    ],
+    "evidence": [
+      "单笔超过1000元还需部门负责人审批"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "hard",
+    "tags": [
+      "conditional",
+      "amount-boundary",
+      "edge-case"
+    ]
+  },
+  {
+    "id": "blind-conditional-006",
+    "question": "会议主办方统一安排住宿但标准超过公司上限，可以报销吗？",
+    "answer": "会议主办方统一安排住宿的，可凭会议通知按实际合理费用报销。制度允许此类情况突破常规住宿上限。",
+    "expected_chunks": [
+      "schunk-63d67e58b72c17654d86668b"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度_v2.txt"
+    ],
+    "evidence": [
+      "会议主办方统一安排住宿的，可凭会议通知按实际合理费用报销"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "conditional",
+      "exception",
+      "hotel-cap"
+    ]
+  },
+  {
+    "id": "blind-conditional-007",
+    "question": "紧急差旅可以在出发后再补申请吗？",
+    "answer": "紧急差旅可先取得书面即时授权，并在返程后三个工作日内补录申请；不能在没有书面即时授权的情况下先行出发。",
+    "expected_chunks": [
+      "schunk-fbe152e4807ec0aa296809a0"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度_v2.txt"
+    ],
+    "evidence": [
+      "紧急差旅可先取得书面即时授权，并在返程后三个工作日内补录申请"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "conditional",
+      "emergency",
+      "pre-authorization"
+    ]
+  },
+  {
+    "id": "blind-conditional-008",
+    "question": "员工使用学习预算报销金额超过1500元后需要做什么？",
+    "answer": "应在两个月内完成一次团队分享或沉淀学习笔记。",
+    "expected_chunks": [
+      "schunk-80dce739f551aba6fd1feedc"
+    ],
+    "expected_sources": [
+      "员工福利与学习发展制度.txt"
+    ],
+    "evidence": [
+      "应在两个月内完成一次团队分享或沉淀学习笔记"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "conditional",
+    "difficulty": "medium",
+    "tags": [
+      "conditional",
+      "learning-budget",
+      "sharing"
+    ]
+  },
+  {
+    "id": "blind-negation-001",
+    "question": "哪些情况下不需要提前三个工作日提交差旅申请？",
+    "answer": "紧急差旅可先取得书面即时授权，并在返程后三个工作日内补录申请，不需要提前三个工作日提交。",
+    "expected_chunks": [
+      "schunk-fbe152e4807ec0aa296809a0"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度_v2.txt"
+    ],
+    "evidence": [
+      "非紧急差旅应至少提前三个工作日提交申请",
+      "紧急差旅可先取得书面即时授权，并在返程后三个工作日内补录申请"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "negation",
+    "difficulty": "medium",
+    "tags": [
+      "negation",
+      "exception",
+      "travel"
+    ]
+  },
+  {
+    "id": "blind-negation-002",
+    "question": "只有供应商发票是否代表已经达到付款条件？",
+    "answer": "不是，仅有供应商发票不代表已经达到付款条件。",
+    "expected_chunks": [
+      "schunk-1c1490f86219e2486e71f338"
+    ],
+    "expected_sources": [
+      "预算调整与采购付款制度.txt"
+    ],
+    "evidence": [
+      "仅有供应商发票不代表已经达到付款条件"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "negation",
+    "difficulty": "easy",
+    "tags": [
+      "negation",
+      "payment"
+    ]
+  },
+  {
+    "id": "blind-negation-003",
+    "question": "在恢复过程中，为了快速恢复可以跳过访问控制或数据校验吗？",
+    "answer": "不得。不得为了快速恢复而跳过必要的访问控制、数据校验或双人复核。",
+    "expected_chunks": [
+      "schunk-2a931c5b01079dfac8b94446"
+    ],
+    "expected_sources": [
+      "业务连续性与应急响应办法.txt"
+    ],
+    "evidence": [
+      "不得为了快速恢复而跳过必要的访问控制、数据校验或双人复核"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "negation",
+    "difficulty": "easy",
+    "tags": [
+      "negation",
+      "bcp",
+      "security"
+    ]
+  },
+  {
+    "id": "blind-negation-004",
+    "question": "对外发布的客户承诺可以仅凭AI模型输出自动执行吗？",
+    "answer": "不得。对外发布、客户承诺、财务决定、人员决定和安全配置不得仅凭模型输出自动执行。",
+    "expected_chunks": [
+      "schunk-9ec351ce5ab260766c51227a"
+    ],
+    "expected_sources": [
+      "生成式AI工具安全使用规范.txt"
+    ],
+    "evidence": [
+      "对外发布、客户承诺、财务决定、人员决定和安全配置不得仅凭模型输出自动执行。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "negation",
+    "difficulty": "easy",
+    "tags": [
+      "negation",
+      "ai",
+      "output-review"
+    ]
+  },
+  {
+    "id": "blind-negation-005",
+    "question": "合同中金额、范围发生实质变化时，只在聊天工具中确认可以吗？",
+    "answer": "不可以。应签署补充协议并重新完成相应评审，不得仅在聊天工具中确认。",
+    "expected_chunks": [
+      "schunk-f3240b0f77cee98807f381ea"
+    ],
+    "expected_sources": [
+      "合同评审与印章使用规范.txt"
+    ],
+    "evidence": [
+      "应签署补充协议并重新完成相应评审，不得仅在聊天工具中确认。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "negation",
+    "difficulty": "easy",
+    "tags": [
+      "negation",
+      "contract",
+      "amendment"
+    ]
+  },
+  {
+    "id": "blind-negation-006",
+    "question": "为获得AI帮助而删除姓名是否就完成了脱敏？",
+    "answer": "不一定。为获得帮助而删除姓名并不一定完成脱敏，还应检查编号、上下文和组合信息能否重新识别对象。",
+    "expected_chunks": [
+      "schunk-27c2153c933884e54add40c2"
+    ],
+    "expected_sources": [
+      "生成式AI工具安全使用规范.txt"
+    ],
+    "evidence": [
+      "为获得帮助而删除姓名并不一定完成脱敏，还应检查编号、上下文和组合信息能否重新识别对象。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "negation",
+    "difficulty": "medium",
+    "tags": [
+      "negation",
+      "ai",
+      "de-identification"
+    ]
+  },
+  {
+    "id": "blind-boundary-001",
+    "question": "差旅总费用分别为4999元、5001元、20000元、20001元时，分别需要哪些人审批？",
+    "answer": "4999元和5001元均不超过8000元，由部门负责人审批；20000元和20001元均超过8000元且不超过30000元，由部门负责人并增加财务负责人审批。",
+    "expected_chunks": [
+      "schunk-fbe152e4807ec0aa296809a0"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度_v2.txt"
+    ],
+    "evidence": [
+      "预计总费用不超过8000元，由部门负责人审批；超过8000元且不超过30000元，增加财务负责人审批；超过30000元，还需分管副总裁审批"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "amount_boundary",
+    "difficulty": "hard",
+    "tags": [
+      "amount-boundary",
+      "tiered",
+      "multi-value"
+    ]
+  },
+  {
+    "id": "blind-boundary-002",
+    "question": "请假正好是3天，需要人力资源部复核吗？",
+    "answer": "不需要。现行制度规定超过一天且不超过五天由直属负责人和部门负责人审批，超过五天才需人力资源部复核。",
+    "expected_chunks": [
+      "schunk-00f52061e2e452721903d3ca"
+    ],
+    "expected_sources": [
+      "考勤与休假管理制度_v2.txt"
+    ],
+    "evidence": [
+      "一天以内由直属负责人审批；超过一天且不超过五天，由直属负责人和部门负责人审批；超过五天还需人力资源部复核"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "amount_boundary",
+    "difficulty": "medium",
+    "tags": [
+      "amount-boundary",
+      "leave",
+      "edge-case"
+    ]
+  },
+  {
+    "id": "blind-boundary-003",
+    "question": "外部认证费用分别为1000元、1001元、3000元、3001元时，审批流程有什么不同？",
+    "answer": "1000元：直属负责人审批。1001元至3000元：直属负责人+部门负责人审批。3001元以上：直属负责人+部门负责人+人力资源部复核。",
+    "expected_chunks": [
+      "schunk-bf9836e3c86ca1cd1e8516f5"
+    ],
+    "expected_sources": [
+      "岗位培训与资质认证管理办法.txt"
+    ],
+    "evidence": [
+      "单项费用不超过1000元由直属负责人审批，超过1000元还需部门负责人审批；超过3000元的，增加人力资源部复核。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "amount_boundary",
+    "difficulty": "hard",
+    "tags": [
+      "amount-boundary",
+      "tiered",
+      "multi-value",
+      "certification"
+    ]
+  },
+  {
+    "id": "blind-boundary-004",
+    "question": "合同金额恰好为50000元时，是否必须由法务评审？",
+    "answer": "如果合同属于标准合同模板、不涉及跨境交易、自动续费、排他合作、个人信息处理，且金额恰好为50000元（未超过），则不属于必须由法务评审的情形。但如涉及上述任一触发条件，仍须法务评审。",
+    "expected_chunks": [
+      "schunk-36ede512620ef0b9088ddfb0"
+    ],
+    "expected_sources": [
+      "合同评审与印章使用规范.txt"
+    ],
+    "evidence": [
+      "非标准合同、跨境交易、自动续费、排他合作、个人信息处理或金额超过50000元的合同必须由法务评审"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "amount_boundary",
+    "difficulty": "hard",
+    "tags": [
+      "amount-boundary",
+      "edge-case",
+      "legal"
+    ]
+  },
+  {
+    "id": "blind-para-001",
+    "question": "我想在家上班，一周能申请几天？",
+    "answer": "转正且最近一次绩效不低于'符合预期'的员工，每周最多可申请2个远程办公日。",
+    "expected_chunks": [
+      "schunk-19ea17a7f61cfd8dc9690ac7"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt"
+    ],
+    "evidence": [
+      "转正且最近一次绩效不低于“符合预期”的员工，可申请每周最多2个远程办公日"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "paraphrase",
+    "difficulty": "easy",
+    "tags": [
+      "paraphrase",
+      "colloquial",
+      "remote-work"
+    ]
+  },
+  {
+    "id": "blind-para-002",
+    "question": "正式员工都有哪些医疗保险福利啊？",
+    "answer": "转正员工可参加公司补充商业医疗计划。",
+    "expected_chunks": [
+      "schunk-d04fabd57aeb39fadab1d13d"
+    ],
+    "expected_sources": [
+      "员工福利与学习发展制度.txt"
+    ],
+    "evidence": [
+      "转正员工可参加公司补充商业医疗计划"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "paraphrase",
+    "difficulty": "easy",
+    "tags": [
+      "paraphrase",
+      "colloquial",
+      "benefits"
+    ]
+  },
+  {
+    "id": "blind-para-003",
+    "question": "临时借个电脑最多能用多久啊？",
+    "answer": "临时借用设备最长30天，到期前应归还或申请延期。",
+    "expected_chunks": [
+      "schunk-1de866bc7273f86f8d6c2f00"
+    ],
+    "expected_sources": [
+      "办公设备与软件资产管理制度.txt"
+    ],
+    "evidence": [
+      "临时借用设备最长30天，到期前应归还或申请延期。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "paraphrase",
+    "difficulty": "easy",
+    "tags": [
+      "paraphrase",
+      "colloquial",
+      "asset"
+    ]
+  },
+  {
+    "id": "blind-para-004",
+    "question": "那个，我想问下请假要找谁批啊？就请一天。",
+    "answer": "一天以内由直属负责人审批。",
+    "expected_chunks": [
+      "schunk-00f52061e2e452721903d3ca"
+    ],
+    "expected_sources": [
+      "考勤与休假管理制度_v2.txt"
+    ],
+    "evidence": [
+      "一天以内由直属负责人审批"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "paraphrase",
+    "difficulty": "easy",
+    "tags": [
+      "paraphrase",
+      "colloquial",
+      "leave"
+    ]
+  },
+  {
+    "id": "blind-para-005",
+    "question": "出差回来报销有没有时间限制？晚了会怎样？",
+    "answer": "员工应在行程结束后10个自然日内提交报销。缺少票据时，应提交情况说明并由部门负责人、财务负责人共同审批。财务发现重复票据、费用与行程明显不符或审批链不完整时，可退回补充材料。",
+    "expected_chunks": [
+      "schunk-a2653c74d04757b27c1df8c2"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度_v2.txt"
+    ],
+    "evidence": [
+      "员工应在行程结束后10个自然日内提交报销",
+      "缺少票据时，应提交情况说明并由部门负责人、财务负责人共同审批"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "paraphrase",
+    "difficulty": "medium",
+    "tags": [
+      "paraphrase",
+      "colloquial",
+      "reimbursement"
+    ]
+  },
+  {
+    "id": "blind-para-006",
+    "question": "公司数据安全分几个级别啊？",
+    "answer": "公司数据分为公开、内部、机密、严格机密四级。",
+    "expected_chunks": [
+      "schunk-d71d6619b638e8c74b4f36a8"
+    ],
+    "expected_sources": [
+      "信息安全与数据分级制度.txt"
+    ],
+    "evidence": [
+      "公司数据分为公开、内部、机密、严格机密四级。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "paraphrase",
+    "difficulty": "easy",
+    "tags": [
+      "paraphrase",
+      "colloquial",
+      "data-classification"
+    ]
+  },
+  {
+    "id": "blind-para-007",
+    "question": "试用期多久能转正？怎么知道我过没过？",
+    "answer": "转正评估原则上在约定试用期届满前10个工作日启动。直属负责人的口头承诺不代表最终结果，必须由人力资源部书面确认。",
+    "expected_chunks": [
+      "schunk-66fda385a98202eb89098ccb"
+    ],
+    "expected_sources": [
+      "入职转正与离职交接制度.txt"
+    ],
+    "evidence": [
+      "转正评估原则上在约定试用期届满前10个工作日启动",
+      "直属负责人的口头承诺不代表最终结果。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "paraphrase",
+    "difficulty": "medium",
+    "tags": [
+      "paraphrase",
+      "colloquial",
+      "probation"
+    ]
+  },
+  {
+    "id": "blind-para-008",
+    "question": "用AI写个报告发给客户，需要注意啥？",
+    "answer": "应选择公司批准的工具、账号类型和接入方式；不得将客户合同、未公开经营数据等输入未获批准的模型；对外发布内容不得仅凭模型输出自动执行。",
+    "expected_chunks": [
+      "schunk-62ca80cb8b44aba00cba17d6",
+      "schunk-9ec351ce5ab260766c51227a"
+    ],
+    "expected_sources": [
+      "生成式AI工具安全使用规范.txt"
+    ],
+    "evidence": [
+      "员工因工作使用生成式AI前，应选择公司批准的工具、账号类型和接入方式。",
+      "对外发布、客户承诺、财务决定、人员决定和安全配置不得仅凭模型输出自动执行。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "paraphrase",
+    "difficulty": "medium",
+    "tags": [
+      "paraphrase",
+      "colloquial",
+      "ai"
+    ]
+  },
+  {
+    "id": "blind-para-009",
+    "question": "我是新来的，想问下入职前要准备啥材料？",
+    "answer": "新员工应在入职前三个工作日完成身份、薪资账户和紧急联系人等材料提交。",
+    "expected_chunks": [
+      "schunk-dfe1f9b49314521d337d6329"
+    ],
+    "expected_sources": [
+      "入职转正与离职交接制度.txt"
+    ],
+    "evidence": [
+      "新员工应在入职前三个工作日完成身份、薪资账户和紧急联系人等材料提交。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "paraphrase",
+    "difficulty": "easy",
+    "tags": [
+      "paraphrase",
+      "colloquial",
+      "onboarding"
+    ]
+  },
+  {
+    "id": "blind-para-010",
+    "question": "设备丢了或者被盗了，要多久内上报？",
+    "answer": "发现设备遗失或疑似钓鱼时，在30分钟内通过安全热线或安全事件门户报告。",
+    "expected_chunks": [
+      "schunk-74d3efae784e8e5094758bd1"
+    ],
+    "expected_sources": [
+      "信息安全与数据分级制度.txt"
+    ],
+    "evidence": [
+      "在30分钟内通过安全热线或安全事件门户报告"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "paraphrase",
+    "difficulty": "easy",
+    "tags": [
+      "paraphrase",
+      "colloquial",
+      "security-incident"
+    ]
+  },
+  {
+    "id": "blind-typo-001",
+    "question": "远成办公怎么申请？",
+    "answer": "员工应最迟在前一工作日17:00前提交申请，由直属负责人审批。",
+    "expected_chunks": [
+      "schunk-9b29ad14f7418c81799b3fa5"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt"
+    ],
+    "evidence": [
+      "员工应最迟在前一工作日17:00前提交申请，由直属负责人审批。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "typo",
+    "difficulty": "medium",
+    "tags": [
+      "typo",
+      "remote-work"
+    ]
+  },
+  {
+    "id": "blind-typo-002",
+    "question": "抱销差旅费需要什么票据？",
+    "answer": "市内交通按实际发生并凭合规票据报销。电子发票需确保未重复提交。",
+    "expected_chunks": [
+      "schunk-eee710611932aa01f0847ba0"
+    ],
+    "expected_sources": [
+      "差旅与费用报销制度_v2.txt"
+    ],
+    "evidence": [
+      "电子发票需确保未重复提交"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "typo",
+    "difficulty": "medium",
+    "tags": [
+      "typo",
+      "reimbursement"
+    ]
+  },
+  {
+    "id": "blind-typo-003",
+    "question": "年假有几天怎么算？",
+    "answer": "累计工作满1年不满10年的为5天，满10年不满20年的为12天，满20年的为18天。",
+    "expected_chunks": [
+      "schunk-4afa5621a835b98296f09f48"
+    ],
+    "expected_sources": [
+      "考勤与休假管理制度_v2.txt"
+    ],
+    "evidence": [
+      "累计工作满1年不满10年的为5天，满10年不满20年的为12天，满20年的为18天"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "typo",
+    "difficulty": "easy",
+    "tags": [
+      "typo",
+      "abbreviation",
+      "annual-leave"
+    ]
+  },
+  {
+    "id": "blind-typo-004",
+    "question": "利溢冲突怎么申报？",
+    "answer": "员工应在知悉冲突后三个工作日内提交申报。",
+    "expected_chunks": [
+      "schunk-895fa62f9d3d5c556248c120"
+    ],
+    "expected_sources": [
+      "利益冲突与礼品招待规范.txt"
+    ],
+    "evidence": [
+      "员工应在知悉冲突后三个工作日内提交申报。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "typo",
+    "difficulty": "medium",
+    "tags": [
+      "typo",
+      "conflict-of-interest"
+    ]
+  },
+  {
+    "id": "blind-typo-005",
+    "question": "供应商出现商叶贿赂怎么办？",
+    "answer": "存在商业贿赂、伪造材料、严重数据泄露或拒不整改情形的，可暂停新增订单并启动退出评审。",
+    "expected_chunks": [
+      "schunk-8333f644ec3fe5533449bf7d"
+    ],
+    "expected_sources": [
+      "采购与供应商准入管理办法.txt"
+    ],
+    "evidence": [
+      "存在商业贿赂、伪造材料、严重数据泄露或拒不整改情形的，可暂停新增订单并启动退出评审"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "typo",
+    "difficulty": "medium",
+    "tags": [
+      "typo",
+      "supplier",
+      "bribery"
+    ]
+  },
+  {
+    "id": "blind-abbr-001",
+    "question": "PIP的员工能申请远程办公吗？",
+    "answer": "远程办公要求最近一次绩效不低于'符合预期'。进入绩效改进计划（PIP）的员工通常因连续两个季度'部分未达预期'或单季度'未达预期'，不符合远程办公的绩效条件。",
+    "expected_chunks": [
+      "schunk-19ea17a7f61cfd8dc9690ac7",
+      "schunk-28da74001ad10e5e3585cf5b"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt",
+      "绩效管理制度.txt"
+    ],
+    "evidence": [
+      "转正且最近一次绩效不低于“符合预期”的员工",
+      "连续两个季度“部分未达预期”或单季度“未达预期”的员工，可能进入绩效改进计划"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "abbreviation",
+    "difficulty": "hard",
+    "tags": [
+      "abbreviation",
+      "pip",
+      "remote-work"
+    ]
+  },
+  {
+    "id": "blind-abbr-002",
+    "question": "MFA是必须用的吗？在什么场景下？",
+    "answer": "是的。远程访问内部系统必须使用公司设备、VPN和多因素认证（MFA）。",
+    "expected_chunks": [
+      "schunk-d92223e2af7e3caf0d93c728"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt"
+    ],
+    "evidence": [
+      "远程访问内部系统必须使用公司设备、VPN和多因素认证"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "abbreviation",
+    "difficulty": "easy",
+    "tags": [
+      "abbreviation",
+      "mfa",
+      "security"
+    ]
+  },
+  {
+    "id": "blind-abbr-003",
+    "question": "公司对BYOD有什么政策？",
+    "answer": "根据现有知识库，没有找到专门的BYOD（自带设备）政策。但远程办公办法规定'远程访问内部系统必须使用公司设备、VPN和多因素认证'，禁止在公共电脑处理公司信息。",
+    "expected_chunks": [
+      "schunk-d92223e2af7e3caf0d93c728"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt"
+    ],
+    "evidence": [
+      "远程访问内部系统必须使用公司设备、VPN和多因素认证",
+      "禁止在公共电脑处理公司信息"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "abbreviation",
+    "difficulty": "hard",
+    "tags": [
+      "abbreviation",
+      "byod",
+      "security"
+    ]
+  },
+  {
+    "id": "blind-abbr-004",
+    "question": "RTO和RPO多久复核一次？",
+    "answer": "各关键系统的恢复时间目标（RTO）和可接受数据丢失范围（RPO）至少每年复核一次。",
+    "expected_chunks": [
+      "schunk-2a931c5b01079dfac8b94446"
+    ],
+    "expected_sources": [
+      "业务连续性与应急响应办法.txt"
+    ],
+    "evidence": [
+      "至少每年复核一次"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "abbreviation",
+    "difficulty": "medium",
+    "tags": [
+      "abbreviation",
+      "rto",
+      "rpo",
+      "bcp"
+    ]
+  },
+  {
+    "id": "blind-partial-001",
+    "question": "公司对远程办公、加班餐补和停车位分别有什么规定？",
+    "answer": "远程办公：转正且绩效达标员工每周最多2天，需前一工作日17:00前申请，核心协作时段10:00-17:30。关于加班餐补和停车位，根据现有知识库无法找到相关信息。",
+    "expected_chunks": [
+      "schunk-19ea17a7f61cfd8dc9690ac7"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt"
+    ],
+    "evidence": [
+      "转正且最近一次绩效不低于“符合预期”的员工，可申请每周最多2个远程办公日"
+    ],
+    "expected_answer_status": "partially_answerable",
+    "expected_subquestions": [
+      {"id": "SQ1", "question": "公司对远程办公有什么规定？", "status": "answerable", "expected_chunks": ["schunk-19ea17a7f61cfd8dc9690ac7"]},
+      {"id": "SQ2", "question": "公司对加班餐补有什么规定？", "status": "not_found", "expected_chunks": []},
+      {"id": "SQ3", "question": "公司对停车位有什么规定？", "status": "not_found", "expected_chunks": []}
+    ],
+    "dimension": "partially_answerable",
+    "difficulty": "medium",
+    "tags": [
+      "partially-answerable",
+      "multi-part"
+    ]
+  },
+  {
+    "id": "blind-partial-002",
+    "question": "员工入职需要提交哪些材料？试用期多久？试用期工资怎么发？",
+    "answer": "新员工应在入职前三个工作日完成身份、薪资账户和紧急联系人等材料提交。关于试用期时长和试用期工资标准，现有制度未明确规定，请咨询人力资源部。",
+    "expected_chunks": [
+      "schunk-dfe1f9b49314521d337d6329"
+    ],
+    "expected_sources": [
+      "入职转正与离职交接制度.txt"
+    ],
+    "evidence": [
+      "新员工应在入职前三个工作日完成身份、薪资账户和紧急联系人等材料提交。"
+    ],
+    "expected_answer_status": "partially_answerable",
+    "expected_subquestions": [
+      {"id": "SQ1", "question": "员工入职需要提交哪些材料？", "status": "answerable", "expected_chunks": ["schunk-dfe1f9b49314521d337d6329"]},
+      {"id": "SQ2", "question": "员工试用期多久？", "status": "not_found", "expected_chunks": []},
+      {"id": "SQ3", "question": "员工试用期工资怎么发？", "status": "not_found", "expected_chunks": []}
+    ],
+    "dimension": "partially_answerable",
+    "difficulty": "medium",
+    "tags": [
+      "partially-answerable",
+      "multi-part",
+      "onboarding"
+    ]
+  },
+  {
+    "id": "blind-partial-003",
+    "question": "公司提供哪些补充保险？覆盖哪些人群？报销比例是多少？",
+    "answer": "转正员工可参加公司补充商业医疗计划，员工可为一名父母或配偶购买自费升级包，费用由员工承担。关于具体报销比例，现有制度未详细说明。",
+    "expected_chunks": [
+      "schunk-d04fabd57aeb39fadab1d13d"
+    ],
+    "expected_sources": [
+      "员工福利与学习发展制度.txt"
+    ],
+    "evidence": [
+      "转正员工可参加公司补充商业医疗计划",
+      "员工可为一名父母或配偶购买自费升级包，费用由员工承担"
+    ],
+    "expected_answer_status": "partially_answerable",
+    "expected_subquestions": [
+      {"id": "SQ1", "question": "公司提供哪些补充保险？", "status": "answerable", "expected_chunks": ["schunk-d04fabd57aeb39fadab1d13d"]},
+      {"id": "SQ2", "question": "补充保险覆盖哪些人群？", "status": "answerable", "expected_chunks": ["schunk-d04fabd57aeb39fadab1d13d"]},
+      {"id": "SQ3", "question": "补充保险报销比例是多少？", "status": "not_found", "expected_chunks": []}
+    ],
+    "dimension": "partially_answerable",
+    "difficulty": "medium",
+    "tags": [
+      "partially-answerable",
+      "multi-part",
+      "benefits"
+    ]
+  },
+  {
+    "id": "blind-partial-004",
+    "question": "项目验收标准是什么？如果验收不通过怎么处理？二次验收有时间限制吗？",
+    "answer": "验收时影响核心功能、安全或合同承诺的问题应判定未通过。关于二次验收的时间限制，现有制度未明确规定。",
+    "expected_chunks": [
+      "schunk-a0ca4ac78cb946789c3f5b7b"
+    ],
+    "expected_sources": [
+      "项目变更与交付验收办法.txt"
+    ],
+    "evidence": [
+      "影响核心功能、安全或合同承诺的问题应判定未通过"
+    ],
+    "expected_answer_status": "partially_answerable",
+    "expected_subquestions": [
+      {"id": "SQ1", "question": "项目验收标准是什么？", "status": "answerable", "expected_chunks": ["schunk-a0ca4ac78cb946789c3f5b7b"]},
+      {"id": "SQ2", "question": "项目验收不通过怎么处理？", "status": "answerable", "expected_chunks": ["schunk-a0ca4ac78cb946789c3f5b7b"]},
+      {"id": "SQ3", "question": "二次验收有时间限制吗？", "status": "not_found", "expected_chunks": []}
+    ],
+    "dimension": "partially_answerable",
+    "difficulty": "medium",
+    "tags": [
+      "partially-answerable",
+      "acceptance",
+      "project"
+    ]
+  },
+  {
+    "id": "blind-partial-005",
+    "question": "审计发现的问题分几级？每一级的整改期限和处理流程是什么？",
+    "answer": "问题分为高、中、低三级；高风险原则上30天、中风险60天、低风险90天内完成整改。各等级的完整处理流程，现有制度未全部详述。",
+    "expected_chunks": [
+      "schunk-52a2cd7c15266ad1d8404fcf",
+      "schunk-df2d6573314f66cf1dcd482c"
+    ],
+    "expected_sources": [
+      "内部审计与整改闭环管理办法.txt"
+    ],
+    "evidence": [
+      "问题按影响和发生可能性分为高、中、低三级",
+      "高风险问题原则上30天内完成"
+    ],
+    "expected_answer_status": "partially_answerable",
+    "expected_subquestions": [
+      {"id": "SQ1", "question": "审计发现的问题分几级？", "status": "answerable", "expected_chunks": ["schunk-52a2cd7c15266ad1d8404fcf"]},
+      {"id": "SQ2", "question": "各级审计问题的整改期限是什么？", "status": "answerable", "expected_chunks": ["schunk-df2d6573314f66cf1dcd482c"]},
+      {"id": "SQ3", "question": "各级审计问题的完整处理流程是什么？", "status": "not_found", "expected_chunks": []}
+    ],
+    "dimension": "partially_answerable",
+    "difficulty": "hard",
+    "tags": [
+      "partially-answerable",
+      "multi-part",
+      "audit"
+    ]
+  },
+  {
+    "id": "blind-hard-001",
+    "question": "如果审计发现高风险问题，且整改部门负责人同时是审计委员会成员，如何确保独立验证？",
+    "answer": "问题关闭前应由独立于整改执行人的人员验证证据和实际效果。如果整改部门负责人同时是审计委员会成员，属于利益冲突，应申报并由独立第三方进行关闭验证。",
+    "expected_chunks": [
+      "schunk-2976924bfca4c2bbf03d2986",
+      "schunk-895fa62f9d3d5c556248c120"
+    ],
+    "expected_sources": [
+      "内部审计与整改闭环管理办法.txt",
+      "利益冲突与礼品招待规范.txt"
+    ],
+    "evidence": [
+      "问题关闭前应由独立于整改执行人的人员验证证据和实际效果。",
+      "员工应在知悉冲突后三个工作日内提交申报。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "hard",
+      "cross-document",
+      "conflict-of-interest",
+      "audit"
+    ]
+  },
+  {
+    "id": "blind-hard-002",
+    "question": "员工在远程办公日出差到一类城市。同一天既算远程办公又有出差住宿，住宿标准按什么执行？可以同时领餐补吗？",
+    "answer": "现行差旅制度可以确认：一类城市住宿含税上限为700元，国内差旅餐补为每天150元；客户或主办方提供全天餐食的，当日不再领取餐补。现有知识库没有明确说明远程办公与差旅状态同日叠加时是否存在其他补贴或如何合并，因此这部分无法确认。",
+    "expected_chunks": [
+      "schunk-63d67e58b72c17654d86668b",
+      "schunk-eee710611932aa01f0847ba0"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt",
+      "差旅与费用报销制度_v2.txt"
+    ],
+    "evidence": [
+      "一类城市每晚700元",
+      "国内差旅餐补为每天150元"
+    ],
+    "expected_answer_status": "partially_answerable",
+    "expected_subquestions": [
+      {
+        "id": "SQ1",
+        "question": "一类城市出差住宿标准是什么？",
+        "status": "answerable",
+        "expected_chunks": [
+          "schunk-63d67e58b72c17654d86668b"
+        ]
+      },
+      {
+        "id": "SQ2",
+        "question": "国内差旅餐补标准是什么？",
+        "status": "answerable",
+        "expected_chunks": [
+          "schunk-eee710611932aa01f0847ba0"
+        ]
+      },
+      {
+        "id": "SQ3",
+        "question": "远程办公与差旅同日时是否可以领取额外或重复补贴？",
+        "status": "not_found",
+        "expected_chunks": []
+      }
+    ],
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "hard",
+      "cross-document",
+      "overlap-scenario"
+    ]
+  },
+  {
+    "id": "blind-hard-003",
+    "question": "跨部门的联合项目，项目委员会成员来自不同部门，其中一个部门的负责人同时是该项目的关键供应商的实际控制人。从制度角度，存在哪些合规风险？应如何处理？",
+    "answer": "存在利益冲突风险：发现利益冲突时，应在三个工作日内向直属负责人及人力资源部申报。申报人在措施确认前不应参与供应商选择、价格谈判、验收、招聘或付款决定。同时供应商存在商业贿赂风险的，可暂停新增订单并启动退出评审。",
+    "expected_chunks": [
+      "schunk-895fa62f9d3d5c556248c120",
+      "schunk-9c548b9a820f8d0144963617",
+      "schunk-8333f644ec3fe5533449bf7d"
+    ],
+    "expected_sources": [
+      "利益冲突与礼品招待规范.txt",
+      "采购与供应商准入管理办法.txt",
+      "星云科技员工手册.txt"
+    ],
+    "evidence": [
+      "员工应在知悉冲突后三个工作日内提交申报。",
+      "申报人在措施确认前，不应参与供应商选择、价格谈判、验收、招聘或付款决定。",
+      "存在商业贿赂、伪造材料、严重数据泄露或拒不整改情形的，可暂停新增订单并启动退出评审"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "hard",
+      "cross-document",
+      "conflict-of-interest",
+      "scenario"
+    ]
+  },
+  {
+    "id": "blind-hard-004",
+    "question": "员工使用公司批准的AI工具起草一份包含客户合同条款的建议书。AI生成的草稿中建议了一个价格折扣，但没有引用任何公司制度依据。员工直接把这个草稿发给客户，是否违反公司制度？",
+    "answer": "是，违反了两项规定：1) 输出核验规定：对外发布、客户承诺、财务决定不得仅凭模型输出自动执行；2) 合同评审规定：合同发起人应在合同系统中填写交易背景、相对方、金额等，且非标准合同或金额超50000元须法务评审。员工应先人工审核AI输出，按合同评审流程提交审批。",
+    "expected_chunks": [
+      "schunk-9ec351ce5ab260766c51227a",
+      "schunk-a258430162ba760a9cd776b2"
+    ],
+    "expected_sources": [
+      "生成式AI工具安全使用规范.txt",
+      "合同评审与印章使用规范.txt"
+    ],
+    "evidence": [
+      "对外发布、客户承诺、财务决定、人员决定和安全配置不得仅凭模型输出自动执行。",
+      "合同发起人应在合同系统中填写交易背景、相对方、金额、期限、交付内容和预算编号"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "hard",
+      "cross-document",
+      "ai",
+      "scenario",
+      "compliance"
+    ]
+  },
+  {
+    "id": "blind-hard-005",
+    "question": "假设一位员工：工龄12年、转正、最近绩效'符合预期'。他周二周三申请了远程办公，但周三临时被派去一类城市出差。请列举他周三需要遵守的所有制度要求。",
+    "answer": "可以分别确认：远程办公日应遵守10:00至17:30核心协作时段并标注办公地点；国内差旅原则上乘高铁二等座或飞机经济舱，一类城市住宿含税上限700元，餐补每天150元，客户或主办方提供全天餐食时不再领取餐补。现有知识库未说明临时出差是否自动覆盖已批准的远程办公安排，因此两套要求如何叠加需进一步确认。",
+    "expected_chunks": [
+      "schunk-9b29ad14f7418c81799b3fa5",
+      "schunk-63d67e58b72c17654d86668b",
+      "schunk-eee710611932aa01f0847ba0"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt",
+      "差旅与费用报销制度_v2.txt"
+    ],
+    "evidence": [
+      "远程办公日仍应遵守核心协作时段10:00至17:30",
+      "一类城市每晚700元",
+      "国内差旅餐补为每天150元"
+    ],
+    "expected_answer_status": "partially_answerable",
+    "expected_subquestions": [
+      {
+        "id": "SQ1",
+        "question": "周三作为远程办公日需要遵守哪些协作要求？",
+        "status": "answerable",
+        "expected_chunks": [
+          "schunk-9b29ad14f7418c81799b3fa5"
+        ]
+      },
+      {
+        "id": "SQ2",
+        "question": "一类城市差旅需要遵守哪些交通、住宿和餐补要求？",
+        "status": "answerable",
+        "expected_chunks": [
+          "schunk-63d67e58b72c17654d86668b",
+          "schunk-eee710611932aa01f0847ba0"
+        ]
+      },
+      {
+        "id": "SQ3",
+        "question": "临时出差是否自动覆盖已批准的远程办公安排？",
+        "status": "not_found",
+        "expected_chunks": []
+      }
+    ],
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "hard",
+      "cross-document",
+      "scenario",
+      "multi-condition"
+    ]
+  },
+  {
+    "id": "blind-fact-001",
+    "question": "弹性打卡团队的员工最早可以几点到岗？",
+    "answer": "采用弹性打卡的团队可在08:30至10:00之间到岗，最早08:30到岗。",
+    "expected_chunks": [
+      "schunk-c7e0f5353f7babf5e6842422"
+    ],
+    "expected_sources": [
+      "星云科技员工手册_v2.txt"
+    ],
+    "evidence": [
+      "采用弹性打卡的团队可在08:30至10:00之间到岗"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "factual",
+      "work-hours",
+      "flexible"
+    ]
+  },
+  {
+    "id": "blind-fact-002",
+    "question": "未批准的AI公共服务可以处理什么级别的信息？",
+    "answer": "只能处理公开信息或完全虚构的测试内容。",
+    "expected_chunks": [
+      "schunk-62ca80cb8b44aba00cba17d6"
+    ],
+    "expected_sources": [
+      "生成式AI工具安全使用规范.txt"
+    ],
+    "evidence": [
+      "未批准的公共服务只能处理公开信息或完全虚构的测试内容"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "factual",
+      "ai",
+      "public-service"
+    ]
+  },
+  {
+    "id": "blind-fact-003",
+    "question": "绩效周期按什么频率执行？评价等级分为哪五档？",
+    "answer": "绩效周期按季度执行。等级分为'显著超出预期、部分超出预期、符合预期、部分未达预期、未达预期'五档。",
+    "expected_chunks": [
+      "schunk-cf46ea44c66f11724fcea8f3",
+      "schunk-9d9dc5c9d776e5f2d9b96cc4"
+    ],
+    "expected_sources": [
+      "绩效管理制度.txt"
+    ],
+    "evidence": [
+      "绩效周期按季度执行。",
+      "等级分为“显著超出预期、部分超出预期、符合预期、部分未达预期、未达预期”五档。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "factual",
+      "performance",
+      "rating"
+    ]
+  },
+  {
+    "id": "blind-fact-004",
+    "question": "项目预计周期超过几个月或预算超过多少元，需要设置项目委员会？",
+    "answer": "预计周期超过三个月或预算超过100000元的项目，应设置项目委员会。",
+    "expected_chunks": [
+      "schunk-3af4888706abf768dfca0dc9"
+    ],
+    "expected_sources": [
+      "项目变更与交付验收办法.txt"
+    ],
+    "evidence": [
+      "预计周期超过三个月或预算超过100000元的项目，应设置项目委员会"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "numeric",
+      "project",
+      "committee"
+    ]
+  },
+  {
+    "id": "blind-fact-005",
+    "question": "员工对排班有异议且涉及直属负责人利益冲突时，应如何申诉？",
+    "answer": "可直接向人力资源负责人或合规邮箱提交。",
+    "expected_chunks": [
+      "schunk-0f3bccf8a66f885b4c5058f5"
+    ],
+    "expected_sources": [
+      "星云科技员工手册_v2.txt"
+    ],
+    "evidence": [
+      "涉及直属负责人利益冲突的，可直接向人力资源负责人或合规邮箱提交。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "medium",
+    "tags": [
+      "conditional",
+      "appeal",
+      "conflict-of-interest"
+    ]
+  },
+  {
+    "id": "blind-fact-006",
+    "question": "远程办公员工如果遇到居住地极端天气需要临时远程办公，是否占用每周额度？",
+    "answer": "不占每周2天额度。如居住地发生极端天气、公共交通大范围中断等情况，员工可申请临时远程办公，不占每周2天额度。紧急申请应在当日09:30前通知负责人，并在一个工作日内补录。",
+    "expected_chunks": [
+      "schunk-12bd9962057ef204f758810d"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt"
+    ],
+    "evidence": [
+      "如居住地发生极端天气、公共交通大范围中断等情况，员工可申请临时远程办公，不占每周2天额度",
+      "紧急申请应在当日09:30前通知负责人，并在一个工作日内补录。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "medium",
+    "tags": [
+      "conditional",
+      "emergency",
+      "remote-work"
+    ]
+  },
+  {
+    "id": "blind-fact-007",
+    "question": "需求基线包括哪些内容？",
+    "answer": "至少包括业务场景、功能清单、性能要求、数据边界和验收方法。",
+    "expected_chunks": [
+      "schunk-c52a74d79d836b88cc31f008"
+    ],
+    "expected_sources": [
+      "项目变更与交付验收办法.txt"
+    ],
+    "evidence": [
+      "至少包括业务场景、功能清单、性能要求、数据边界和验收方法"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "factual",
+      "project",
+      "baseline"
+    ]
+  },
+  {
+    "id": "blind-fact-008",
+    "question": "公司数据分为哪几个等级？机密数据包括哪些内容？",
+    "answer": "公司数据分为公开、内部、机密、严格机密四级。机密数据包括未公开经营数据、客户合同和源代码。",
+    "expected_chunks": [
+      "schunk-d71d6619b638e8c74b4f36a8"
+    ],
+    "expected_sources": [
+      "信息安全与数据分级制度.txt"
+    ],
+    "evidence": [
+      "公司数据分为公开、内部、机密、严格机密四级。",
+      "机密数据包括未公开经营数据、客户合同和源代码"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "multi_hop",
+    "difficulty": "easy",
+    "tags": [
+      "factual",
+      "data-classification"
+    ]
+  },
+  {
+    "id": "blind-fact-009",
+    "question": "访问权限复核的频率是多久一次？",
+    "answer": "每季度复核一次。",
+    "expected_chunks": [
+      "schunk-25b434167c4e09c6072f3f3f"
+    ],
+    "expected_sources": [
+      "信息安全与数据分级制度.txt"
+    ],
+    "evidence": [
+      "每季度复核一次。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "factual",
+    "difficulty": "easy",
+    "tags": [
+      "factual",
+      "access-review"
+    ]
+  },
+  {
+    "id": "blind-boundary-005",
+    "question": "采购含税金额为5000元、5001元、10000元时，审批权限和报价要求分别是什么？",
+    "answer": "5000元：直属负责人审批，不需多家报价。5001元至10000元：由部门负责人审批。超过10000元：需部门负责人审批，且原则上应取得至少三家可比报价。",
+    "expected_chunks": [
+      "schunk-7c0831ab355bb976cbe36fa0",
+      "schunk-2ef925dc0664c063f564c176"
+    ],
+    "expected_sources": [
+      "采购与供应商准入管理办法.txt"
+    ],
+    "evidence": [
+      "单次含税金额不超过5000元的常规采购，由直属负责人审批",
+      "含税金额超过10000元的采购原则上应取得至少三家可比报价"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "amount_boundary",
+    "difficulty": "hard",
+    "tags": [
+      "amount-boundary",
+      "tiered",
+      "multi-value",
+      "procurement"
+    ]
+  },
+  {
+    "id": "blind-crossdoc-011",
+    "question": "使用学习预算参加的外部培训，如果培训内容涉及公司机密数据作为案例，需要额外遵守哪些安全规定？",
+    "answer": "学习预算方面：单笔超过1000元需部门负责人审批。数据安全方面：机密数据包括未公开经营数据、客户合同和源代码；向外部传输机密数据前，业务负责人应确认业务必要性，完成保密约定，并使用公司批准的加密渠道。",
+    "expected_chunks": [
+      "schunk-a6f502f196c1c5b570d0ee75",
+      "schunk-d71d6619b638e8c74b4f36a8",
+      "schunk-25b434167c4e09c6072f3f3f"
+    ],
+    "expected_sources": [
+      "员工福利与学习发展制度.txt",
+      "信息安全与数据分级制度.txt"
+    ],
+    "evidence": [
+      "单笔超过1000元还需部门负责人审批",
+      "机密数据包括未公开经营数据、客户合同和源代码",
+      "业务负责人应确认业务必要性，完成保密约定，并使用公司批准的加密渠道。"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "hard",
+      "cross-document",
+      "security",
+      "training"
+    ]
+  },
+  {
+    "id": "blind-hard-006",
+    "question": "员工在远程办公日使用个人笔记本电脑（非公司设备）通过公共WiFi连接公司系统处理内部级别数据。从制度角度，这违反了哪些规定？",
+    "answer": "违反了多项规定：1) 远程办公办法要求必须使用公司设备、VPN和多因素认证；2) 禁止在公共电脑处理公司信息；3) 在公共场所处理内部以上数据时应采取防窥和耳机等措施。使用个人设备+公共WiFi同时违反了设备要求、网络要求和环境要求。",
+    "expected_chunks": [
+      "schunk-d92223e2af7e3caf0d93c728"
+    ],
+    "expected_sources": [
+      "远程办公管理办法.txt"
+    ],
+    "evidence": [
+      "远程访问内部系统必须使用公司设备、VPN和多因素认证",
+      "禁止在公共电脑处理公司信息",
+      "在公共场所处理内部以上数据时应采取防窥和耳机等措施"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "hard",
+      "scenario",
+      "security",
+      "remote-work"
+    ]
+  },
+  {
+    "id": "blind-hard-007",
+    "question": "如果合同评审中隐私保护负责人和法务负责人对数据处理条款意见不一致，应如何处理？",
+    "answer": "现有制度未明确规定合同评审中不同审核方意见不一致的处理机制。合同评审制度规定了必须由法务评审的情形，客户资料保护规范规定了数据收集和处理原则。意见不一致时，建议升级至共同上级或合规委员会决策。",
+    "expected_chunks": [
+      "schunk-36ede512620ef0b9088ddfb0",
+      "schunk-82cbceee8ae30d8adb332d0e"
+    ],
+    "expected_sources": [
+      "合同评审与印章使用规范.txt",
+      "客户资料与隐私保护规范.txt"
+    ],
+    "evidence": [
+      "非标准合同、跨境交易、自动续费、排他合作、个人信息处理或金额超过50000元的合同必须由法务评审",
+      "应明确业务目的、数据项目、使用范围和保存期限"
+    ],
+    "expected_answer_status": "answerable",
+    "dimension": "cross_document",
+    "difficulty": "hard",
+    "tags": [
+      "hard",
+      "edge-case",
+      "disagreement"
+    ]
+  },
+  {
+    "id": "blind-partial-006",
+    "question": "供应商绩效评估的频率、评分标准和淘汰机制是什么？",
+    "answer": "供应商绩效每半年复核一次。关于评分标准和淘汰机制的具体细则，制度规定存在商业贿赂、伪造材料、严重数据泄露或拒不整改情形的，可暂停新增订单并启动退出评审。完整评分细则未在制度中明确。",
+    "expected_chunks": [
+      "schunk-8333f644ec3fe5533449bf7d"
+    ],
+    "expected_sources": [
+      "采购与供应商准入管理办法.txt"
+    ],
+    "evidence": [
+      "存在商业贿赂、伪造材料、严重数据泄露或拒不整改情形的，可暂停新增订单并启动退出评审"
+    ],
+    "expected_answer_status": "partially_answerable",
+    "expected_subquestions": [
+      {"id": "SQ1", "question": "供应商绩效评估的频率是什么？", "status": "answerable", "expected_chunks": ["schunk-8333f644ec3fe5533449bf7d"]},
+      {"id": "SQ2", "question": "供应商绩效评估的评分标准是什么？", "status": "not_found", "expected_chunks": []},
+      {"id": "SQ3", "question": "供应商绩效评估的淘汰机制是什么？", "status": "answerable", "expected_chunks": ["schunk-8333f644ec3fe5533449bf7d"]}
+    ],
+    "dimension": "partially_answerable",
+    "difficulty": "hard",
+    "tags": [
+      "partially-answerable",
+      "multi-part",
+      "supplier"
+    ]
+  }
+]

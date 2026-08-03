@@ -1,17 +1,29 @@
 """通过 API 批量导入虚构的星云科技制度语料。"""
 
 import argparse
+import re
 from pathlib import Path
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--api", default="http://localhost:8000")
     parser.add_argument("--corpus", default="tests/corpus")
+    parser.add_argument(
+        "--include-versioned",
+        action="store_true",
+        help="同时导入 *_v2.txt 等版本化语料；默认只导入基础版本",
+    )
     args = parser.parse_args()
 
     import requests
 
     files = sorted(Path(args.corpus).rglob("*.txt"))
+    if not args.include_versioned:
+        files = [
+            path
+            for path in files
+            if not re.search(r"_v\d+$", path.stem, flags=re.IGNORECASE)
+        ]
     if not files:
         raise SystemExit(f"未找到演示文档：{args.corpus}")
 

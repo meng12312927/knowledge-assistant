@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "tiers": {
+    "quality": {
+      "baseline": "tests/benchmark/baselines/quality/latest.json",
+      "fallback_baseline": "tests/benchmark/baselines/latest.json",
+      "metrics": {
+        "retrieval.recall_at_5": {
+          "direction": "higher",
+          "mode": "absolute",
+          "tolerance": 0.01,
+          "minimum": 0.90
+        },
+        "retrieval.recall_at_10": {
+          "direction": "higher",
+          "mode": "absolute",
+          "tolerance": 0.005,
+          "minimum": 0.97
+        },
+        "retrieval.mrr": {
+          "direction": "higher",
+          "mode": "absolute",
+          "tolerance": 0.01
+        },
+        "retrieval.complete_evidence_rate": {
+          "direction": "higher",
+          "mode": "absolute",
+          "tolerance": 0.02
+        },
+        "generation.verification_pass_rate": {
+          "direction": "higher",
+          "mode": "absolute",
+          "tolerance": 0.02,
+          "minimum": 0.84
+        },
+        "generation.claim_supported_rate": {
+          "direction": "higher",
+          "mode": "absolute",
+          "tolerance": 0.02,
+          "minimum": 0.90
+        },
+        "generation.answer_status_accuracy": {
+          "direction": "higher",
+          "mode": "absolute",
+          "tolerance": 0.01,
+          "minimum": 0.90
+        },
+        "generation.hallucination_rate": {
+          "direction": "lower",
+          "mode": "absolute",
+          "tolerance": 0.01,
+          "maximum": 0.05
+        },
+        "error_rate": {
+          "direction": "lower",
+          "mode": "absolute",
+          "tolerance": 0.005,
+          "maximum": 0.0
+        }
+      }
+    },
+    "performance": {
+      "baseline": "tests/benchmark/baselines/performance/latest.json",
+      "fallback_baseline": "tests/benchmark/baselines/latest.json",
+      "metrics": {
+        "latency.client_done_ms.p95": {
+          "direction": "lower",
+          "mode": "relative",
+          "tolerance": 0.15
+        },
+        "latency.client_done_ms.p99": {
+          "direction": "lower",
+          "mode": "relative",
+          "tolerance": 0.20
+        },
+        "latency.generation_ttft_ms.avg": {
+          "direction": "lower",
+          "mode": "relative",
+          "tolerance": 0.15
+        },
+        "latency.user_visible_ttft_ms.avg": {
+          "direction": "lower",
+          "mode": "relative",
+          "tolerance": 0.15
+        },
+        "cost.total.avg": {
+          "direction": "lower",
+          "mode": "relative",
+          "tolerance": 0.10
+        },
+        "error_rate": {
+          "direction": "lower",
+          "mode": "absolute",
+          "tolerance": 0.005,
+          "maximum": 0.0
+        }
+      }
+    }
+  }
+}

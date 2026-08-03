@@ -82,7 +82,13 @@ RRF 融合后取最多 `RERANKER_CANDIDATE_K=40` 个候选，通过阿里云百�
 
 Reranker 元数据包括 provider、model、request ID、候选数、输出数、Token 用量、fallback 和 error，通过 `rerank` span 及 `/api/v1/models/status` 暴露。客户端重试耗尽时使用 NoOp 降级，保留 RRF 顺序。
 
-`RERANKER_NOT_FOUND_THRESHOLD=0.30` 用于将明显低相关的结果改为 `not_found`。该值仅是当前本地语料与评测集的经验校准；降级时不使用该规则，避免把 RRF 分数误当成 Qwen 相关性分数。
+`RERANKER_NOT_FOUND_THRESHOLD=0.50` 用于将明显低相关的结果改为 `not_found`。该值来自当前本地语料与 calibration 分片的校准；降级时不使用该规则，避免把 RRF 分数误当成 Qwen 相关性分数。
+
+## 子问题证据覆盖
+
+只有包含明确比较、分别、多条件或多个问句的 Query 才进入该路径。快速规划器输出最多 4 个保持原条件的原子子问题；它们共享一次批量 Embedding，并行执行 Dense/BM25 检索和独立 Qwen Rerank。选择器先覆盖每个非 `not_found` 子问题，再按相关分数补充候选，并限制单一来源对剩余上下文的占用。相同制度存在多个版本时只保留检索候选中的最新版本。
+
+每个分支在 Trace 中记录 `subquestion_id`、独立状态、选中 Chunk、稳定 Chunk ID、来源和 Top Rerank 分数。部分分支无证据时整体状态为 `partially_answerable`，生成器只回答有证据分支，并明确列出暂无法确认的子问题。普通 Query 不经过该阶段。
 
 ## 结构化引用与 Citation Verification
 
@@ -92,9 +98,9 @@ Reranker 元数据包括 provider、model、request ID、候选数、输出数�
 - `chunk_id`：向量库中的稳定 chunk 标识。
 - 原文、来源文件、页码/分块信息和文档版本。
 
-生成完成后，先过滤答案未使用的引用，再让 Citation Verifier 检查引用号有效性、重要结论是否漏引，以及结论是否被对应原文支持。核验调用要求 JSON 输出并关闭 thinking，减少截断或非结构化响应。
+生成完成后，先过滤答案未使用的引用，再让 Citation Verifier 检查引用号有效性、重要结论是否漏引，以及结论是否被对应原文支持。复合问题中的每条结论还必须绑定有效的 `subquestion_id`，不能把 `not_found` 分支判为有证据支持。核验调用要求 JSON 输出并关闭 thinking，减少截断或非结构化响应。
 
-严格模式下，服务端缓冲完整生成结果，核验通过后才向用户发送；核验失败或异常时 fail-closed。`not_found` 不调用答案生成，引用核验记为 skipped。
+严格模式下，服务端缓冲完整生成结果，核验通过后才向用户发送；普通回答核验失败或异常时 fail-closed。`partially_answerable` 中若同时存在已支持和未支持结论，只删除未支持结论并保留已核验分支；`not_found` 不调用答案生成，引用核验记为 skipped。
 
 ## Trace 与时延口径
 
@@ -102,7 +108,7 @@ Reranker 元数据包括 provider、model、request ID、候选数、输出数�
 
 - Query 改写结果、路由策略、MultiQuery 触发原因和缓存命中。
 - Dense / BM25 原始排名、每路 RRF、多 Query 融合结果和 Qwen Rerank 分数。
-- `selected_chunk_ids`、`citation_map`、Citation Verification 结果。
+- `selected_chunk_ids`、子问题状态与 Evidence Coverage、`citation_map`、逐结论 Citation Verification 结果。
 - `knowledge_base_version` 和命中 chunk 的 `document_versions`。
 - 原始检索、改写、Embedding、Dense/BM25、Rerank、Agent 决策、上下文、生成和核验 span。
 - DeepSeek prompt/completion Token、Reranker Token 和汇总 Token。
@@ -130,7 +136,7 @@ Reranker 元数据包括 provider、model、request ID、候选数、输出数�
 - LLM/Reranker Token、技术错误率、可观测完整率、核验通过率和 RPS。
 - Query Rewrite / Embedding 缓存命中分组与每次原始请求记录。
 
-当前保存的 50 次、并发度 5 历史快照中，客户端 SSE 结束平均延迟从 10.42 s 降至 5.13 s，P95 从 14.66 s 降至 7.77 s，DeepSeek 平均 Token 降低 25.76%，技术错误率为 0%。P99 由于一次 26.1 s 异常点反而上升，不应隐藏。该报告在最终 `RERANKER_NOT_FOUND_THRESHOLD=0.30` OOD 拒答补丁前生成，50 次均记为 `answerable`，因此是保守的历史回归基线，不是最新拒答质量结果。完整条件、数据和限制见 [README 的性能评测章节](../README.md#测试与性能评测) 与 [原始 JSON](../tests/results/performance_final_20260722.json)。
+当前保存的 50 次、并发度 5 历史快照中，客户端 SSE 结束平均延迟从 10.42 s 降至 5.13 s，P95 从 14.66 s 降至 7.77 s，DeepSeek 平均 Token 降低 25.76%，技术错误率为 0%。P99 由于一次 26.1 s 异常点反而上升，不应隐藏。该报告在当前校准后的 `RERANKER_NOT_FOUND_THRESHOLD=0.50` OOD 拒答策略前生成，50 次均记为 `answerable`，因此是保守的历史回归基线，不是最新拒答质量结果。完整条件、数据和限制见 [README 的性能评测章节](../README.md#测试与性能评测) 与 [原始 JSON](../tests/results/performance_final_20260722.json)。
 
 ## 多模型路由
 
