@@ -1,0 +1,73 @@
+name: regression-gate
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/regression-gate.yml"
+      - "app/**"
+      - "agent/**"
+      - "embeddings/**"
+      - "ingestion/**"
+      - "models/**"
+      - "rag/**"
+      - "vectorstore/**"
+      - "tests/benchmark/**"
+  workflow_dispatch:
+
+concurrency:
+  group: regression-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  blind-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+      CHROMA_PERSIST_DIR: ${{ runner.temp }}/knowledge-assistant-chroma
+      PYTHONPATH: ${{ github.workspace }}
+      RAG_BENCHMARK_ENDPOINT: http://127.0.0.1:8000
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Require model credentials
+        run: |
+          test -n "$DEEPSEEK_API_KEY" || (echo "Missing DEEPSEEK_API_KEY Actions secret" && exit 1)
+          test -n "$DASHSCOPE_API_KEY" || (echo "Missing DASHSCOPE_API_KEY Actions secret" && exit 1)
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python tests/benchmark/validate_golden.py --all-splits
+      - name: Start the pull request API
+        run: |
+          python -m uvicorn app.api.main:app --host 127.0.0.1 --port 8000 > "$RUNNER_TEMP/rag-api.log" 2>&1 &
+          echo $! > "$RUNNER_TEMP/rag-api.pid"
+      - name: Wait for API readiness
+        run: |
+          for attempt in $(seq 1 90); do
+            if python -c 'import requests; response=requests.get("http://127.0.0.1:8000/health", timeout=2); raise SystemExit(0 if response.ok and response.json().get("ready") else 1)'; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "API did not become ready; inspect the step log above"
+          exit 1
+      - name: Ingest the public synthetic policy corpus
+        run: |
+          python scripts/ingest_demo_corpus.py --api "$RAG_BENCHMARK_ENDPOINT"
+          python scripts/ingest_v2_corpus.py --api "$RAG_BENCHMARK_ENDPOINT"
+      - name: Run the fixed 111-question blind test
+        run: |
+          python tests/benchmark/benchmark.py \
+            --endpoint "$RAG_BENCHMARK_ENDPOINT" \
+            --split blind_test \
+            --version "ci-${GITHUB_SHA}" \
+            --concurrency 5 \
+            --timeout 180
+      - name: Enforce quality and performance baselines
+        run: python tests/benchmark/regression_gate.py
