@@ -33,7 +33,7 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-      - run: python -m pip install requests pydantic pydantic-settings pytest numpy
+      - run: python -m pip install requests pydantic pydantic-settings pytest numpy langchain-core
       - run: python tests/benchmark/validate_golden.py --all-splits
       - name: Verify signed benchmark attestation and regression baseline
         if: ${{ hashFiles('tests/benchmark/attestations/current.json') != '' }}
