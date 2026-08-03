@@ -1,0 +1,20 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install pydantic pydantic-settings pytest numpy
+      - run: pytest tests/unit
+      - run: python tests/benchmark/validate_golden.py --all-splits
+      - run: python -m py_compile tests/benchmark/regression_gate.py
+      - run: python -m compileall -q app agent rag ingestion embeddings vectorstore models
