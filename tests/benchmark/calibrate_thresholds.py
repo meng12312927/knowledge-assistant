@@ -77,10 +77,6 @@ def analyze_rrf_threshold(
         points.append({
             "top_score": top_score,
             "should_trigger": should_trigger,
-            "simple": bool(classification.get("simple")),
-            "channel_agreement": bool(
-                classification.get("channel_top_source_agreement")
-            ),
         })
 
     if not points:
@@ -92,7 +88,6 @@ def analyze_rrf_threshold(
         for point in points:
             retrieval_sufficient = bool(
                 point["top_score"] >= threshold
-                and (point["simple"] or point["channel_agreement"])
             )
             predicted = not retrieval_sufficient
             expected = point["should_trigger"]
@@ -143,7 +138,7 @@ def analyze_rrf_threshold(
         "labeled_samples": len(points),
         "method": (
             "Maximize F1 against explicit routing labels using the production "
-            "RRF + simple-query + channel-agreement decision"
+            "RRF score-only decision"
         ),
     }
 

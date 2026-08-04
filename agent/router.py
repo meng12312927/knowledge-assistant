@@ -295,10 +295,11 @@ class AgentRouter:
             query_time_ms=None
         )
 
-    def _execute_summarization(self, query: str) -> ChatResponse:
+    def _execute_summarization(self, query: str, prepared=None) -> ChatResponse:
         """执行摘要任务"""
-        # 先广泛检索
-        result = self.rag_chain.invoke(QueryRequest(query=query, top_k=10))
+        result = self.rag_chain.invoke(
+            QueryRequest(query=query, top_k=10), prepared=prepared
+        )
 
         if not result.sources:
             return result

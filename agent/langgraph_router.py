@@ -184,12 +184,23 @@ class LangGraphAgentRouter:
         return route_map.get(intent, "factual_qa")
 
     def _factual_qa_node(self, state: AgentState) -> AgentState:
-        """事实问答节点：直接走 RAG"""
+        """事实问答节点：recoverable_low 时做双路检索交叉验证。"""
         query = state["query"]
+        prepared = state.get("prepared_rag")
+
         result = self.rag_chain.invoke(
             QueryRequest(query=query),
-            prepared=state.get("prepared_rag"),
+            prepared=prepared,
         )
+
+        # recoverable_low：原始检索不够好 → 再做一轮独立检索交叉验证
+        if (
+            prepared
+            and prepared.trace.retrieval_quality == "recoverable_low"
+            and result.answer
+        ):
+            result = self._cross_validate(query, result)
+
         return {
             **state,
             "final_answer": result.answer,
@@ -200,13 +211,75 @@ class LangGraphAgentRouter:
             "answer_status": result.answer_status,
         }
 
-    def _comparison_node(self, state: AgentState) -> AgentState:
-        """对比分析节点：复用子问题覆盖检索和逐结论引用核验。"""
-        query = state["query"]
-        result = self.rag_chain.invoke(
-            QueryRequest(query=query),
-            prepared=state.get("prepared_rag"),
+    def _cross_validate(self, original_query: str, first_pass):
+        """recoverable_low 场景：用独立检索结果交叉验证。
+
+        1. 从第一轮答案中提取关键事实作为新 query
+        2. 不传 prepared → 强制重新检索
+        3. 如果第二轮核验通过率更高 → 用第二轮答案
+        """
+        extract_prompt = f"""从以下回答中提取最多 3 条关键事实结论，用空格连接。
+
+回答：
+{first_pass.answer}
+
+只输出关键事实，不要解释："""
+        try:
+            key_facts = self.llm.generate(
+                system_prompt="只输出关键事实结论，不要解释。",
+                user_prompt=extract_prompt,
+                temperature=0,
+                max_tokens=200,
+            ).strip()
+        except Exception:
+            key_facts = ""
+
+        if not key_facts:
+            return first_pass
+
+        expanded_query = f"{original_query} {key_facts}"
+        second_pass = self.rag_chain.invoke(
+            QueryRequest(query=expanded_query),
+            # 不传 prepared → 强制全新检索
         )
+
+        # 选核验通过率更高的
+        first_verified = bool(
+            first_pass.citation_verification
+            and getattr(first_pass.citation_verification, "status", None)
+            in {"verified", "partially_verified"}
+        )
+        second_verified = bool(
+            second_pass.citation_verification
+            and getattr(second_pass.citation_verification, "status", None)
+            in {"verified", "partially_verified"}
+        )
+
+        if second_verified and not first_verified:
+            return second_pass
+
+        first_supported = int(
+            getattr(first_pass.citation_verification, "supported_claims", 0) or 0
+        )
+        second_supported = int(
+            getattr(second_pass.citation_verification, "supported_claims", 0) or 0
+        )
+        if second_supported > first_supported:
+            return second_pass
+
+        # 默认保留第一轮
+        return first_pass
+
+    def _comparison_node(self, state: AgentState) -> AgentState:
+        """对比分析节点：提取比较对象后分别检索，保留双路对比能力。"""
+        query = state["query"]
+        prepared = state.get("prepared_rag")
+        if prepared and prepared.trace.subquestion_planning_triggered:
+            result = self.rag_chain.invoke(
+                QueryRequest(query=query), prepared=prepared
+            )
+        else:
+            result = self._legacy_router._execute_comparison(query)
         return {
             **state,
             "final_answer": result.answer,
@@ -220,7 +293,9 @@ class LangGraphAgentRouter:
     def _summarization_node(self, state: AgentState) -> AgentState:
         """摘要节点"""
         query = state["query"]
-        result = self._legacy_router._execute_summarization(query)
+        result = self._legacy_router._execute_summarization(
+            query, prepared=state.get("prepared_rag")
+        )
         return {
             **state,
             "final_answer": result.answer,

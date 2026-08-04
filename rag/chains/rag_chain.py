@@ -1101,7 +1101,6 @@ class RAGChain:
         sufficient = bool(
             original_candidates
             and original_candidates[0].score >= self.simple_query_min_rrf_score
-            and (simple or channel_top_source_agreement)
         )
         classification_span = next(
             (

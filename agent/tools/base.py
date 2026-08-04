@@ -14,6 +14,7 @@ import ast
 import hashlib
 import json
 import logging
+from datetime import date, timedelta
 import operator
 import re
 import time
@@ -347,7 +348,178 @@ class ToolRegistry:
         return tool.execute(**kwargs)
 
 
+class DateComputeTool(BaseTool):
+    """
+    日期计算工具
+
+    用于计算工作日、日期间隔等。LLM 在日期推算和倒推上极易出错，
+    交由此工具精确计算。
+    """
+
+    name = "date_compute"
+    description = (
+        "计算日期相关的操作，如 N 个工作日后的日期、两个日期之间的天数。"
+        "参数 operation 为操作类型：add_workdays（加工作日）、days_between（日期间隔）。"
+        "示例：TOOL:date_compute\\nARGS:{\"operation\":\"add_workdays\",\"start\":\"2026-01-15\",\"days\":30}"
+        "示例：TOOL:date_compute\\nARGS:{\"operation\":\"days_between\",\"start\":\"2026-01-15\",\"end\":\"2026-04-15\"}"
+    )
+    input_schema = {
+        "type": "object",
+        "properties": {
+            "operation": {
+                "type": "string",
+                "description": "操作类型：add_workdays（加工作日）或 days_between（日期间隔）",
+                "enum": ["add_workdays", "days_between"],
+            },
+            "start": {
+                "type": "string",
+                "description": "起始日期，格式 YYYY-MM-DD",
+                "pattern": r"^\d{4}-\d{2}-\d{2}$",
+            },
+            "days": {
+                "type": "integer",
+                "description": "工作日天数（仅 add_workdays 需要）",
+            },
+            "end": {
+                "type": "string",
+                "description": "结束日期，格式 YYYY-MM-DD（仅 days_between 需要）",
+                "pattern": r"^\d{4}-\d{2}-\d{2}$",
+            },
+        },
+        "required": ["operation", "start"]
+    }
+
+    def __init__(self):
+        # 中国法定节假日（简化版：春节、国庆等，可扩展）
+        self._holidays_2026 = {
+            date(2026, 1, 1),   date(2026, 1, 2),   # 元旦
+            date(2026, 2, 17),  date(2026, 2, 18),  date(2026, 2, 19),
+            date(2026, 2, 20),  date(2026, 2, 21),  date(2026, 2, 22),
+            date(2026, 2, 23),  # 春节
+            date(2026, 4, 5),   # 清明
+            date(2026, 5, 1),   date(2026, 5, 2),   date(2026, 5, 3),
+            date(2026, 5, 4),   date(2026, 5, 5),   # 劳动节
+            date(2026, 5, 31),  # 端午
+            date(2026, 10, 1),  date(2026, 10, 2),  date(2026, 10, 3),
+            date(2026, 10, 4),  date(2026, 10, 5),  date(2026, 10, 6),
+            date(2026, 10, 7),  # 国庆+中秋
+        }
+        self._holidays_2027 = {
+            date(2027, 1, 1),
+        }
+
+    def _is_workday(self, d: date) -> bool:
+        if d.weekday() >= 5:  # 周六日
+            return False
+        if d in self._holidays_2026 or d in self._holidays_2027:
+            return False
+        return True
+
+    def execute(self, operation: str, start: str, days: int = 0, end: str = "") -> ToolResult:
+        try:
+            start_date = date.fromisoformat(start)
+        except (ValueError, TypeError):
+            return ToolResult(
+                tool_name=self.name,
+                input_params={"operation": operation, "start": start},
+                output=None,
+                success=False,
+                error_message=f"无效的起始日期: {start}，格式应为 YYYY-MM-DD"
+            )
+
+        if operation == "add_workdays":
+            if days <= 0:
+                return ToolResult(
+                    tool_name=self.name,
+                    input_params={"operation": operation, "start": start, "days": days},
+                    output=None,
+                    success=False,
+                    error_message=f"工作日天数必须大于 0，收到: {days}"
+                )
+            current = start_date
+            remaining = days
+            max_iterations = days * 3  # 防止死循环
+            iteration = 0
+            while remaining > 0:
+                current += timedelta(days=1)
+                if self._is_workday(current):
+                    remaining -= 1
+                iteration += 1
+                if iteration > max_iterations:
+                    return ToolResult(
+                        tool_name=self.name,
+                        input_params={"operation": operation, "start": start, "days": days},
+                        output=None,
+                        success=False,
+                        error_message="计算超时，日期范围过大"
+                    )
+            return ToolResult(
+                tool_name=self.name,
+                input_params={"operation": operation, "start": start, "days": days},
+                output={
+                    "result_date": current.isoformat(),
+                    "weekday": current.strftime("%A"),
+                    "description": f"{start} 起 {days} 个工作日后的日期",
+                },
+                success=True,
+            )
+
+        elif operation == "days_between":
+            if not end:
+                return ToolResult(
+                    tool_name=self.name,
+                    input_params={"operation": operation, "start": start},
+                    output=None,
+                    success=False,
+                    error_message="days_between 操作需要 end 参数"
+                )
+            try:
+                end_date = date.fromisoformat(end)
+            except (ValueError, TypeError):
+                return ToolResult(
+                    tool_name=self.name,
+                    input_params={"operation": operation, "start": start, "end": end},
+                    output=None,
+                    success=False,
+                    error_message=f"无效的结束日期: {end}"
+                )
+            total = (end_date - start_date).days
+            if total < 0:
+                return ToolResult(
+                    tool_name=self.name,
+                    input_params={"operation": operation, "start": start, "end": end},
+                    output=None,
+                    success=False,
+                    error_message="结束日期必须晚于起始日期"
+                )
+            workdays = sum(
+                1 for i in range(total + 1)
+                if self._is_workday(start_date + timedelta(days=i))
+            )
+            return ToolResult(
+                tool_name=self.name,
+                input_params={"operation": operation, "start": start, "end": end},
+                output={
+                    "total_days": total,
+                    "workdays": workdays,
+                    "calendar_days": total,
+                    "description": f"{start} 到 {end} 共 {total} 个自然日，其中 {workdays} 个工作日",
+                },
+                success=True,
+            )
+
+        else:
+            return ToolResult(
+                tool_name=self.name,
+                input_params={"operation": operation, "start": start},
+                output=None,
+                success=False,
+                error_message=f"不支持的操作: {operation}，可选：add_workdays / days_between"
+            )
+
+
 # 预置工具集
 DEFAULT_TOOLS = ToolRegistry()
 DEFAULT_TOOLS.register(CalculatorTool())
 DEFAULT_TOOLS.register(DatabaseQueryTool())
+DEFAULT_TOOLS.register(DateComputeTool())
