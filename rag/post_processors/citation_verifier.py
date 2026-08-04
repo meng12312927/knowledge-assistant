@@ -151,6 +151,7 @@ class CitationVerifier:
         answer_status: str = "answerable",
         timeout: Optional[float] = None,
         subquestions: Optional[List[SubquestionTrace]] = None,
+        strict: Optional[bool] = None,
     ) -> CitationVerification:
         if not self.enabled or answer_status == "not_found":
             return CitationVerification(status="skipped", message="无需执行引用核验")
@@ -340,9 +341,11 @@ class CitationVerifier:
         answer: str,
         result: CitationVerification,
         answer_status: str = "answerable",
+        strict: Optional[bool] = None,
     ) -> str:
         """严格模式失败关闭；宽松模式保留答案并仅返回核验状态。"""
-        if not self.strict or result.status in {"verified", "skipped"}:
+        effective_strict = self.strict if strict is None else strict
+        if not effective_strict or result.status in {"verified", "skipped"}:
             return answer
         if result.status == "partially_verified":
             sanitized = self._remove_unsupported_claims(answer, result)

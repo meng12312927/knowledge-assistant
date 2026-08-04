@@ -86,7 +86,8 @@ def call_chat_api(query: str) -> dict:
             json={
                 "query": query,
                 "session_id": st.session_state.session_id,
-                "top_k": 15
+                "top_k": 15,
+                "strict_verification": st.session_state.get("strict_verification"),
             },
             timeout=300
         )
@@ -108,7 +109,8 @@ def stream_chat_api(query: str):
             json={
                 "query": query,
                 "session_id": st.session_state.session_id,
-                "top_k": 15
+                "top_k": 15,
+                "strict_verification": st.session_state.get("strict_verification"),
             },
             stream=True,
             timeout=300
@@ -304,6 +306,18 @@ def render_sidebar():
             except:
                 pass
             st.rerun()
+
+        st.divider()
+
+        # 引用核验模式
+        st.subheader("🔍 引用核验")
+        if "strict_verification" not in st.session_state:
+            st.session_state.strict_verification = True
+        st.session_state.strict_verification = st.toggle(
+            "严格核验模式",
+            value=st.session_state.strict_verification,
+            help="开启：核验失败拒答。关闭：答案照发，核验报告仅作参考",
+        )
 
         st.divider()
 

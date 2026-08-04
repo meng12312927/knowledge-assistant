@@ -89,6 +89,10 @@ class QueryRequest(BaseModel):
         default=False,
         description="API 显式强制 Agent；前端不暴露此开关，默认由服务端自动路由",
     )
+    strict_verification: Optional[bool] = Field(
+        default=None,
+        description="None=使用全局配置；True=严格核验（失败拒答）；False=宽松（答案照发，核验报告仅参考）",
+    )
 
 
 class Citation(BaseModel):

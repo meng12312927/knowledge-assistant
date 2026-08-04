@@ -1955,6 +1955,7 @@ class RAGChain:
                 status,
                 trace,
                 request_started,
+                strict=query_request.strict_verification,
             )
         )
         self._thread_local.last_citations = citations
@@ -2075,10 +2076,15 @@ class RAGChain:
             )
         )
         answer_parts: List[str] = []
+        effective_citation_strict = (
+            self.citation_verifier.strict
+            if query_request.strict_verification is None
+            else query_request.strict_verification
+        )
         strict_verification = bool(
             self.citation_verifier
             and self.citation_verifier.enabled
-            and self.citation_verifier.strict
+            and effective_citation_strict
         )
         generation_started = time.perf_counter()
         generation_usage_before = self._usage_snapshot(self.llm)
@@ -2125,6 +2131,7 @@ class RAGChain:
                 status,
                 trace,
                 stream_started,
+                strict=query_request.strict_verification,
             )
         )
         trace.citation_map = {citation.citation_id: citation.chunk_id for citation in citations}
@@ -2476,6 +2483,7 @@ class RAGChain:
         answer_status: str,
         trace: RAGTrace,
         request_started: float,
+        strict: Optional[bool] = None,
     ):
         """核验答案；引用编号缺失或非法时进行一次受限修复后重新核验。"""
         verification_started = time.perf_counter()
@@ -2499,6 +2507,7 @@ class RAGChain:
             answer_status,
             timeout=self.citation_verification_timeout_seconds,
             subquestions=trace.subquestions,
+            strict=strict,
         )
         self._record_stage_usage(
             trace,
@@ -2527,8 +2536,11 @@ class RAGChain:
                 },
                 duration_ms=0,
             )
+        effective_strict = (
+            self.citation_verifier.strict if strict is None else strict
+        )
         repair_attempted = bool(
-            self.citation_verifier.strict
+            effective_strict
             and self._needs_citation_repair(verification)
         )
         repair_succeeded = False
@@ -2613,7 +2625,7 @@ class RAGChain:
             },
         )
         final_answer = self.citation_verifier.apply_policy(
-            answer, verification, answer_status
+            answer, verification, answer_status, strict=strict
         )
         return final_answer, citations, verification
 
