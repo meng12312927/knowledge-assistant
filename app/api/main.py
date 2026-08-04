@@ -169,6 +169,7 @@ async def lifespan(app: FastAPI):
     from rag.post_processors.reranker import NoOpReranker, Qwen3Reranker
     from rag.post_processors.citation_verifier import CitationVerifier
     from rag.chains.rag_chain import RAGChain
+    from rag.conversation import ConversationManager
     from rag.llm.factory import create_llm_client, get_provider_info
     from agent.router import AgentRouter
     from agent.langgraph_router import LangGraphAgentRouter
@@ -253,6 +254,7 @@ async def lifespan(app: FastAPI):
         citation_verification_timeout_seconds=(
             settings.citation_verification_timeout_seconds
         ),
+        conversation_manager=ConversationManager(llm=llm),
     )
 
     if settings.agent_router_type == "langgraph":

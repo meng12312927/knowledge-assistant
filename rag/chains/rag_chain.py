@@ -417,6 +417,7 @@ class RAGChain:
         reranker_timeout_seconds: float = 4.0,
         generation_timeout_seconds: float = 20.0,
         citation_verification_timeout_seconds: float = 5.0,
+        conversation_manager=None,
     ):
         self.embedder = embedder
         self.retriever = retriever
@@ -461,6 +462,7 @@ class RAGChain:
         self.citation_verification_timeout_seconds = max(
             0.001, float(citation_verification_timeout_seconds)
         )
+        self.conversation_manager = conversation_manager
         self._rewrite_cache: OrderedDict[str, Tuple[str, ...]] = OrderedDict()
         self._embedding_cache: OrderedDict[Tuple[str, int, str], Tuple[float, ...]] = OrderedDict()
         self._rewrite_inflight: Dict[str, _SingleFlight] = {}
@@ -1907,6 +1909,7 @@ class RAGChain:
         stage_started = time.perf_counter()
 
         generation_usage_before = self._usage_snapshot(self.llm)
+        conversation_context = self._load_conversation_context(query_request)
         if status == "not_found":
             answer = "根据现有知识库，无法找到与您的提问相关的信息。"
         else:
@@ -1916,6 +1919,7 @@ class RAGChain:
                 ranked,
                 files_in_context,
                 trace.subquestions,
+                conversation_context=conversation_context,
             )
             system_prompt = (
                 self.SYSTEM_PROMPT_PARTIAL
@@ -2052,12 +2056,14 @@ class RAGChain:
             yield answer
             return
 
+        conversation_context = self._load_conversation_context(query_request)
         user_prompt = self._build_prompt(
             query_request.query,
             context,
             ranked,
             files_in_context,
             trace.subquestions,
+            conversation_context=conversation_context,
         )
         system_prompt = (
             self.SYSTEM_PROMPT_PARTIAL
@@ -2611,6 +2617,17 @@ class RAGChain:
         )
         return final_answer, citations, verification
 
+    def _load_conversation_context(self, query_request) -> str:
+        """从 ConversationManager 加载多轮对话上下文。"""
+        if not self.conversation_manager:
+            return ""
+        try:
+            return self.conversation_manager.build_context(
+                query_request.session_id, query_request.query
+            )
+        except Exception:
+            return ""
+
     def _build_prompt(
         self,
         query: str,
@@ -2618,6 +2635,7 @@ class RAGChain:
         chunks: List[RetrievedChunk],
         files_in_context: Set[str] = None,
         subquestions: Optional[List[SubquestionTrace]] = None,
+        conversation_context: str = "",
     ) -> str:
         """
         构建发送给 LLM 的用户提示词
@@ -2651,7 +2669,7 @@ class RAGChain:
 - not_found 子问题只能说明知识库暂无法确认，不能推断答案。
 """
 
-        prompt = f"""用户问题：{query}
+        prompt = f"""{conversation_context}用户问题：{query}
 
 === 参考资料 ===
 {context}
