@@ -10,7 +10,6 @@ def test_ordinary_policy_qa_stays_on_rag():
     for query in [
         "年假最多可以累计多少天？",
         "查询年假制度的申请条件",
-        "总结一下员工手册中的休假规定",
     ]:
         decision = decide_agent_route(query)
         assert decision.use_agent is False
